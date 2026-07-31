@@ -274,7 +274,7 @@ function render(view){
   // KPIs — Total destaca TESTÁVEIS (149)
   const kpis = [
     {label:'Total de US (testáveis)', val:tTot, unit:'', ctx:`${hTot} habilitadores · ${tTot+hTot} no total`, c:'var(--violet)'},
-    {label:'Liberadas p/ UAT', val:tLib, unit:'US', ctx:'testáveis liberadas — total em UAT', c:'var(--cyan)'},
+    {label:'Liberadas p/ UAT', val:tLib+hUAT, unit:'US', ctx:`${tLib} testáveis · ${hUAT} habilitadores`, c:'var(--cyan)'},
     {label:'Homologadas', val:homolg, unit:'US', ctx:'aprovadas + em produção', c:'var(--good)'},
     {label:'Bloqueadas', val:d.bloq[0]+d.bloq[1], unit:'US', ctx:'US travadas — risco', c:'var(--bad)'},
   ];

@@ -190,9 +190,9 @@ As três fases fecham com o total — é assim que conferimos se a conta está c
     </tr>
     <tr>
       <td><b>Liberadas p/ UAT</b></td>
-      <td class="mono">contagem dos 4 status de UAT<br>
-        <span style="color:var(--muted)">(= o total em UAT da seção Homologação)</span></td>
-      <td class="num" data-m="lib" data-pj="rev">—</td><td class="num" data-m="lib" data-pj="cen">—</td>
+      <td class="mono">contagem dos 4 status de UAT — <b>testáveis + habilitadores</b><br>
+        <span style="color:var(--muted)">(tudo que está disponível no ambiente de UAT)</span></td>
+      <td class="num" data-m="libGeral" data-pj="rev">—</td><td class="num" data-m="libGeral" data-pj="cen">—</td>
     </tr>
     <tr>
       <td><b>Homologadas</b></td>
@@ -212,6 +212,11 @@ As três fases fecham com o total — é assim que conferimos se a conta está c
 <div class="nota">No cartão <b>Total</b>, o número grande são só as <b>testáveis</b> — são elas que passam por
 homologação, então é o denominador que importa no acompanhamento. Habilitadores e total geral aparecem
 como apoio logo abaixo.</div>
+<div class="nota"><b>Por que o cartão “Liberadas p/ UAT” é maior que a barra do funil?</b>
+O cartão conta <b>tudo que está no ambiente de UAT</b> (testáveis + habilitadores), porque essa é a
+pergunta que ele responde: quanto foi entregue para o ambiente. Já a barra do funil conta só as
+<b>testáveis</b>, porque o funil acompanha a trilha de quem passa por homologação. Os dois números
+aparecem separados na linha de apoio do cartão.</div>
 <p>As consultas por trás de cada um estão nas seções seguintes.</p>
 
 <h2><span class="n">04</span>Funil de entrega</h2>
@@ -344,6 +349,8 @@ function valor(v, m){
     case 'tot':      return v.total[0];
     case 'hab':      return v.total[1];
     case 'habGeral': return `${v.total[1]} · ${v.total[0] + v.total[1]}`;
+    case 'libGeral': return v.libUAT[0] + v.libUAT[1];
+    case 'libSplit': return `${v.libUAT[0]} testáveis · ${v.libUAT[1]} habilitadores`;
     case 'ades':     return v.aDes[0];
     case 'tes':      return v.testes[0];
     case 'lib':      return v.libUAT[0];
