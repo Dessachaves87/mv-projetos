@@ -136,8 +136,9 @@ async function chaves(pj, statuses) {
  * (Antes usávamos bug vinculado ao card; mudou em 31/07.)
  */
 async function chavesPorEtiqueta(pj, etiqueta) {
+  // universo da homologação = coluna "Homologação UAT" do board = status "Liberado para deploy"
   const jql = `project = ${pj} AND ${list('issuetype', IT.testavel)}` +
-              ` AND ${list('status', LIBERADAS)} AND ${CAMPO_CATEGORIA} = "${etiqueta}"`;
+              ` AND ${list('status', ST.liberadas)} AND ${CAMPO_CATEGORIA} = "${etiqueta}"`;
   const out = [];
   let token = null;
   do {
@@ -178,7 +179,7 @@ async function homologacao(pj) {
     chavesPorEtiqueta(pj, VALOR_APROVADO),
     chavesPorEtiqueta(pj, VALOR_REPROVADO),
     // Habilitadores não passam por teste: ao chegarem à UAT já contam como aprovados.
-    count(`project = ${pj} AND ${list('issuetype', IT.habilitador)} AND ${list('status', LIBERADAS)}`),
+    count(`project = ${pj} AND ${list('issuetype', IT.habilitador)} AND ${list('status', ST.liberadas)}`),
   ]);
   const apr = new Set(kApr), rep = new Set(kRep);
   const aguardando = kTodas.filter(k => !apr.has(k) && !rep.has(k)).length;
