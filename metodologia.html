@@ -10,7 +10,7 @@
     --ground:#070b16; --card:rgba(148,180,235,.045); --code:rgba(10,20,35,.6);
     --stroke:rgba(120,170,255,.16); --stroke-2:rgba(120,170,255,.3);
     --ink:#e8eefb; --ink-2:#9fb0cc; --muted:#63728e;
-    --menta:#35D6A4; --cyan:#22d3ee; --violet:#8b7cf6; --bad:#f87171;
+    --menta:#35D6A4; --cyan:#22d3ee; --violet:#8b7cf6; --bad:#f87171; --warn:#e8b04b;
     --mono:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace;
     --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   }
@@ -19,20 +19,20 @@
       --ground:#f7faf9; --card:#ffffff; --code:#f1f7f7;
       --stroke:#dce7e5; --stroke-2:#b9cfcb;
       --ink:#0D1D26; --ink-2:#41545c; --muted:#7b8b92;
-      --menta:#0E9B7C; --cyan:#0e7490; --violet:#6d5bd0; --bad:#c4463a;
+      --menta:#0E9B7C; --cyan:#0e7490; --violet:#6d5bd0; --bad:#c4463a; --warn:#C67C1E;
     }
   }
   :root[data-theme="dark"]{
     --ground:#070b16; --card:rgba(148,180,235,.045); --code:rgba(10,20,35,.6);
     --stroke:rgba(120,170,255,.16); --stroke-2:rgba(120,170,255,.3);
     --ink:#e8eefb; --ink-2:#9fb0cc; --muted:#63728e;
-    --menta:#35D6A4; --cyan:#22d3ee; --violet:#8b7cf6; --bad:#f87171;
+    --menta:#35D6A4; --cyan:#22d3ee; --violet:#8b7cf6; --bad:#f87171; --warn:#e8b04b;
   }
   :root[data-theme="light"]{
     --ground:#f7faf9; --card:#ffffff; --code:#f1f7f7;
     --stroke:#dce7e5; --stroke-2:#b9cfcb;
     --ink:#0D1D26; --ink-2:#41545c; --muted:#7b8b92;
-    --menta:#0E9B7C; --cyan:#0e7490; --violet:#6d5bd0; --bad:#c4463a;
+    --menta:#0E9B7C; --cyan:#0e7490; --violet:#6d5bd0; --bad:#c4463a; --warn:#C67C1E;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -60,6 +60,13 @@
   .nota{font-size:13px; color:var(--ink-2); border-left:2px solid var(--stroke-2);
     padding-left:13px; margin:12px 0}
   .nota b{color:var(--ink)}
+  .premissa{font-size:13px; margin:14px 0; padding:13px 15px; border-radius:10px;
+    background:color-mix(in srgb, var(--warn, #C67C1E) 10%, transparent);
+    border:1px solid color-mix(in srgb, var(--warn, #C67C1E) 38%, transparent); color:var(--ink-2)}
+  .premissa b{color:var(--ink)}
+  .premissa .tag{display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--warn, #C67C1E); border:1px solid currentColor;
+    border-radius:6px; padding:2px 7px; margin-bottom:8px}
 
   .jql{position:relative; margin:10px 0 4px; background:var(--code);
     border:1px solid var(--stroke); border-radius:10px; overflow:hidden}
@@ -252,6 +259,16 @@ implantado em produção”</b> — por isso ele representa a US aprovada, aguar
 
 <h3><span class="dot d-prod"></span>Em produção <span class="res" data-m="prod">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in ("Deploy em Prod. realizado","CONCLUÍDO")</pre></div>
+<div class="premissa">
+  <span class="tag">Premissa em validação</span><br>
+  Contamos “Em produção” como <b>homologada</b> assumindo que a US passou pela homologação
+  <b>antes</b> de ir para produção. O Jira não registra esse carimbo — o status só diz que o deploy
+  aconteceu. Portanto, <b>US anteriores ao processo formal de UAT</b> (POCs, criação de objetos base,
+  entregas antigas) podem estar nesta fatia sem terem sido homologadas pelo cliente.
+  <br><br>
+  <b>Está em validação nesta rodada de homologação.</b> Se a premissa não se confirmar, o indicador
+  “Homologadas” passa a considerar apenas a fatia <b>Aprovada</b>.
+</div>
 
 <h3><span class="dot d-uat"></span>Em homologação UAT <span class="res" data-m="uat">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "EM APROVAÇÃO DO CLIENTE"</pre></div>
@@ -271,6 +288,9 @@ passa para “Reprovada” — assim nenhuma US é contada duas vezes e o total 
 
 <h3>Homologadas — o indicador que reportamos <span class="res" data-m="homol">—</span></h3>
 <div class="jql"><pre>Homologadas = Aprovada + Em produção      (já descontadas as reprovadas)</pre></div>
+<div class="nota">Este número depende da premissa acima: ele soma o que foi <b>aprovado na homologação</b>
+com o que <b>já está em produção</b>. Para ver só o que tem carimbo explícito de homologação aprovada,
+use a fatia <b>Aprovada</b> isolada.</div>
 
 <h2><span class="n">06</span>Habilitadores e alertas</h2>
 <p>Habilitadores usam a mesma régua de status, só muda o tipo. Eles <b>não</b> passam por homologação —
