@@ -145,7 +145,50 @@ A esteira começa em <b>“Pronto para DEV”</b>.</p>
 <div class="nota"><b>Total = A desenvolver + Em testes internos + Liberadas p/ UAT.</b>
 As três fases fecham com o total — é assim que conferimos se a conta está certa.</div>
 
-<h2><span class="n">03</span>Funil de entrega</h2>
+<h2><span class="n">03</span>Os quatro cartões do topo</h2>
+<p>São os números grandes da primeira faixa do painel. Cada um vem de uma conta simples:</p>
+<div class="tblwrap">
+<table>
+  <thead><tr><th>Cartão</th><th>Fórmula</th><th class="num">Revenue</th><th class="num">Central</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><b>Total de US (testáveis)</b><br><span style="color:var(--muted);font-size:12px">o número grande</span></td>
+      <td class="mono">A desenvolver + Em testes internos + Liberadas p/ UAT<br>
+        <span style="color:var(--muted)">(só História e Melhoria, na esteira)</span></td>
+      <td class="num">129</td><td class="num">95</td>
+    </tr>
+    <tr>
+      <td>↳ <span style="color:var(--ink-2)">linha de apoio do mesmo cartão</span></td>
+      <td class="mono">habilitadores · e o total geral (testáveis + habilitadores)</td>
+      <td class="num">29 · 158</td><td class="num">33 · 128</td>
+    </tr>
+    <tr>
+      <td><b>Liberadas p/ UAT</b></td>
+      <td class="mono">contagem dos 4 status de UAT<br>
+        <span style="color:var(--muted)">(= o total em UAT da seção Homologação)</span></td>
+      <td class="num">38</td><td class="num">39</td>
+    </tr>
+    <tr>
+      <td><b>Homologadas</b></td>
+      <td class="mono">Aprovada + Em produção<br>
+        <span style="color:var(--muted)">(já sem as reprovadas)</span></td>
+      <td class="num">37</td><td class="num">34</td>
+    </tr>
+    <tr>
+      <td><b>Bloqueadas</b></td>
+      <td class="mono">status = "Em Espera/Bloqueado"<br>
+        <span style="color:var(--muted)">(qualquer tipo de item, não só US)</span></td>
+      <td class="num">16</td><td class="num">9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="nota">No cartão <b>Total</b>, o número grande são só as <b>testáveis</b> — são elas que passam por
+homologação, então é o denominador que importa no acompanhamento. Habilitadores e total geral aparecem
+como apoio logo abaixo.</div>
+<p>As consultas por trás de cada um estão nas seções seguintes.</p>
+
+<h2><span class="n">04</span>Funil de entrega</h2>
 <p>Os exemplos usam <span class="mono">MVREV</span>. Para o Central, troque por
 <span class="mono">MVPMO</span>. Para habilitadores, troque
 <span class="mono">issuetype in (10001,10212)</span> por <span class="mono">issuetype = 10005</span>.</p>
@@ -170,7 +213,7 @@ As três fases fecham com o total — é assim que conferimos se a conta está c
   "Realizando Deploy em QA","EM TESTE QA","Em Análise de PR",
   "Liberado para deploy","Deploy em Prod. realizado","EM APROVAÇÃO DO CLIENTE","CONCLUÍDO")</pre></div>
 
-<h2><span class="n">04</span>Homologação</h2>
+<h2><span class="n">05</span>Homologação</h2>
 <p>As US liberadas para UAT se dividem em quatro situações. A soma das quatro é sempre o total em UAT.</p>
 
 <h3><span class="dot d-ok"></span>Aprovada — homologada <span class="res">Revenue 18 · Central 21</span></h3>
@@ -200,7 +243,7 @@ passa para “Reprovada” — assim nenhuma US é contada duas vezes e o total 
 <h3>Homologadas — o indicador que reportamos <span class="res">Revenue 37 · Central 34</span></h3>
 <div class="jql"><pre>Homologadas = Aprovada + Em produção      (já descontadas as reprovadas)</pre></div>
 
-<h2><span class="n">05</span>Habilitadores e alertas</h2>
+<h2><span class="n">06</span>Habilitadores e alertas</h2>
 <p>Habilitadores usam a mesma régua de status, só muda o tipo. Eles <b>não</b> passam por homologação —
 acompanhamos apenas quantos chegaram à UAT.</p>
 
@@ -216,7 +259,7 @@ acompanhamos apenas quantos chegaram à UAT.</p>
 <div class="nota">Estes dois <b>não</b> filtram por tipo — contam qualquer item travado ou em correção
 no projeto, porque para efeito de risco importa o item, não a sua classificação.</div>
 
-<h2><span class="n">06</span>Números na data-base</h2>
+<h2><span class="n">07</span>Números na data-base</h2>
 <div class="tblwrap">
 <table>
   <thead><tr><th>Indicador</th><th class="num">Revenue</th><th class="num">Central</th><th class="num">Consolidado</th></tr></thead>
@@ -238,7 +281,7 @@ no projeto, porque para efeito de risco importa o item, não a sua classificaç�
 <div class="nota"><b>Conferência:</b> 19 + 72 + 38 = 129 no Revenue · 10 + 46 + 39 = 95 no Central.
 As fases fecham com o total.</div>
 
-<h2><span class="n">07</span>De onde vêm os dados</h2>
+<h2><span class="n">08</span>De onde vêm os dados</h2>
 <p>Uma rotina automática consulta o Jira <b>todo dia às 00:00</b> e publica os números no painel.
 Ninguém digita nada — se um número mudou, é porque o card mudou de status no Jira.</p>
 <div class="tblwrap">
