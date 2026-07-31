@@ -51,6 +51,7 @@ const IT = { testavel: ['10001', '10212'], habilitador: ['10005'], bug: '10004' 
 const CAMPO_CATEGORIA = 'labels';
 const VALOR_REPROVADO = 'Reprovado(Bug)';
 const VALOR_APROVADO  = 'Aprovado';
+const VALOR_EM_HOMOL  = 'Em-Homologacao-Cliente'; // cliente está homologando agora
 
 /**
  * Régua da esteira. Ficam FORA do funil e do total:
@@ -132,13 +133,13 @@ async function chaves(pj, statuses) {
 }
 
 /**
- * US reprovadas — o campo "Categoria" da própria US preenchido com "Reprovado".
- * (Antes usávamos bug vinculado ao card; mudou em 31/07.)
+ * US com uma dada etiqueta (campo "Categorias" no Jira = `labels`).
+ * NÃO filtra status: a partir de 31/07 quem manda na homologação é a etiqueta,
+ * e as US etiquetadas estão espalhadas por vários status do board.
  */
 async function chavesPorEtiqueta(pj, etiqueta) {
-  // universo da homologação = coluna "Homologação UAT" do board = status "Liberado para deploy"
   const jql = `project = ${pj} AND ${list('issuetype', IT.testavel)}` +
-              ` AND ${list('status', ST.liberadas)} AND ${CAMPO_CATEGORIA} = "${etiqueta}"`;
+              ` AND ${CAMPO_CATEGORIA} = "${etiqueta}"`;
   const out = [];
   let token = null;
   do {
@@ -162,31 +163,26 @@ async function chavesPorEtiqueta(pj, etiqueta) {
 }
 
 /**
- * Homologação por status, com precedência: Reprovada vence os demais estágios.
- * Assim uma US reprovada sai de "Aprovada"/"Em produção" e entra em "Reprovada".
- */
-/**
- * Homologação — o veredito vem da ETIQUETA, não do status.
+ * Homologação — quem manda é a ETIQUETA do card, não o status (regra de 31/07).
  *   🟢 Aprovada  = etiqueta "Aprovado"  (+ habilitadores em UAT, que não passam por teste)
  *   🔴 Reprovada = etiqueta "Reprovado(Bug)"
- *   🟣 Em produção      = está em produção mas SEM etiqueta → ainda não homologada
- *   🔵 Aguardando homologação = o restante em UAT, sem etiqueta
+ *   🔵 Aguardando = etiqueta "Em-Homologacao-Cliente" e ainda sem veredito
+ * Precedência: um veredito (Aprovado/Reprovado) vence "Em homologação" na mesma US.
  * Homologadas = apenas a fatia Aprovada.
  */
 async function homologacao(pj) {
-  const [kTodas, kApr, kRep, habUAT] = await Promise.all([
-    chaves(pj, ST.liberadas),   // aguardando = só "Liberado para deploy"
+  const [kApr, kRep, kEmHomol, habUAT] = await Promise.all([
     chavesPorEtiqueta(pj, VALOR_APROVADO),
     chavesPorEtiqueta(pj, VALOR_REPROVADO),
+    chavesPorEtiqueta(pj, VALOR_EM_HOMOL),
     // Habilitadores não passam por teste: ao chegarem à UAT já contam como aprovados.
     count(`project = ${pj} AND ${list('issuetype', IT.habilitador)} AND ${list('status', ST.liberadas)}`),
   ]);
   const apr = new Set(kApr), rep = new Set(kRep);
-  const aguardando = kTodas.filter(k => !apr.has(k) && !rep.has(k)).length;
+  const aguardando = kEmHomol.filter(k => !apr.has(k) && !rep.has(k)).length;
 
-  console.log(`   ${pj}: aprovadas(etiqueta) = ${kApr.length}${kApr.length ? ' → ' + kApr.join(', ') : ''}` +
-              ` | reprovadas = ${kRep.length}${kRep.length ? ' → ' + kRep.join(', ') : ''}` +
-              ` | habilitadores em UAT = ${habUAT} | aguardando = ${aguardando}`);
+  console.log(`   ${pj}: aprovadas = ${kApr.length} | reprovadas = ${kRep.length}` +
+              ` | habilitadores = ${habUAT} | aguardando = ${aguardando}`);
   return {
     aprovada: kApr.length,
     aprovadaHab: habUAT,

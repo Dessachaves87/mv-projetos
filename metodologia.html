@@ -259,35 +259,37 @@ denominador da homologação.</div>
   "Liberado para deploy","Deploy em Prod. realizado","CONCLUÍDO")</pre></div>
 
 <h2><span class="n">05</span>Homologação</h2>
-<p>As US em UAT (liberadas + em produção) se dividem em três situações. A soma das três é sempre o total em UAT.</p>
-<div class="nota"><b>O veredito vem da etiqueta, não do status.</b> Quem homologa marca o card com
-<span class="mono">Aprovado</span> ou <span class="mono">Reprovado(Bug)</span>. Sem etiqueta, a US
-ainda não tem veredito — mesmo que já esteja em produção. Habilitadores são a exceção: como não
-passam por teste, contam como aprovados assim que chegam à UAT.</div>
+<p>Este bloco é <b>governado pelas etiquetas do card</b> (campo “Categorias” no Jira), não pela coluna
+do board. Entra na conta a US que recebeu uma das três etiquetas abaixo.</p>
+<div class="nota"><b>Por que etiqueta e não status.</b> A US percorre várias colunas do quadro entre a
+entrega e o veredito do cliente, então a coluna não diz se ela foi homologada. A etiqueta é um carimbo
+explícito de quem homologou. Regra vigente desde <b>31/07/2026</b>: toda US em homologação passa a
+carregar a etiqueta, além de seguir o kanban. Habilitadores são a exceção — como não passam por
+teste, contam como aprovados assim que chegam à UAT.</div>
+<div class="nota" style="border-left-color:#E5A100"><b>Central de Projetos em transição.</b> As US do
+Central ainda não foram etiquetadas, então as fatias desta frente aparecem zeradas. A marcação está
+sendo feita e os números voltam assim que concluída — <b>não é erro de cálculo</b>.</div>
 
 <h3><span class="dot d-ok"></span>Aprovada — homologada <span class="res" data-m="apr">—</span></h3>
-<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "Liberado para deploy"</pre></div>
-<div class="nota">A descrição oficial deste status no Jira é <b>“homologação realizada, o card pode ser
-implantado em produção”</b> — por isso ele representa a US aprovada, aguardando o deploy.</div>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND labels = "Aprovado"</pre></div>
+<div class="nota">Carimbo do cliente dizendo que a entrega foi aceita. Independe do status: uma US
+aprovada continua contando mesmo depois de ir para produção.</div>
 <p><b>Habilitadores também entram aqui.</b> Como eles não passam por teste, contam como aprovados
 assim que chegam à UAT (<span class="res" data-m="aprHab">—</span> nesta frente):</p>
-<div class="jql"><pre>project = MVREV AND issuetype = 10005 AND status in (
-  "Liberado para deploy","Deploy em Prod. realizado","CONCLUÍDO")</pre></div>
-<div class="nota">Portanto <b>Aprovada = testáveis aprovadas + habilitadores em UAT</b>. É isso que faz
-as fatias da homologação fecharem com o cartão “Liberadas p/ UAT”, que também soma as duas trilhas.</div>
+<div class="jql"><pre>project = MVREV AND issuetype = 10005 AND status = "Liberado para deploy"</pre></div>
+<div class="nota">Portanto <b>Aprovada = testáveis com a etiqueta + habilitadores em UAT</b>.</div>
 
 <h3><span class="dot d-uat"></span>Aguardando homologação <span class="res" data-m="aguard">—</span></h3>
-<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "EM APROVAÇÃO DO CLIENTE"</pre></div>
-<div class="nota">Está em <b>“Liberado para deploy”</b> e ainda não recebeu etiqueta — ninguém deu o veredito.
-É o que falta homologar. US já em produção não entram aqui.</div>
-<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "Liberado para deploy"
-  (descontadas as que já têm etiqueta "Aprovado" ou "Reprovado(Bug)")</pre></div>
+<p>US entregues que o cliente está homologando agora, sem veredito ainda:</p>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212)
+  AND labels = "Em-Homologacao-Cliente"
+  (descontadas as que já têm "Aprovado" ou "Reprovado(Bug)")</pre></div>
+<div class="nota">É o que falta homologar. Como a regra é a etiqueta, essas US podem estar em colunas
+diferentes do quadro — o que vale é o carimbo.</div>
 
 <h3><span class="dot d-bad"></span>Reprovada — etiqueta “Reprovado(Bug)” <span class="res" data-m="rep">—</span></h3>
 <p>A US reprovada recebe a <b>etiqueta</b> <span class="mono">Reprovado(Bug)</span> no próprio card:</p>
-<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
-  "Liberado para deploy","Deploy em Prod. realizado","CONCLUÍDO")
-  AND labels = "Reprovado(Bug)"</pre></div>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND labels = "Reprovado(Bug)"</pre></div>
 <div class="nota"><b>A reprovação tem precedência.</b> Uma US que receber a etiqueta sai de
 “Aprovada”, “Em produção” ou “Em homologação” e passa para “Reprovada” — assim nenhuma US é contada
 duas vezes e o total continua fechando.</div>
