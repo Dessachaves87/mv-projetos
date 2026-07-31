@@ -1,0 +1,35 @@
+name: Atualizar painel (Jira)
+
+on:
+  schedule:
+    # 03:00 UTC = 00:00 America/Sao_Paulo (UTC-3)
+    - cron: '0 3 * * *'
+  workflow_dispatch:        # permite rodar manualmente pelo botão "Run workflow"
+
+permissions:
+  contents: write
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Gerar data.json a partir do Jira
+        env:
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+        run: node scripts/gerar.mjs
+
+      - name: Commitar se houve mudança
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.json
+          git diff --staged --quiet && echo "Sem mudanças." && exit 0
+          git commit -m "chore: atualiza data.json ($(TZ=America/Sao_Paulo date '+%d/%m/%Y %H:%M'))"
+          git push

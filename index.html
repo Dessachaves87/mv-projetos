@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Pipeline de Entrega · US — Revenue & Central de Projetos</title>
+<style>
+  :root{
+    --ground:#070b16; --ground-2:#0a1120;
+    --panel:rgba(148,180,235,.045); --panel-2:rgba(148,180,235,.07);
+    --stroke:rgba(120,170,255,.14); --stroke-2:rgba(120,170,255,.28);
+    --ink:#e8eefb; --ink-2:#9fb0cc; --muted:#63728e;
+    --cyan:#22d3ee; --cyan-dim:#0e7490; --violet:#8b7cf6;
+    --good:#35D6A4; --warn:#fbbf24; --bad:#f87171; --melh:#fb923c;
+    --slate:#5b6b8c;
+    --glow-cyan:0 0 0 1px rgba(34,211,238,.35), 0 0 24px -6px rgba(34,211,238,.5);
+    --radius:16px;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(34,211,238,.10), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(139,124,246,.12), transparent 55%),
+      var(--ground);
+    color:var(--ink); font-family:var(--sans);
+    -webkit-font-smoothing:antialiased; line-height:1.4;
+    min-height:100vh;
+  }
+  .wrap{max-width:1180px; margin:0 auto; padding:28px 22px 60px}
+
+  /* ---- Top bar ---- */
+  .top{display:flex; flex-wrap:wrap; align-items:center; gap:18px 24px; margin-bottom:26px}
+  .brand{display:flex; align-items:center; gap:14px; min-width:0}
+  .dot{width:11px;height:11px;border-radius:50%;background:var(--cyan);
+    box-shadow:0 0 0 4px rgba(34,211,238,.15), 0 0 18px 2px rgba(34,211,238,.7); flex:none}
+  .brand h1{font-size:19px; margin:0; letter-spacing:.2px; font-weight:650}
+  .brand .sub{font-size:12.5px; color:var(--ink-2); margin-top:2px; letter-spacing:.3px}
+  .eyebrow{font-family:var(--mono); font-size:10.5px; letter-spacing:.28em; text-transform:uppercase; color:var(--cyan); opacity:.85}
+  .spacer{flex:1 1 40px}
+  .meta{font-family:var(--mono); font-size:11px; color:var(--muted); text-align:right; line-height:1.7}
+  .meta b{color:var(--ink-2); font-weight:500}
+  .prov{display:inline-block; margin-top:3px; font-family:var(--mono); font-size:9.5px; letter-spacing:.15em;
+    text-transform:uppercase; color:#fcd34d; background:rgba(251,191,36,.12); border:1px solid rgba(251,191,36,.3);
+    padding:2px 7px; border-radius:6px}
+
+  /* ---- Segmented control ---- */
+  .seg{display:inline-flex; background:var(--panel); border:1px solid var(--stroke); border-radius:999px; padding:4px; gap:2px}
+  .seg button{
+    font-family:var(--sans); font-size:13px; font-weight:550; color:var(--ink-2);
+    background:transparent; border:0; padding:8px 15px; border-radius:999px; cursor:pointer;
+    transition:.18s; white-space:nowrap; letter-spacing:.2px}
+  .seg button:hover{color:var(--ink)}
+  .seg button[aria-pressed="true"]{color:#04121a; background:linear-gradient(180deg,#3ee6f0,#17b6cf); box-shadow:0 2px 12px -2px rgba(34,211,238,.6)}
+  .seg button:focus-visible{outline:2px solid var(--cyan); outline-offset:2px}
+
+  /* ---- Panels ---- */
+  .grid{display:grid; gap:16px}
+  .kpis{grid-template-columns:repeat(4,1fr); margin-bottom:16px}
+  .panel{background:var(--panel); border:1px solid var(--stroke); border-radius:var(--radius);
+    padding:18px 18px 16px; position:relative; overflow:hidden; backdrop-filter:blur(6px)}
+  .panel.kpi::before{content:""; position:absolute; inset:0 auto 0 0; width:3px;
+    background:linear-gradient(var(--kc,var(--cyan)),transparent)}
+  .kpi .klabel{font-size:11.5px; color:var(--ink-2); letter-spacing:.35px; text-transform:uppercase; font-weight:600}
+  .kpi .kval{font-family:var(--mono); font-size:40px; font-weight:600; line-height:1.05; margin:10px 0 2px;
+    font-variant-numeric:tabular-nums; letter-spacing:-1px}
+  .kpi .kunit{font-size:15px; color:var(--muted); font-weight:500}
+  .kpi .kctx{font-size:12px; color:var(--ink-2); margin-top:8px; display:flex; align-items:center; gap:7px}
+  .chip{font-family:var(--mono); font-size:10.5px; padding:2px 7px; border-radius:6px; font-weight:600; letter-spacing:.3px}
+
+  .section-h{display:flex; align-items:baseline; gap:12px; margin:26px 2px 12px}
+  .section-h h2{font-size:14px; margin:0; letter-spacing:.4px; font-weight:600; text-transform:uppercase; color:var(--ink-2)}
+  .section-h .rule{flex:1; height:1px; background:linear-gradient(90deg,var(--stroke),transparent)}
+  .section-h .tag-src{font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.05em}
+
+  /* ---- Funil (full width) ---- */
+  .funnelpanel{margin-bottom:16px}
+  .funnel-hero{display:flex; align-items:center; gap:22px; flex-wrap:wrap;
+    padding:6px 4px 20px; margin-bottom:6px; border-bottom:1px solid var(--stroke)}
+  .funnel-hero .fh-num{font-family:var(--mono); font-size:64px; font-weight:650; line-height:.9;
+    font-variant-numeric:tabular-nums; letter-spacing:-2px;
+    background:linear-gradient(180deg,#eafcff,#3ee6f0 60%,#17b6cf); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .funnel-hero .fh-meta{display:flex; flex-direction:column; gap:3px}
+  .funnel-hero .fh-lbl{font-size:15px; color:var(--ink); font-weight:600; letter-spacing:.2px}
+  .funnel-hero .fh-sub{font-size:12px; color:var(--ink-2); font-family:var(--mono)}
+  .funnel-hero .fh-spacer{flex:1 1 20px}
+  .funnel-hero .fh-side{text-align:right; font-size:12px; color:var(--ink-2); line-height:1.7; font-family:var(--mono)}
+  .funnel-hero .fh-side b{color:var(--ink); font-weight:600}
+
+  .pipe{display:flex; flex-direction:column; gap:13px; padding-top:6px}
+  .stage{display:grid; grid-template-columns:190px 1fr auto; align-items:center; gap:16px}
+  .stage .sname{font-size:13.5px; color:var(--ink-2); font-weight:550}
+  .stage .sname small{display:block; color:var(--muted); font-size:11px; font-weight:400; font-family:var(--mono)}
+  .bar{height:30px; border-radius:8px; background:rgba(255,255,255,.04); overflow:hidden; position:relative}
+  .bar span{display:block; height:100%; border-radius:8px; transition:width .9s cubic-bezier(.2,.8,.2,1);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+  .stage .snum{min-width:140px; display:flex; flex-direction:column; align-items:flex-end; gap:1px}
+  .stage .snum b{font-family:var(--mono); font-size:17px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
+  .stage .snum i{color:var(--muted); font-style:normal; font-size:10.5px; font-family:var(--mono); letter-spacing:.2px}
+  .stage .snum i em{font-style:normal; color:var(--ink-2)}
+
+  /* ---- Ring ---- */
+  .ringwrap{display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:14px; padding-top:4px}
+  .ring{position:relative; width:168px; height:168px}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .center{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center}
+  .ring .center .big{font-family:var(--mono); font-size:38px; font-weight:600; font-variant-numeric:tabular-nums}
+  .ring .center .cap{font-size:11px; color:var(--ink-2); letter-spacing:.4px; text-transform:uppercase; margin-top:2px}
+  .homchips{display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%}
+  .hom{display:flex; align-items:center; gap:8px; background:rgba(255,255,255,.03); border:1px solid var(--stroke);
+    padding:8px 12px; border-radius:10px; font-size:12.5px}
+  .hom .hd{width:9px;height:9px;border-radius:50%;flex:none}
+  .hom b{font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--ink)}
+  .hom span{color:var(--ink-2)}
+  .homtotal{margin:0 0 12px; font-size:13px; color:var(--ink-2); text-align:center}
+  .homtotal b{font-family:var(--mono); font-size:20px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
+
+  /* ---- grids ---- */
+  .two{grid-template-columns:1fr 1fr; align-items:start}
+
+  /* ---- Alerts ---- */
+  .alertsums{display:flex; gap:10px; flex-wrap:wrap; margin:4px 0 14px}
+  .asum{flex:1 1 90px; background:rgba(255,255,255,.03); border:1px solid var(--stroke); border-radius:11px; padding:11px 13px}
+  .asum .an{font-family:var(--mono); font-size:26px; font-weight:600; font-variant-numeric:tabular-nums; line-height:1}
+  .asum .al{font-size:11px; color:var(--ink-2); margin-top:5px; letter-spacing:.2px}
+  .alertlist{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; max-height:196px; overflow:auto}
+  .alertlist li{display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:center; padding:8px 4px; border-bottom:1px solid rgba(255,255,255,.05); font-size:12.5px}
+  .alertlist li .tag{font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.05em; padding:3px 6px; border-radius:5px; text-transform:uppercase}
+  .alertlist li .tag.bloq{background:rgba(248,113,113,.16); color:#fca5a5}
+  .alertlist li .tag.corr{background:rgba(251,146,60,.16); color:#fdba74}
+  .alertlist li .txt{color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .alertlist li .txt b{color:var(--ink); font-family:var(--mono); font-size:11.5px; font-weight:600; margin-right:7px}
+  .alertlist::-webkit-scrollbar{width:8px} .alertlist::-webkit-scrollbar-thumb{background:var(--stroke-2); border-radius:8px}
+
+  /* ---- Habilitadores ---- */
+  .habrow{display:flex; align-items:stretch; gap:8px; flex-wrap:wrap}
+  .habtile{flex:1 1 90px; background:rgba(255,255,255,.03); border:1px solid var(--stroke); border-radius:12px; padding:15px 12px; text-align:center}
+  .habtile.hi{border-color:rgba(34,211,238,.5); box-shadow:var(--glow-cyan); background:rgba(34,211,238,.06)}
+  .habtile .hn{font-family:var(--mono); font-size:30px; font-weight:600; font-variant-numeric:tabular-nums; line-height:1}
+  .habtile .hl{font-size:11.5px; color:var(--ink-2); margin-top:6px}
+  .harr{display:flex; align-items:center; color:var(--muted); font-size:24px; font-weight:300}
+  .habbar{height:8px; border-radius:5px; background:rgba(255,255,255,.05); overflow:hidden; margin:16px 0 9px}
+  .habbar i{display:block; height:100%; width:0; background:linear-gradient(90deg,#8b7cf6,#22d3ee); transition:width .9s cubic-bezier(.2,.8,.2,1)}
+  .habnote{font-size:12.5px; color:var(--ink-2); font-family:var(--mono)}
+  .habnote b{color:var(--ink)}
+  @media(max-width:520px){ .harr{display:none} .habtile{flex:1 1 42%} }
+
+  .foot{margin-top:30px; display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center; justify-content:space-between;
+    font-size:12px; color:var(--muted); border-top:1px solid var(--stroke); padding-top:18px}
+  .foot a{color:var(--cyan); text-decoration:none; font-weight:550}
+  .foot a:hover{text-decoration:underline}
+  .legend{display:flex; gap:16px; flex-wrap:wrap}
+  .legend span{display:flex; align-items:center; gap:6px}
+  .legend i{width:10px;height:10px;border-radius:3px}
+
+  @media(max-width:860px){ .kpis{grid-template-columns:repeat(2,1fr)} .two{grid-template-columns:1fr} .stage{grid-template-columns:150px 1fr auto} .funnel-hero .fh-num{font-size:52px} }
+  @media(max-width:520px){ .kpis{grid-template-columns:1fr 1fr} .stage{grid-template-columns:1fr; gap:5px} .stage .snum{text-align:left; align-items:flex-start} .kpi .kval{font-size:34px} .homchips{grid-template-columns:1fr} }
+  /* ---- Animações ---- */
+  @keyframes reveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes livepulse{0%,100%{box-shadow:0 0 0 4px rgba(34,211,238,.15),0 0 18px 2px rgba(34,211,238,.7)}50%{box-shadow:0 0 0 7px rgba(34,211,238,.05),0 0 28px 5px rgba(34,211,238,.95)}}
+  .dot{animation:livepulse 2.6s ease-in-out infinite}
+  .panel{transition:border-color .22s, box-shadow .22s, transform .22s}
+  .panel:hover{border-color:var(--stroke-2); box-shadow:0 0 0 1px rgba(34,211,238,.14), 0 10px 34px -14px rgba(34,211,238,.35); transform:translateY(-2px)}
+  #ringSegs circle{transition:stroke-dasharray .9s cubic-bezier(.2,.8,.2,1)}
+  @media(prefers-reduced-motion:reduce){
+    .bar span, .habbar i, #ringSegs circle{transition:none}
+    .dot{animation:none}
+    .panel{transition:none} .panel:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="dot"></div>
+      <div>
+        <div class="eyebrow">Pipeline de Entrega</div>
+        <h1>Acompanhamento de US</h1>
+        <div class="sub">Revenue (MVREV) · Central de Projetos (MVPMO) — Jira → Drive</div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="seg" role="group" aria-label="Selecionar frente">
+      <button data-view="Consolidado" aria-pressed="true">Consolidado</button>
+      <button data-view="Revenue" aria-pressed="false">Revenue</button>
+      <button data-view="Central de Projetos" aria-pressed="false">Central de Projetos</button>
+    </div>
+    <div class="meta">
+      <div>ATUALIZADO · <b id="updTs">—</b></div>
+      <div>FONTE · <b>Jira</b> (funil + homologação)</div>
+      <div class="prov">Esteira · upstream fora · atualiza 00:00</div>
+    </div>
+  </header>
+
+  <div class="grid kpis" id="kpis"></div>
+
+  <!-- FUNIL — largura inteira, protagonista -->
+  <div class="panel funnelpanel">
+    <div class="section-h" style="margin-top:2px"><h2>Funil de entrega</h2><div class="rule"></div>
+      <span class="tag-src">testáveis · fonte: Jira</span></div>
+    <div class="funnel-hero" id="funnelHero"></div>
+    <div class="pipe" id="pipe"></div>
+  </div>
+
+  <!-- HOMOLOGAÇÃO (desceu) + ALERTAS -->
+  <div class="grid two">
+    <div class="panel">
+      <div class="section-h" style="margin-top:2px"><h2>Homologação (UAT)</h2><div class="rule"></div>
+        <span class="tag-src">fonte: Jira (status)</span></div>
+      <div class="homtotal" id="homtotal"></div>
+      <div class="ringwrap">
+        <div class="ring">
+          <svg width="168" height="168" viewBox="0 0 168 168">
+            <circle cx="84" cy="84" r="72" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="14"/>
+            <g id="ringSegs"></g>
+          </svg>
+          <div class="center"><div class="big" id="ringPct">0%</div><div class="cap">Homologadas</div></div>
+        </div>
+        <div class="homchips" id="homchips"></div>
+      </div>
+    </div>
+    <div class="panel" id="alertPanel">
+      <div class="section-h" style="margin-top:2px"><h2>Alertas &amp; bloqueios</h2><div class="rule"></div>
+        <span id="alertCount" class="chip" style="background:rgba(248,113,113,.16);color:#fca5a5">0</span></div>
+      <div class="alertsums" id="alertsums"></div>
+      <ul class="alertlist" id="alertlist"></ul>
+    </div>
+  </div>
+
+  <div class="section-h"><h2>Habilitadores · não testáveis</h2><div class="rule"></div>
+    <span class="tag-src">não passam por teste — acompanhamos a chegada à UAT</span></div>
+  <div class="panel" id="habil"></div>
+
+  <footer class="foot">
+    <div class="legend">
+      <span><i style="background:var(--slate)"></i>A desenvolver</span>
+      <span><i style="background:var(--warn)"></i>Testes internos</span>
+      <span><i style="background:var(--cyan)"></i>Liberadas UAT</span>
+      <span><i style="background:var(--good)"></i>Aprovada</span>
+      <span><i style="background:var(--violet)"></i>Em produção</span>
+      <span><i style="background:var(--bad)"></i>Reprovada</span>
+    </div>
+    <div>Atualização automática diária (00:00) · fonte Jira</div>
+  </footer>
+</div>
+
+<script>
+let DATA = {};
+
+const sum = a => a[0]+a[1];
+const pct = (n,d) => d? Math.round(n/d*100) : 0;
+const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+function animateNum(el, to, suffix=''){
+  if(reduce){ el.textContent = to+suffix; return; }
+  const t0 = performance.now(), dur=750;
+  function step(t){ const k=Math.min(1,(t-t0)/dur); const e=1-Math.pow(1-k,3);
+    el.textContent = Math.round(to*e)+suffix; if(k<1) requestAnimationFrame(step); }
+  requestAnimationFrame(step);
+}
+
+function render(view){
+  const d = DATA[view];
+  // Trilha A — Testáveis (operacionais, índice 0)
+  const tTot=d.total[0], tADes=d.aDes[0], tDes=d.desenv[0], tTes=d.testes[0], tLib=d.libUAT[0];
+  const aprov=d.hom.aprovada[0], emprod=d.hom.emprod[0], emhomol=d.hom.emhomol[0], reprov=d.hom.reprovada[0];
+  const homolg = aprov + emprod;
+  // Trilha B — Habilitadores (estruturais, índice 1) — não testáveis
+  const hTot=d.total[1], hADes=d.aDes[1], hDes=d.desenv[1], hUAT=d.libUAT[1];
+
+  // KPIs — Total destaca TESTÁVEIS (149)
+  const kpis = [
+    {label:'Total de US (testáveis)', val:tTot, unit:'', ctx:`${hTot} habilitadores · ${tTot+hTot} no total`, c:'var(--violet)'},
+    {label:'Liberadas p/ UAT', val:tLib, unit:'US', ctx:'testáveis liberadas — total em UAT', c:'var(--cyan)'},
+    {label:'Homologadas', val:homolg, unit:'US', ctx:'aprovadas + em produção', c:'var(--good)'},
+    {label:'Bloqueadas', val:d.bloq[0]+d.bloq[1], unit:'US', ctx:'US travadas — risco', c:'var(--bad)'},
+  ];
+  document.getElementById('kpis').innerHTML = kpis.map((k,i)=>`
+    <div class="panel kpi" style="--kc:${k.c}">
+      <div class="klabel">${k.label}</div>
+      <div class="kval"><span data-num="${k.val}" data-suf="">0</span>${k.unit!=='%'?`<span class="kunit"> ${k.unit}</span>`:''}</div>
+      <div class="kctx">${k.ctx}</div>
+    </div>`).join('');
+  document.querySelectorAll('#kpis [data-num]').forEach(el=>animateNum(el, +el.dataset.num, el.dataset.suf));
+
+  // Funil HERO — 149 testáveis em destaque
+  document.getElementById('funnelHero').innerHTML = `
+    <div class="fh-num" data-num="${tTot}">0</div>
+    <div class="fh-meta">
+      <div class="fh-lbl">US testáveis</div>
+      <div class="fh-sub">operacionais · funil de entrega</div>
+    </div>
+    <div class="fh-spacer"></div>
+    <div class="fh-side">
+      <div><b>${tDes}</b> desenvolvidas · <b>${pct(tDes,tTot)}%</b></div>
+      <div><b>${tLib}</b> liberadas p/ UAT · <b>${pct(tLib,tTot)}%</b></div>
+    </div>`;
+  animateNum(document.querySelector('#funnelHero .fh-num'), tTot);
+
+  // Funil — fases (fonte Jira). Largura da barra = % do total testável (efeito de funil)
+  const stages = [
+    {n:'A desenvolver', s:'Jira · ainda não iniciadas', v:tADes, base:tTot, bl:'do total', c:'var(--slate)'},
+    {n:'Em testes internos', s:'Jira · QA · review · deploy QA', v:tTes, base:tDes, bl:'das desenv.', c:'var(--warn)'},
+    {n:'Liberadas p/ UAT', s:'Jira · total em UAT', v:tLib, base:tDes, bl:'das desenv.', c:'var(--cyan)'},
+  ];
+  document.getElementById('pipe').innerHTML = stages.map(st=>{
+    const wp = pct(st.v,tTot), bp = pct(st.v,st.base);
+    return `<div class="stage">
+      <div class="sname">${st.n}<small>${st.s}</small></div>
+      <div class="bar"><span style="width:0;background:linear-gradient(90deg,${st.c},color-mix(in srgb,${st.c} 55%, transparent))" data-w="${wp}"></span></div>
+      <div class="snum"><b>${st.v}</b><i>${bp}% <em>${st.bl}</em></i></div>
+    </div>`;
+  }).join('');
+  requestAnimationFrame(()=>document.querySelectorAll('#pipe .bar span').forEach(s=>s.style.width=s.dataset.w+'%'));
+
+  // Homologação — subdivisão do total em UAT (Jira). 4 fatias.
+  const emUAT = aprov + emprod + emhomol + reprov;
+  const ringP = pct(homolg, emUAT);
+  const C = 452, R = 72;
+  // Anel: homologadas (aprovada + em produção) em verde MV; demais fatias separadas.
+  const segDefs = [{v:aprov, c:'#35D6A4'}, {v:emprod, c:'#8b7cf6'}, {v:emhomol, c:'#22d3ee'}, {v:reprov, c:'#f87171'}];
+  let cum = 0;
+  document.getElementById('ringSegs').innerHTML = segDefs.filter(s=>s.v>0).map(s=>{
+    const len = emUAT ? (s.v/emUAT)*C : 0;
+    const gap = len > 4 ? 2 : 0;
+    const da = `${(len-gap).toFixed(2)} ${(C).toFixed(2)}`;
+    const seg = `<circle cx="84" cy="84" r="${R}" fill="none" stroke="${s.c}" stroke-width="14" stroke-linecap="butt" stroke-dasharray="0 ${(C).toFixed(2)}" data-da="${da}" stroke-dashoffset="${(-cum).toFixed(2)}"/>`;
+    cum += len; return seg;
+  }).join('');
+  requestAnimationFrame(()=>document.querySelectorAll('#ringSegs circle').forEach(c=>{ c.style.strokeDasharray = c.dataset.da; }));
+  animateNum(document.getElementById('ringPct'), ringP, '%');
+  const homDefs = [
+    {v:aprov,   label:'Aprovada (homologada)', c:'var(--good)'},
+    {v:emprod,  label:'Em produção', c:'var(--violet)'},
+    {v:emhomol, label:'Em homologação UAT', c:'var(--cyan)'},
+    {v:reprov,  label:'Reprovada', c:'var(--bad)'},
+  ];
+  document.getElementById('homchips').innerHTML = homDefs.map(h=>`
+    <div class="hom"><span class="hd" style="background:${h.c}"></span><b>${h.v}</b> <span>${h.label}</span></div>`).join('');
+  document.getElementById('homtotal').innerHTML = `<b>${emUAT}</b> US em UAT (Jira) · <b>${homolg}</b> homologadas`;
+
+  renderHabil(hTot, hADes, hDes, hUAT);
+  renderAlerts(d);
+}
+
+function renderHabil(tot,ades,des,uat){
+  const uatP = pct(uat,tot);
+  const el = document.getElementById('habil');
+  const tile=(n,l,c,hi)=>`<div class="habtile${hi?' hi':''}"><div class="hn" style="color:${c}">${n}</div><div class="hl">${l}${hi?' 🎯':''}</div></div>`;
+  el.innerHTML = `
+    <div class="habrow">
+      ${tile(tot,'Total','var(--ink)')}
+      <div class="harr">›</div>
+      ${tile(ades,'A desenvolver','var(--slate)')}
+      <div class="harr">›</div>
+      ${tile(des,'Desenvolvidos','#a78bfa')}
+      <div class="harr">›</div>
+      ${tile(uat,'Já em UAT','var(--cyan)',true)}
+    </div>
+    <div class="habbar"><i data-w="${uatP}"></i></div>
+    <div class="habnote"><b>${uat}</b> de <b>${tot}</b> habilitadores já chegaram à UAT · <b style="color:var(--cyan)">${uatP}%</b> — não passam por teste de homologação</div>`;
+  requestAnimationFrame(()=>{ const b=el.querySelector('.habbar i'); if(b) b.style.width=b.dataset.w+'%'; });
+}
+
+function renderAlerts(d){
+  const bloqG=sum(d.bloq), rejG=sum(d.hom.reprovada), totAl=bloqG+d.corr+rejG;
+  document.getElementById('alertCount').textContent = totAl;
+  document.getElementById('alertsums').innerHTML = [
+    {n:bloqG, l:'Bloqueadas', c:'var(--bad)'},
+    {n:d.corr, l:'Em correção', c:'var(--melh)'},
+    {n:rejG, l:'Rejeitadas UAT', c:'#f0abfc'},
+  ].map(a=>`<div class="asum"><div class="an" style="color:${a.c}">${a.n}</div><div class="al">${a.l}</div></div>`).join('');
+  document.getElementById('alertlist').innerHTML = d.alerts.map(a=>`
+    <li><span class="tag ${a.type}">${a.type==='bloq'?'bloq':'corr'}</span>
+    <span class="txt"><b>${a.k}</b>${a.t}</span></li>`).join('') || '<li style="color:var(--muted)">Sem alertas nesta frente 🎉</li>';
+}
+
+document.querySelectorAll('.seg button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    render(b.dataset.view);
+  });
+});
+// carrega os dados gerados pela GitHub Action
+fetch('data.json?' + Date.now())
+  .then(r => r.json())
+  .then(p => {
+    DATA = p.data;
+    document.getElementById('updTs').textContent = p.ts;
+    render('Consolidado');
+    boot();
+  })
+  .catch(e => {
+    document.getElementById('updTs').textContent = 'erro ao carregar';
+    console.error('Falha ao ler data.json', e);
+  });
+
+// Entrada em cascata dos blocos
+function boot(){
+if(!reduce){
+  document.querySelectorAll('.wrap > *').forEach((b,i)=>{
+    b.style.opacity='0';
+    b.style.animation=`reveal .55s ${(i*0.06).toFixed(2)}s both cubic-bezier(.2,.8,.2,1)`;
+    b.addEventListener('animationend',()=>{ b.style.animation=''; b.style.opacity=''; },{once:true});
+  });
+}
+}
+</script>
+</body>
+</html>
