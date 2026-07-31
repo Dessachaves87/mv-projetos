@@ -70,6 +70,12 @@
   .chip{font-family:var(--mono); font-size:10.5px; padding:2px 7px; border-radius:6px; font-weight:600; letter-spacing:.3px}
 
   /* ---- Balão de ajuda (hover/foco) ---- */
+  /* os blocos abaixo usam blur e criariam camada por cima do balão:
+     ao passar o mouse, o grupo inteiro sobe de camada */
+  .kpis{position:relative; z-index:1}
+  .kpis:hover, .kpis:focus-within{z-index:70}
+  .two{position:relative; z-index:1}
+  .two:hover, .two:focus-within{z-index:70}
   .panel.kpi{overflow:visible}
   .panel.kpi::before{border-radius:var(--radius) 0 0 var(--radius)}
   [data-tip]{position:relative; cursor:help}
