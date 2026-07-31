@@ -414,12 +414,13 @@ function renderHabil(tot,ades,des,uat){
 }
 
 function renderAlerts(d){
-  const bloqG=sum(d.bloq), rejG=sum(d.hom.reprovada), totAl=bloqG+d.corr+rejG;
+  // "Rejeitadas UAT" saiu daqui em 31/07: era o mesmo número da fatia Reprovada
+  // da homologação, e ainda inflava o contador do bloco.
+  const bloqG=sum(d.bloq), totAl=bloqG+d.corr;
   document.getElementById('alertCount').textContent = totAl;
   document.getElementById('alertsums').innerHTML = [
     {n:bloqG, l:'Bloqueadas', c:'var(--bad)'},
     {n:d.corr, l:'Em correção', c:'var(--melh)'},
-    {n:rejG, l:'Rejeitadas UAT', c:'#f0abfc'},
   ].map(a=>`<div class="asum"><div class="an" style="color:${a.c}">${a.n}</div><div class="al">${a.l}</div></div>`).join('');
   document.getElementById('alertlist').innerHTML = d.alerts.map(a=>`
     <li><span class="tag ${a.type}">${a.type==='bloq'?'bloq':'corr'}</span>
