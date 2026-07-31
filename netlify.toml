@@ -4,3 +4,19 @@
 [[edge_functions]]
   function = "gate"
   path = "/*"
+
+# HTML e dados sempre revalidados: evita o navegador mostrar versão antiga
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/data.json"
+  [headers.values]
+    Cache-Control = "no-store"

@@ -98,6 +98,14 @@
   [data-tip]:hover::after, [data-tip]:focus-visible::after,
   [data-tip]:hover::before, [data-tip]:focus-visible::before{opacity:1; visibility:visible; transform:none}
   [data-tip]:focus-visible{outline:2px solid var(--cyan); outline-offset:3px; border-radius:8px}
+  /* cards ficam no topo da página: o balão abre para BAIXO para não sair da tela */
+  .kpi[data-tip]::after{top:calc(100% + 9px); bottom:auto; transform:translateY(-5px)}
+  .kpi[data-tip]::before{top:calc(100% + 3px); bottom:auto;
+    border-top-color:transparent; border-bottom-color:var(--stroke-2)}
+  .kpi[data-tip]:hover::after, .kpi[data-tip]:focus-visible::after{transform:none}
+  /* último card: alinha o balão pela direita para não vazar da tela */
+  .kpis .kpi:last-child[data-tip]::after{left:auto; right:0}
+  .kpis .kpi:last-child[data-tip]::before{left:auto; right:16px}
   .hom[data-tip]::after{max-width:250px}
   @media(max-width:520px){ [data-tip]::after{max-width:76vw} }
 
