@@ -1,39 +1,43 @@
 {
-  "ts": "31/07/2026 · 10:22",
+  "ts": "31/07/2026 · 12:55",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        206,
-        55
+        181,
+        50
       ],
       "aDes": [
         11,
         5
       ],
       "desenv": [
-        195,
-        50
+        170,
+        45
       ],
       "testes": [
-        117,
-        32
+        116,
+        33
       ],
       "libUAT": [
-        78,
-        18
+        41,
+        12
+      ],
+      "emprod": [
+        13,
+        0
       ],
       "hom": {
         "aprovada": [
           1,
-          18
+          12
         ],
         "emprod": [
-          32,
+          13,
           0
         ],
-        "emhomol": [
-          45,
+        "aguardando": [
+          53,
           0
         ],
         "reprovada": [
@@ -186,7 +190,7 @@
     },
     "Revenue": {
       "total": [
-        116,
+        96,
         26
       ],
       "aDes": [
@@ -194,7 +198,7 @@
         1
       ],
       "desenv": [
-        110,
+        90,
         25
       ],
       "testes": [
@@ -202,8 +206,12 @@
         24
       ],
       "libUAT": [
-        39,
+        19,
         1
+      ],
+      "emprod": [
+        0,
+        0
       ],
       "hom": {
         "aprovada": [
@@ -211,11 +219,11 @@
           1
         ],
         "emprod": [
-          19,
+          0,
           0
         ],
-        "emhomol": [
-          19,
+        "aguardando": [
+          18,
           0
         ],
         "reprovada": [
@@ -313,36 +321,40 @@
     },
     "Central de Projetos": {
       "total": [
-        90,
-        29
+        85,
+        24
       ],
       "aDes": [
         5,
         4
       ],
       "desenv": [
-        85,
-        25
+        80,
+        20
       ],
       "testes": [
-        46,
-        8
+        45,
+        9
       ],
       "libUAT": [
-        39,
-        17
+        22,
+        11
+      ],
+      "emprod": [
+        13,
+        0
       ],
       "hom": {
         "aprovada": [
           0,
-          17
+          11
         ],
         "emprod": [
           13,
           0
         ],
-        "emhomol": [
-          26,
+        "aguardando": [
+          35,
           0
         ],
         "reprovada": [
