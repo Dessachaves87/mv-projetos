@@ -278,9 +278,10 @@ as fatias da homologação fecharem com o cartão “Liberadas p/ UAT”, que ta
 
 <h3><span class="dot d-uat"></span>Aguardando homologação <span class="res" data-m="aguard">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "EM APROVAÇÃO DO CLIENTE"</pre></div>
-<div class="nota">Está em UAT (liberada ou já em produção) e ainda <b>não recebeu etiqueta</b> —
-ninguém deu o veredito. É o que falta homologar.</div>
-<div class="jql"><pre>US em UAT  −  (etiqueta "Aprovado")  −  (etiqueta "Reprovado(Bug)")</pre></div>
+<div class="nota">Está em <b>“Liberado para deploy”</b> e ainda não recebeu etiqueta — ninguém deu o veredito.
+É o que falta homologar. US já em produção não entram aqui.</div>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "Liberado para deploy"
+  (descontadas as que já têm etiqueta "Aprovado" ou "Reprovado(Bug)")</pre></div>
 
 <h3><span class="dot d-bad"></span>Reprovada — etiqueta “Reprovado(Bug)” <span class="res" data-m="rep">—</span></h3>
 <p>A US reprovada recebe a <b>etiqueta</b> <span class="mono">Reprovado(Bug)</span> no próprio card:</p>

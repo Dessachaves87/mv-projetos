@@ -174,7 +174,7 @@ async function chavesPorEtiqueta(pj, etiqueta) {
  */
 async function homologacao(pj) {
   const [kTodas, kApr, kRep, habUAT] = await Promise.all([
-    chaves(pj, LIBERADAS),
+    chaves(pj, ST.liberadas),   // aguardando = só "Liberado para deploy"
     chavesPorEtiqueta(pj, VALOR_APROVADO),
     chavesPorEtiqueta(pj, VALOR_REPROVADO),
     // Habilitadores não passam por teste: ao chegarem à UAT já contam como aprovados.
