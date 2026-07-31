@@ -70,6 +70,9 @@ const CORR = 'Bug em Testes';
 
 const list = (f, a) => `${f} in (${a.map(s => `"${s}"`).join(',')})`;
 
+// Universo de User Stories: História + Melhoria + Habilitador (usado nos alertas)
+const US = list('issuetype', [...IT.testavel, ...IT.habilitador]);
+
 async function count(jql) {
   const r = await fetch(`https://${SITE}/rest/api/3/search/approximate-count`, {
     method: 'POST',
@@ -195,10 +198,11 @@ async function montarView(nome) {
     funil(pj, IT.testavel),
     funil(pj, IT.habilitador),
     homologacao(pj),
-    count(`project = ${pj} AND status = "${BLOQ}"`),
-    count(`project = ${pj} AND status = "${CORR}"`),
-    issues(`project = ${pj} AND status = "${BLOQ}" ORDER BY key DESC`),
-    issues(`project = ${pj} AND status = "${CORR}" ORDER BY key DESC`),
+    // só User Stories (História, Melhoria, Habilitador) — Épico/Tarefa/Subtarefa/Bug ficam fora
+    count(`project = ${pj} AND ${US} AND status = "${BLOQ}"`),
+    count(`project = ${pj} AND ${US} AND status = "${CORR}"`),
+    issues(`project = ${pj} AND ${US} AND status = "${BLOQ}" ORDER BY key DESC`),
+    issues(`project = ${pj} AND ${US} AND status = "${CORR}" ORDER BY key DESC`),
   ]);
   return {
     total: [t.total, h.total], aDes: [t.aDes, h.aDes],
