@@ -268,7 +268,7 @@ function render(view){
   const tTot=d.total[0], tADes=d.aDes[0], tDes=d.desenv[0], tTes=d.testes[0], tLib=d.libUAT[0];
   // Aprovada = testáveis aprovadas + habilitadores em UAT (não passam por teste)
   const aprov=d.hom.aprovada[0]+d.hom.aprovada[1], emprod=d.hom.emprod[0], emhomol=d.hom.emhomol[0], reprov=d.hom.reprovada[0];
-  const homolg = aprov + emprod;
+  const homolg = aprov;   // homologada = só quem tem a etiqueta "Aprovado" (+ habilitadores)
   // Trilha B — Habilitadores (estruturais, índice 1) — não testáveis
   const hTot=d.total[1], hADes=d.aDes[1], hDes=d.desenv[1], hUAT=d.libUAT[1];
 
@@ -276,7 +276,7 @@ function render(view){
   const kpis = [
     {label:'Total de US (testáveis)', val:tTot, unit:'', ctx:`${hTot} habilitadores · ${tTot+hTot} no total`, c:'var(--violet)'},
     {label:'Liberadas p/ UAT', val:tLib+hUAT, unit:'US', ctx:`${tLib} testáveis · ${hUAT} habilitadores`, c:'var(--cyan)'},
-    {label:'Homologadas', val:homolg, unit:'US', ctx:'aprovadas + em produção', c:'var(--good)'},
+    {label:'Homologadas', val:homolg, unit:'US', ctx:'com etiqueta Aprovado + habilitadores', c:'var(--good)'},
     {label:'Bloqueadas', val:d.bloq[0]+d.bloq[1], unit:'US', ctx:'US travadas — risco', c:'var(--bad)'},
   ];
   document.getElementById('kpis').innerHTML = kpis.map((k,i)=>`
@@ -335,8 +335,8 @@ function render(view){
   animateNum(document.getElementById('ringPct'), ringP, '%');
   const homDefs = [
     {v:aprov,   label:`Aprovada${d.hom.aprovada[1]?` (${d.hom.aprovada[1]} habilitadores)`:''}`, c:'var(--good)'},
-    {v:emprod,  label:'Em produção', c:'var(--violet)'},
-    {v:emhomol, label:'Em homologação UAT', c:'var(--cyan)'},
+    {v:emprod,  label:'Em produção (sem veredito)', c:'var(--violet)'},
+    {v:emhomol, label:'Aguardando homologação', c:'var(--cyan)'},
     {v:reprov,  label:'Reprovada', c:'var(--bad)'},
   ];
   document.getElementById('homchips').innerHTML = homDefs.map(h=>`
