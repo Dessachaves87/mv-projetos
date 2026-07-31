@@ -1,0 +1,55 @@
+{
+  "_leia": "Regra de negócio do painel. Editável pelo GitHub, sem mexer em código. Veja COMO-EDITAR.md.",
+
+  "projetos": {
+    "Revenue": "MVREV",
+    "Central de Projetos": "MVPMO"
+  },
+
+  "tipos": {
+    "_leia": "IDs do Jira. Nomes traduzidos não funcionam em JQL.",
+    "testavel": ["10001", "10212"],
+    "habilitador": ["10005"]
+  },
+
+  "fases": {
+    "_leia": "Fases do funil. A soma delas é o total. Status fora daqui não entram no painel.",
+
+    "aDesenvolver": [
+      "Pronto para DEV",
+      "EM DESENVOLVIMENTO"
+    ],
+
+    "emTestesInternos": [
+      "PRONTO PARA TESTES",
+      "Bug em Testes",
+      "Aguardando Review",
+      "Pós Review",
+      "Realizando Deploy em QA",
+      "EM TESTE QA",
+      "Em Análise de PR"
+    ],
+
+    "liberadasUAT": [
+      "Liberado para deploy",
+      "PRONTO PARA DEPLOY EM PROD"
+    ],
+
+    "emProducao": [
+      "Deploy em Prod. realizado",
+      "CONCLUÍDO"
+    ]
+  },
+
+  "etiquetas": {
+    "_leia": "Campo 'Categorias' no Jira. Precisa ser idêntico ao que está no card, com hífen e acento.",
+    "emHomologacao": "Em-Homologacao-Cliente",
+    "aprovado": "Aprovado",
+    "reprovado": "Reprovado(Bug)"
+  },
+
+  "alertas": {
+    "bloqueada": "Em Espera/Bloqueado",
+    "emCorrecao": "Bug em Testes"
+  }
+}

@@ -6,7 +6,11 @@
  *   Upstream (excluído): BACKLOG, Em refinamento, Em prototipagem,
  *                        EM ANÁLISE TÉCNICA, PRONTO PARA DESENVOLVIMENTO
  */
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, readFileSync } from 'node:fs';
+
+// A régua vive em regua.json — editável pelo GitHub sem mexer neste arquivo.
+// Ver COMO-EDITAR.md.
+const R = JSON.parse(readFileSync(new URL('../regua.json', import.meta.url), 'utf8'));
 
 const SITE = 'sottelli.atlassian.net';
 const EMAIL = process.env.JIRA_EMAIL;
@@ -44,14 +48,55 @@ async function checarAcesso() {
   }
 }
 
-const IT = { testavel: ['10001', '10212'], habilitador: ['10005'], bug: '10004' };
+/** Listas de status das fases, ignorando as chaves `_leia` (comentários do JSON). */
+const fasesStatus = () =>
+  Object.entries(R.fases).filter(([k]) => !k.startsWith('_')).map(([, v]) => v);
+
+/**
+ * Confere se todo status citado em regua.json existe mesmo no Jira.
+ * Sem isso, um nome digitado errado faz a US sumir do painel em silêncio —
+ * a consulta devolve 0 e ninguém percebe.
+ */
+async function checarRegua() {
+  const r = await fetch(`https://${SITE}/rest/api/3/status`, {
+    headers: { Authorization: AUTH, Accept: 'application/json' },
+  });
+  if (!r.ok) { console.warn(`aviso: não consegui listar os status (HTTP ${r.status}) — pulando validação da régua`); return; }
+
+  const existentes = new Set((await r.json()).map(s => s.name.toLowerCase()));
+  const usados = [
+    ...fasesStatus().flat(),
+    R.alertas.bloqueada, R.alertas.emCorrecao,
+  ];
+  const invalidos = [...new Set(usados)].filter(s => !existentes.has(s.toLowerCase()));
+
+  if (invalidos.length) {
+    console.error('\n❌ regua.json tem status que não existem no Jira:\n');
+    for (const s of invalidos) console.error(`   • "${s}"`);
+    console.error('\n   Confira acentos, maiúsculas e espaços — o nome precisa ser idêntico ao do Jira.');
+    console.error('   Nada foi publicado. Veja COMO-EDITAR.md.\n');
+    process.exit(1);
+  }
+  console.log(`✔ Régua validada — ${[...new Set(usados)].length} status conferidos`);
+
+  // Um status em duas fases faria a mesma US ser contada duas vezes.
+  const todas = fasesStatus().flat().map(s => s.toLowerCase());
+  const dup = todas.filter((s, i) => todas.indexOf(s) !== i);
+  if (dup.length) {
+    console.error(`\n❌ Status repetido em mais de uma fase: ${[...new Set(dup)].join(', ')}`);
+    console.error('   Isso quebraria o total do funil. Nada foi publicado.\n');
+    process.exit(1);
+  }
+}
+
+const IT = { testavel: R.tipos.testavel, habilitador: R.tipos.habilitador, bug: '10004' };
 
 // O veredito da homologação vem das ETIQUETAS (labels) do próprio card.
 // Sem etiqueta = ainda não homologada, independente do status.
 const CAMPO_CATEGORIA = 'labels';
-const VALOR_REPROVADO = 'Reprovado(Bug)';
-const VALOR_APROVADO  = 'Aprovado';
-const VALOR_EM_HOMOL  = 'Em-Homologacao-Cliente'; // cliente está homologando agora
+const VALOR_REPROVADO = R.etiquetas.reprovado;
+const VALOR_APROVADO  = R.etiquetas.aprovado;
+const VALOR_EM_HOMOL  = R.etiquetas.emHomologacao;   // cliente está homologando agora
 
 /**
  * Régua da esteira. Ficam FORA do funil e do total:
@@ -62,20 +107,17 @@ const VALOR_EM_HOMOL  = 'Em-Homologacao-Cliente'; // cliente está homologando a
  *   descartadas .... Cancelado
  */
 const ST = {
-  aDes:    ['Pronto para DEV', 'EM DESENVOLVIMENTO'],
-  testes:  ['PRONTO PARA TESTES', 'Bug em Testes', 'Aguardando Review', 'Pós Review',
-            'Realizando Deploy em QA', 'EM TESTE QA', 'Em Análise de PR'],
-  // Disponível para homologar. "PRONTO PARA DEPLOY EM PROD" entrou em 31/07:
-  // a US já passou por UAT e espera janela de deploy — está entregue, não em teste.
-  liberadas: ['Liberado para deploy', 'PRONTO PARA DEPLOY EM PROD'],
-  emprod:    ['Deploy em Prod. realizado', 'CONCLUÍDO'],       // já implantada
+  aDes:      R.fases.aDesenvolver,
+  testes:    R.fases.emTestesInternos,
+  liberadas: R.fases.liberadasUAT,     // disponível para homologar
+  emprod:    R.fases.emProducao,       // já implantada
 };
 // Universo em UAT (denominador da homologação) = liberadas + em produção
 const LIBERADAS = [...ST.liberadas, ...ST.emprod];
 
-const PROJETOS = { 'Revenue': 'MVREV', 'Central de Projetos': 'MVPMO' };
-const BLOQ = 'Em Espera/Bloqueado';
-const CORR = 'Bug em Testes';
+const PROJETOS = R.projetos;
+const BLOQ = R.alertas.bloqueada;
+const CORR = R.alertas.emCorrecao;
 
 const list = (f, a) => `${f} in (${a.map(s => `"${s}"`).join(',')})`;
 
@@ -231,6 +273,7 @@ const consolidar = (a, b) => ({
 });
 
 await checarAcesso();
+await checarRegua();
 
 const rev = await montarView('Revenue');
 const cen = await montarView('Central de Projetos');
