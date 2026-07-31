@@ -266,7 +266,8 @@ function render(view){
   const d = DATA[view];
   // Trilha A — Testáveis (operacionais, índice 0)
   const tTot=d.total[0], tADes=d.aDes[0], tDes=d.desenv[0], tTes=d.testes[0], tLib=d.libUAT[0];
-  const aprov=d.hom.aprovada[0], emprod=d.hom.emprod[0], emhomol=d.hom.emhomol[0], reprov=d.hom.reprovada[0];
+  // Aprovada = testáveis aprovadas + habilitadores em UAT (não passam por teste)
+  const aprov=d.hom.aprovada[0]+d.hom.aprovada[1], emprod=d.hom.emprod[0], emhomol=d.hom.emhomol[0], reprov=d.hom.reprovada[0];
   const homolg = aprov + emprod;
   // Trilha B — Habilitadores (estruturais, índice 1) — não testáveis
   const hTot=d.total[1], hADes=d.aDes[1], hDes=d.desenv[1], hUAT=d.libUAT[1];
@@ -333,7 +334,7 @@ function render(view){
   requestAnimationFrame(()=>document.querySelectorAll('#ringSegs circle').forEach(c=>{ c.style.strokeDasharray = c.dataset.da; }));
   animateNum(document.getElementById('ringPct'), ringP, '%');
   const homDefs = [
-    {v:aprov,   label:'Aprovada (homologada)', c:'var(--good)'},
+    {v:aprov,   label:`Aprovada${d.hom.aprovada[1]?` (${d.hom.aprovada[1]} habilitadores)`:''}`, c:'var(--good)'},
     {v:emprod,  label:'Em produção', c:'var(--violet)'},
     {v:emhomol, label:'Em homologação UAT', c:'var(--cyan)'},
     {v:reprov,  label:'Reprovada', c:'var(--bad)'},

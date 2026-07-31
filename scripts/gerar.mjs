@@ -46,8 +46,8 @@ async function checarAcesso() {
 
 const IT = { testavel: ['10001', '10212'], habilitador: ['10005'], bug: '10004' };
 
-// Reprovada = campo "Categoria" da própria US preenchido com "Reprovado"
-const CAMPO_CATEGORIA = 'Categoria';
+// Reprovada = a US recebe a ETIQUETA (label) "Reprovado(Bug)" no próprio card
+const CAMPO_CATEGORIA = 'labels';
 const VALOR_REPROVADO = 'Reprovado(Bug)';
 
 const ST = {
@@ -154,18 +154,22 @@ async function chavesReprovadas(pj) {
  * Assim uma US reprovada sai de "Aprovada"/"Em produção" e entra em "Reprovada".
  */
 async function homologacao(pj) {
-  const [kHomol, kAprov, kProd, kRep] = await Promise.all([
+  const [kHomol, kAprov, kProd, kRep, habUAT] = await Promise.all([
     chaves(pj, ST.emhomol),
     chaves(pj, ST.aprovada),
     chaves(pj, ST.emprod),
     chavesReprovadas(pj),
+    // Habilitadores não passam por teste: assim que chegam à UAT já contam como aprovados.
+    count(`project = ${pj} AND ${list('issuetype', IT.habilitador)} AND ${list('status', LIBERADAS)}`),
   ]);
   const rep = new Set(kRep);
   const semRep = ks => ks.filter(k => !rep.has(k)).length;
-  console.log(`   ${pj}: reprovadas encontradas = ${kRep.length}${kRep.length ? ' → ' + kRep.join(', ') : ''}`);
+  console.log(`   ${pj}: reprovadas = ${kRep.length}${kRep.length ? ' → ' + kRep.join(', ') : ''}` +
+              ` | habilitadores em UAT (entram em aprovada) = ${habUAT}`);
   return {
     emhomol: semRep(kHomol),
     aprovada: semRep(kAprov),
+    aprovadaHab: habUAT,
     emprod: semRep(kProd),
     reprovada: kRep.length,
   };
@@ -187,7 +191,7 @@ async function montarView(nome) {
     desenv: [t.testes + t.lib, h.testes + h.lib],
     testes: [t.testes, h.testes], libUAT: [t.lib, h.lib],
     hom: {
-      aprovada: [hom.aprovada, 0], emprod: [hom.emprod, 0],
+      aprovada: [hom.aprovada, hom.aprovadaHab], emprod: [hom.emprod, 0],
       emhomol: [hom.emhomol, 0], reprovada: [hom.reprovada, 0],
     },
     bloq: [bloq, 0], corr,

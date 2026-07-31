@@ -256,6 +256,12 @@ aparecem separados na linha de apoio do cartão.</div>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "Liberado para deploy"</pre></div>
 <div class="nota">A descrição oficial deste status no Jira é <b>“homologação realizada, o card pode ser
 implantado em produção”</b> — por isso ele representa a US aprovada, aguardando o deploy.</div>
+<p><b>Habilitadores também entram aqui.</b> Como eles não passam por teste, contam como aprovados
+assim que chegam à UAT (<span class="res" data-m="aprHab">—</span> nesta frente):</p>
+<div class="jql"><pre>project = MVREV AND issuetype = 10005 AND status in (
+  "Liberado para deploy","Deploy em Prod. realizado","EM APROVAÇÃO DO CLIENTE","CONCLUÍDO")</pre></div>
+<div class="nota">Portanto <b>Aprovada = testáveis aprovadas + habilitadores em UAT</b>. É isso que faz
+as fatias da homologação fecharem com o cartão “Liberadas p/ UAT”, que também soma as duas trilhas.</div>
 
 <h3><span class="dot d-prod"></span>Em produção <span class="res" data-m="prod">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in ("Deploy em Prod. realizado","CONCLUÍDO")</pre></div>
@@ -275,16 +281,16 @@ implantado em produção”</b> — por isso ele representa a US aprovada, aguar
 <div class="nota">Corresponde à coluna <b>“Homologação em UAT”</b> do board — são as US que o cliente está
 testando neste momento.</div>
 
-<h3><span class="dot d-bad"></span>Reprovada — US com Bug apontado <span class="res" data-m="rep">—</span></h3>
-<p>Esta não é uma consulta única. O painel faz em dois passos:</p>
-<p><b>Passo 1 — busca os bugs ativos:</b></p>
-<div class="jql"><pre>project = MVREV AND issuetype = 10004 AND status != "Cancelado"</pre></div>
-<p>De cada bug, lê o campo <span class="mono">parent</span> (bug como item-filho do card) e
-<span class="mono">issuelinks</span> (bug vinculado ao card), montando a lista de US apontadas.</p>
-<p><b>Passo 2 — cruza com as US em UAT</b> (mesma consulta de “Liberadas p/ UAT”). As US que aparecem
-nas duas listas são as reprovadas.</p>
-<div class="nota"><b>O bug tem precedência.</b> Uma US aprovada que receber um bug sai de “Aprovada” e
-passa para “Reprovada” — assim nenhuma US é contada duas vezes e o total continua fechando.</div>
+<h3><span class="dot d-bad"></span>Reprovada — etiqueta “Reprovado(Bug)” <span class="res" data-m="rep">—</span></h3>
+<p>A US reprovada recebe a <b>etiqueta</b> <span class="mono">Reprovado(Bug)</span> no próprio card:</p>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
+  "Liberado para deploy","Deploy em Prod. realizado","EM APROVAÇÃO DO CLIENTE","CONCLUÍDO")
+  AND labels = "Reprovado(Bug)"</pre></div>
+<div class="nota"><b>A reprovação tem precedência.</b> Uma US que receber a etiqueta sai de
+“Aprovada”, “Em produção” ou “Em homologação” e passa para “Reprovada” — assim nenhuma US é contada
+duas vezes e o total continua fechando.</div>
+<div class="nota"><b>Vale apenas para testáveis.</b> Habilitadores não passam por homologação, então
+não entram nesta fatia mesmo que recebam a etiqueta.</div>
 
 <h3>Homologadas — o indicador que reportamos <span class="res" data-m="homol">—</span></h3>
 <div class="jql"><pre>Homologadas = Aprovada + Em produção      (já descontadas as reprovadas)</pre></div>
@@ -375,7 +381,8 @@ function valor(v, m){
     case 'tes':      return v.testes[0];
     case 'lib':      return v.libUAT[0];
     case 'habLib':   return v.libUAT[1];
-    case 'apr':      return h.aprovada[0];
+    case 'apr':      return h.aprovada[0] + h.aprovada[1];
+    case 'aprHab':   return h.aprovada[1];
     case 'prod':     return h.emprod[0];
     case 'uat':      return h.emhomol[0];
     case 'rep':      return h.reprovada[0];
