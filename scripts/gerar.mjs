@@ -48,7 +48,7 @@ const IT = { testavel: ['10001', '10212'], habilitador: ['10005'], bug: '10004' 
 
 // Reprovada = campo "Categoria" da própria US preenchido com "Reprovado"
 const CAMPO_CATEGORIA = 'Categoria';
-const VALOR_REPROVADO = 'Reprovado';
+const VALOR_REPROVADO = 'Reprovado(Bug)';
 
 const ST = {
   // esteira (upstream fora). "Em Espera/Bloqueado" NÃO entra no funil nem no total —
