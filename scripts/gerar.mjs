@@ -258,6 +258,8 @@ writeFileSync('data.json', JSON.stringify(payload, null, 2) + '\n');
 console.log('data.json gerado —', ts);
 for (const [nome, v] of [['Revenue', rev], ['Central', cen]]) {
   const h = v.hom;
-  console.log(`${nome.padEnd(8)} testáveis ${v.total[0]} | liberadas ${v.libUAT[0]} | homologadas ${h.aprovada[0] + h.emprod[0]}` +
-    ` (aprovada ${h.aprovada[0]}, produção ${h.emprod[0]}, em homolog ${h.emhomol[0]}, reprovada ${h.reprovada[0]})`);
+  console.log(`${nome.padEnd(8)} testáveis ${v.total[0]} | a desenvolver ${v.aDes[0]} | testes ${v.testes[0]}` +
+    ` | liberadas ${v.libUAT[0]} | em produção ${v.emprod[0]}` +
+    ` || homologadas ${h.aprovada[0] + h.aprovada[1]} (${h.aprovada[0]} etiqueta + ${h.aprovada[1]} habilitadores)` +
+    ` | aguardando ${h.aguardando[0]} | reprovada ${h.reprovada[0]}`);
 }
