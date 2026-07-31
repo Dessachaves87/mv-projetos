@@ -203,14 +203,14 @@ As três fases fecham com o total — é assim que conferimos se a conta está c
     </tr>
     <tr>
       <td><b>Homologadas</b></td>
-      <td class="mono">Aprovada + Em produção<br>
-        <span style="color:var(--muted)">(já sem as reprovadas)</span></td>
+      <td class="mono">US com a etiqueta “Aprovado” + habilitadores em UAT<br>
+        <span style="color:var(--muted)">(estar em produção não conta)</span></td>
       <td class="num" data-m="homol" data-pj="rev">—</td><td class="num" data-m="homol" data-pj="cen">—</td>
     </tr>
     <tr>
       <td><b>Bloqueadas</b></td>
       <td class="mono">status = "Em Espera/Bloqueado"<br>
-        <span style="color:var(--muted)">(qualquer tipo de item, não só US)</span></td>
+        <span style="color:var(--muted)">(só User Stories)</span></td>
       <td class="num" data-m="bloq" data-pj="rev">—</td><td class="num" data-m="bloq" data-pj="cen">—</td>
     </tr>
   </tbody>
@@ -251,6 +251,10 @@ aparecem separados na linha de apoio do cartão.</div>
 
 <h2><span class="n">05</span>Homologação</h2>
 <p>As US liberadas para UAT se dividem em quatro situações. A soma das quatro é sempre o total em UAT.</p>
+<div class="nota"><b>O veredito vem da etiqueta, não do status.</b> Quem homologa marca o card com
+<span class="mono">Aprovado</span> ou <span class="mono">Reprovado(Bug)</span>. Sem etiqueta, a US
+ainda não tem veredito — mesmo que já esteja em produção. Habilitadores são a exceção: como não
+passam por teste, contam como aprovados assim que chegam à UAT.</div>
 
 <h3><span class="dot d-ok"></span>Aprovada — homologada <span class="res" data-m="apr">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "Liberado para deploy"</pre></div>
@@ -263,23 +267,17 @@ assim que chegam à UAT (<span class="res" data-m="aprHab">—</span> nesta fren
 <div class="nota">Portanto <b>Aprovada = testáveis aprovadas + habilitadores em UAT</b>. É isso que faz
 as fatias da homologação fecharem com o cartão “Liberadas p/ UAT”, que também soma as duas trilhas.</div>
 
-<h3><span class="dot d-prod"></span>Em produção <span class="res" data-m="prod">—</span></h3>
+<h3><span class="dot d-prod"></span>Em produção — sem veredito <span class="res" data-m="prod">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in ("Deploy em Prod. realizado","CONCLUÍDO")</pre></div>
-<div class="premissa">
-  <span class="tag">Premissa em validação</span><br>
-  Contamos “Em produção” como <b>homologada</b> assumindo que a US passou pela homologação
-  <b>antes</b> de ir para produção. O Jira não registra esse carimbo — o status só diz que o deploy
-  aconteceu. Portanto, <b>US anteriores ao processo formal de UAT</b> (POCs, criação de objetos base,
-  entregas antigas) podem estar nesta fatia sem terem sido homologadas pelo cliente.
-  <br><br>
-  <b>Está em validação nesta rodada de homologação.</b> Se a premissa não se confirmar, o indicador
-  “Homologadas” passa a considerar apenas a fatia <b>Aprovada</b>.
-</div>
+<div class="nota"><b>Em produção não conta como homologada.</b> O status só diz que o deploy
+aconteceu — o Jira não registra se a US passou pela homologação. Por isso estas aparecem em fatia
+própria: já estão em produção, mas ainda sem o carimbo da etiqueta. US antigas (POCs, criação de
+objetos base, entregas anteriores ao processo formal de UAT) tendem a ficar aqui.</div>
 
-<h3><span class="dot d-uat"></span>Em homologação UAT <span class="res" data-m="uat">—</span></h3>
+<h3><span class="dot d-uat"></span>Aguardando homologação <span class="res" data-m="uat">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "EM APROVAÇÃO DO CLIENTE"</pre></div>
-<div class="nota">Corresponde à coluna <b>“Homologação em UAT”</b> do board — são as US que o cliente está
-testando neste momento.</div>
+<div class="nota">Está no ambiente de UAT e ainda <b>não recebeu etiqueta</b> — ninguém deu o veredito.
+Inclui a coluna “Homologação em UAT” do board e as demais US liberadas que seguem sem carimbo.</div>
 
 <h3><span class="dot d-bad"></span>Reprovada — etiqueta “Reprovado(Bug)” <span class="res" data-m="rep">—</span></h3>
 <p>A US reprovada recebe a <b>etiqueta</b> <span class="mono">Reprovado(Bug)</span> no próprio card:</p>
@@ -293,10 +291,10 @@ duas vezes e o total continua fechando.</div>
 não entram nesta fatia mesmo que recebam a etiqueta.</div>
 
 <h3>Homologadas — o indicador que reportamos <span class="res" data-m="homol">—</span></h3>
-<div class="jql"><pre>Homologadas = Aprovada + Em produção      (já descontadas as reprovadas)</pre></div>
-<div class="nota">Este número depende da premissa acima: ele soma o que foi <b>aprovado na homologação</b>
-com o que <b>já está em produção</b>. Para ver só o que tem carimbo explícito de homologação aprovada,
-use a fatia <b>Aprovada</b> isolada.</div>
+<div class="jql"><pre>Homologadas = Aprovada      (etiqueta "Aprovado" + habilitadores em UAT)</pre></div>
+<div class="nota">Só entra aqui quem tem <b>carimbo explícito</b>: a etiqueta “Aprovado” no card, ou
+ser um habilitador em UAT (que não passa por teste). Estar em produção, ou estar na coluna de
+homologação, <b>não basta</b>.</div>
 
 <h2><span class="n">06</span>Habilitadores e alertas</h2>
 <p>Habilitadores usam a mesma régua de status, só muda o tipo. Eles <b>não</b> passam por homologação —
@@ -307,12 +305,12 @@ acompanhamos apenas quantos chegaram à UAT.</p>
   "Liberado para deploy","Deploy em Prod. realizado","EM APROVAÇÃO DO CLIENTE","CONCLUÍDO")</pre></div>
 
 <h3>Bloqueadas <span class="res" data-m="bloq">—</span></h3>
-<div class="jql"><pre>project = MVREV AND status = "Em Espera/Bloqueado"</pre></div>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212,10005) AND status = "Em Espera/Bloqueado"</pre></div>
 
 <h3>Em correção <span class="res" data-m="corr">—</span></h3>
-<div class="jql"><pre>project = MVREV AND status = "Bug em Testes"</pre></div>
-<div class="nota">Estes dois <b>não</b> filtram por tipo — contam qualquer item travado ou em correção
-no projeto, porque para efeito de risco importa o item, não a sua classificação.</div>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212,10005) AND status = "Bug em Testes"</pre></div>
+<div class="nota">Contam apenas <b>User Stories</b> (História, Melhoria e Habilitador), igual ao resto
+do painel. Épico, Tarefa, Subtarefa e Bug ficam de fora.</div>
 
 <h2><span class="n">07</span>Números atuais</h2>
 <div class="tblwrap">
@@ -324,8 +322,8 @@ no projeto, porque para efeito de risco importa o item, não a sua classificaç�
     <tr><td>— Em testes internos</td><td class="num" data-m="tes" data-pj="rev">—</td><td class="num" data-m="tes" data-pj="cen">—</td><td class="num" data-m="tes" data-pj="con">—</td></tr>
     <tr><td>— Liberadas p/ UAT</td><td class="num" data-m="lib" data-pj="rev">—</td><td class="num" data-m="lib" data-pj="cen">—</td><td class="num" data-m="lib" data-pj="con">—</td></tr>
     <tr><td><span class="dot d-ok"></span>Aprovada</td><td class="num" data-m="apr" data-pj="rev">—</td><td class="num" data-m="apr" data-pj="cen">—</td><td class="num" data-m="apr" data-pj="con">—</td></tr>
-    <tr><td><span class="dot d-prod"></span>Em produção</td><td class="num" data-m="prod" data-pj="rev">—</td><td class="num" data-m="prod" data-pj="cen">—</td><td class="num" data-m="prod" data-pj="con">—</td></tr>
-    <tr><td><span class="dot d-uat"></span>Em homologação UAT</td><td class="num" data-m="uat" data-pj="rev">—</td><td class="num" data-m="uat" data-pj="cen">—</td><td class="num" data-m="uat" data-pj="con">—</td></tr>
+    <tr><td><span class="dot d-prod"></span>Em produção (sem veredito)</td><td class="num" data-m="prod" data-pj="rev">—</td><td class="num" data-m="prod" data-pj="cen">—</td><td class="num" data-m="prod" data-pj="con">—</td></tr>
+    <tr><td><span class="dot d-uat"></span>Aguardando homologação</td><td class="num" data-m="uat" data-pj="rev">—</td><td class="num" data-m="uat" data-pj="cen">—</td><td class="num" data-m="uat" data-pj="con">—</td></tr>
     <tr><td><span class="dot d-bad"></span>Reprovada</td><td class="num" data-m="rep" data-pj="rev">—</td><td class="num" data-m="rep" data-pj="cen">—</td><td class="num" data-m="rep" data-pj="con">—</td></tr>
     <tr class="destaque"><td>Homologadas</td><td class="num" data-m="homol" data-pj="rev">—</td><td class="num" data-m="homol" data-pj="cen">—</td><td class="num" data-m="homol" data-pj="con">—</td></tr>
     <tr><td>Habilitadores</td><td class="num" data-m="hab" data-pj="rev">—</td><td class="num" data-m="hab" data-pj="cen">—</td><td class="num" data-m="hab" data-pj="con">—</td></tr>
