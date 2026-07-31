@@ -91,6 +91,21 @@
     justify-content:space-between}
   footer a{color:var(--menta); text-decoration:none}
   footer a:hover{text-decoration:underline}
+
+  .scope{position:sticky; top:0; z-index:5; margin:0 -22px 4px; padding:12px 22px;
+    background:color-mix(in srgb, var(--ground) 92%, transparent); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--stroke); display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+  .scope .lbl{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--muted)}
+  .seg{display:inline-flex; background:var(--card); border:1px solid var(--stroke);
+    border-radius:999px; padding:3px; gap:2px}
+  .seg button{font-family:var(--sans); font-size:12.5px; font-weight:550; color:var(--ink-2);
+    background:transparent; border:0; padding:6px 14px; border-radius:999px; cursor:pointer;
+    transition:.15s; white-space:nowrap}
+  .seg button:hover{color:var(--ink)}
+  .seg button[aria-pressed="true"]{color:var(--ground); background:var(--menta); font-weight:640}
+  .seg button:focus-visible{outline:2px solid var(--menta); outline-offset:2px}
+  .scope .hint{font-size:12px; color:var(--muted)}
   @media (prefers-reduced-motion:reduce){ *{transition:none !important} }
 </style>
 </head>
@@ -109,6 +124,16 @@
     <span class="pill"><a href="https://sottelli.atlassian.net/issues/" target="_blank" rel="noopener">Abrir busca no Jira ↗</a></span>
   </div>
 </header>
+
+<div class="scope" role="group" aria-label="Escolher frente">
+  <span class="lbl">Frente</span>
+  <div class="seg">
+    <button type="button" data-pj="rev" aria-pressed="true">Revenue</button>
+    <button type="button" data-pj="cen" aria-pressed="false">Central de Projetos</button>
+    <button type="button" data-pj="con" aria-pressed="false">Consolidado</button>
+  </div>
+  <span class="hint">os JQLs e os números abaixo mudam junto</span>
+</div>
 
 <h2><span class="n">01</span>O que entra na conta</h2>
 <p>Contamos <b>User Stories</b> de dois tipos, e cada uma cai numa das duas trilhas do painel:</p>
@@ -189,24 +214,22 @@ como apoio logo abaixo.</div>
 <p>As consultas por trás de cada um estão nas seções seguintes.</p>
 
 <h2><span class="n">04</span>Funil de entrega</h2>
-<p>Os exemplos usam <span class="mono">MVREV</span>. Para o Central, troque por
-<span class="mono">MVPMO</span>. Para habilitadores, troque
-<span class="mono">issuetype in (10001,10212)</span> por <span class="mono">issuetype = 10005</span>.</p>
+<p>Use o seletor de <b>frente</b> no topo da página para alternar entre Revenue, Central e Consolidado — os JQLs e os números abaixo acompanham. Para habilitadores, troque <span class="mono">issuetype in (10001,10212)</span> por <span class="mono">issuetype = 10005</span>.</p>
 
-<h3>A desenvolver <span class="res">Revenue 19 · Central 10</span></h3>
+<h3>A desenvolver <span class="res" data-rev="19" data-cen="10" data-con="29">19</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "Pronto para DEV","EM DESENVOLVIMENTO","Em Espera/Bloqueado")</pre></div>
 
-<h3>Em testes internos <span class="res">Revenue 72 · Central 46</span></h3>
+<h3>Em testes internos <span class="res" data-rev="72" data-cen="46" data-con="118">72</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "PRONTO PARA TESTES","Bug em Testes","Aguardando Review","Pós Review",
   "Realizando Deploy em QA","EM TESTE QA","Em Análise de PR")</pre></div>
 
-<h3>Liberadas p/ UAT — o total em UAT <span class="res">Revenue 38 · Central 39</span></h3>
+<h3>Liberadas p/ UAT — o total em UAT <span class="res" data-rev="38" data-cen="39" data-con="77">38</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "Liberado para deploy","Deploy em Prod. realizado","EM APROVAÇÃO DO CLIENTE","CONCLUÍDO")</pre></div>
 
-<h3>Total de US testáveis <span class="res">Revenue 129 · Central 95</span></h3>
+<h3>Total de US testáveis <span class="res" data-rev="129" data-cen="95" data-con="224">129</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "Pronto para DEV","EM DESENVOLVIMENTO","Em Espera/Bloqueado",
   "PRONTO PARA TESTES","Bug em Testes","Aguardando Review","Pós Review",
@@ -216,20 +239,20 @@ como apoio logo abaixo.</div>
 <h2><span class="n">05</span>Homologação</h2>
 <p>As US liberadas para UAT se dividem em quatro situações. A soma das quatro é sempre o total em UAT.</p>
 
-<h3><span class="dot d-ok"></span>Aprovada — homologada <span class="res">Revenue 18 · Central 21</span></h3>
+<h3><span class="dot d-ok"></span>Aprovada — homologada <span class="res" data-rev="18" data-cen="21" data-con="39">18</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "Liberado para deploy"</pre></div>
 <div class="nota">A descrição oficial deste status no Jira é <b>“homologação realizada, o card pode ser
 implantado em produção”</b> — por isso ele representa a US aprovada, aguardando o deploy.</div>
 
-<h3><span class="dot d-prod"></span>Em produção <span class="res">Revenue 19 · Central 13</span></h3>
+<h3><span class="dot d-prod"></span>Em produção <span class="res" data-rev="19" data-cen="13" data-con="32">19</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in ("Deploy em Prod. realizado","CONCLUÍDO")</pre></div>
 
-<h3><span class="dot d-uat"></span>Em homologação UAT <span class="res">Revenue 1 · Central 5</span></h3>
+<h3><span class="dot d-uat"></span>Em homologação UAT <span class="res" data-rev="1" data-cen="5" data-con="6">1</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "EM APROVAÇÃO DO CLIENTE"</pre></div>
 <div class="nota">Corresponde à coluna <b>“Homologação em UAT”</b> do board — são as US que o cliente está
 testando neste momento.</div>
 
-<h3><span class="dot d-bad"></span>Reprovada — US com Bug apontado <span class="res">hoje 0</span></h3>
+<h3><span class="dot d-bad"></span>Reprovada — US com Bug apontado <span class="res" data-rev="0" data-cen="0" data-con="0">0</span></h3>
 <p>Esta não é uma consulta única. O painel faz em dois passos:</p>
 <p><b>Passo 1 — busca os bugs ativos:</b></p>
 <div class="jql"><pre>project = MVREV AND issuetype = 10004 AND status != "Cancelado"</pre></div>
@@ -240,21 +263,21 @@ nas duas listas são as reprovadas.</p>
 <div class="nota"><b>O bug tem precedência.</b> Uma US aprovada que receber um bug sai de “Aprovada” e
 passa para “Reprovada” — assim nenhuma US é contada duas vezes e o total continua fechando.</div>
 
-<h3>Homologadas — o indicador que reportamos <span class="res">Revenue 37 · Central 34</span></h3>
+<h3>Homologadas — o indicador que reportamos <span class="res" data-rev="37" data-cen="34" data-con="71">37</span></h3>
 <div class="jql"><pre>Homologadas = Aprovada + Em produção      (já descontadas as reprovadas)</pre></div>
 
 <h2><span class="n">06</span>Habilitadores e alertas</h2>
 <p>Habilitadores usam a mesma régua de status, só muda o tipo. Eles <b>não</b> passam por homologação —
 acompanhamos apenas quantos chegaram à UAT.</p>
 
-<h3>Habilitadores já em UAT <span class="res">Revenue 1 · Central 17</span></h3>
+<h3>Habilitadores já em UAT <span class="res" data-rev="1" data-cen="17" data-con="18">1</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype = 10005 AND status in (
   "Liberado para deploy","Deploy em Prod. realizado","EM APROVAÇÃO DO CLIENTE","CONCLUÍDO")</pre></div>
 
-<h3>Bloqueadas <span class="res">Revenue 16 · Central 9</span></h3>
+<h3>Bloqueadas <span class="res" data-rev="16" data-cen="9" data-con="25">16</span></h3>
 <div class="jql"><pre>project = MVREV AND status = "Em Espera/Bloqueado"</pre></div>
 
-<h3>Em correção <span class="res">Revenue 0 · Central 2</span></h3>
+<h3>Em correção <span class="res" data-rev="0" data-cen="2" data-con="2">0</span></h3>
 <div class="jql"><pre>project = MVREV AND status = "Bug em Testes"</pre></div>
 <div class="nota">Estes dois <b>não</b> filtram por tipo — contam qualquer item travado ou em correção
 no projeto, porque para efeito de risco importa o item, não a sua classificação.</div>
@@ -302,6 +325,29 @@ Ninguém digita nada — se um número mudou, é porque o card mudou de status n
 </div>
 
 <script>
+
+// Seletor de frente — troca o projeto nos JQLs e os números dos títulos
+const PJ = {
+  rev: { jql: 'project = MVREV',              attr: 'rev' },
+  cen: { jql: 'project = MVPMO',              attr: 'cen' },
+  con: { jql: 'project in (MVREV,MVPMO)',     attr: 'con' },
+};
+const blocos = [...document.querySelectorAll('.jql pre')].map(p => ({ el: p, base: p.textContent }));
+
+function aplicarEscopo(k){
+  const { jql, attr } = PJ[k];
+  blocos.forEach(b => { b.el.textContent = b.base.replace(/project = MVREV/g, jql); });
+  document.querySelectorAll('.res').forEach(s => {
+    const v = s.dataset[attr];
+    if (v !== undefined) s.textContent = v;
+  });
+  document.querySelectorAll('.scope .seg button').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.pj === k)));
+}
+document.querySelectorAll('.scope .seg button').forEach(b =>
+  b.addEventListener('click', () => aplicarEscopo(b.dataset.pj)));
+aplicarEscopo('rev');
+
 // Botão de copiar em cada bloco de JQL
 document.querySelectorAll('.jql').forEach(bloco => {
   const btn = document.createElement('button');
