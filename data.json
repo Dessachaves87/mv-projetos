@@ -1,144 +1,73 @@
 {
-  "ts": "31/07/2026 · 07:45",
+  "ts": "30/07/2026 · 16:20",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
-      "total": [
-        0,
-        0
-      ],
-      "aDes": [
-        0,
-        0
-      ],
-      "desenv": [
-        0,
-        0
-      ],
-      "testes": [
-        0,
-        0
-      ],
-      "libUAT": [
-        0,
-        0
-      ],
+      "total": [224, 59],
+      "aDes": [29, 12],
+      "desenv": [195, 47],
+      "testes": [118, 32],
+      "libUAT": [77, 15],
       "hom": {
-        "aprovada": [
-          0,
-          0
-        ],
-        "emprod": [
-          0,
-          0
-        ],
-        "emhomol": [
-          0,
-          0
-        ],
-        "reprovada": [
-          0,
-          0
-        ]
+        "aprovada": [39, 0],
+        "emprod": [32, 0],
+        "emhomol": [6, 0],
+        "reprovada": [0, 0]
       },
-      "bloq": [
-        0,
-        0
-      ],
-      "corr": 0,
-      "alerts": []
+      "bloq": [25, 0],
+      "corr": 2,
+      "alerts": [
+        { "k": "MVREV-248", "t": "Benefícios no prontuário do cliente", "type": "bloq" },
+        { "k": "MVREV-245", "t": "Mostrar Personas no prontuário", "type": "bloq" },
+        { "k": "MVREV-209", "t": "Migração de Dados de Contas", "type": "bloq" },
+        { "k": "MVPMO-330", "t": "Configuração de Permissões e Segurança para Visão de Cronograma (Gantt)", "type": "bloq" },
+        { "k": "MVPMO-329", "t": "Visualização de Cronograma (Gantt) para o Cliente", "type": "bloq" },
+        { "k": "MVPMO-321", "t": "Exceção de Obrigatoriedade de TEP", "type": "bloq" },
+        { "k": "MVPMO-305", "t": "Ajuste de Aprovação de Alteração Orçamentária e com Delta Acumulado", "type": "corr" },
+        { "k": "MVPMO-309", "t": "Criação do Objeto Candidato para Gestão de Leilão Externo", "type": "corr" }
+      ]
     },
     "Revenue": {
-      "total": [
-        0,
-        0
-      ],
-      "aDes": [
-        0,
-        0
-      ],
-      "desenv": [
-        0,
-        0
-      ],
-      "testes": [
-        0,
-        0
-      ],
-      "libUAT": [
-        0,
-        0
-      ],
+      "total": [129, 29],
+      "aDes": [19, 4],
+      "desenv": [110, 25],
+      "testes": [72, 24],
+      "libUAT": [38, 1],
       "hom": {
-        "aprovada": [
-          0,
-          0
-        ],
-        "emprod": [
-          0,
-          0
-        ],
-        "emhomol": [
-          0,
-          0
-        ],
-        "reprovada": [
-          0,
-          0
-        ]
+        "aprovada": [18, 0],
+        "emprod": [19, 0],
+        "emhomol": [1, 0],
+        "reprovada": [0, 0]
       },
-      "bloq": [
-        0,
-        0
-      ],
+      "bloq": [16, 0],
       "corr": 0,
-      "alerts": []
+      "alerts": [
+        { "k": "MVREV-248", "t": "Benefícios no prontuário do cliente", "type": "bloq" },
+        { "k": "MVREV-245", "t": "Mostrar Personas no prontuário", "type": "bloq" },
+        { "k": "MVREV-209", "t": "Migração de Dados de Contas", "type": "bloq" }
+      ]
     },
     "Central de Projetos": {
-      "total": [
-        0,
-        0
-      ],
-      "aDes": [
-        0,
-        0
-      ],
-      "desenv": [
-        0,
-        0
-      ],
-      "testes": [
-        0,
-        0
-      ],
-      "libUAT": [
-        0,
-        0
-      ],
+      "total": [95, 30],
+      "aDes": [10, 8],
+      "desenv": [85, 22],
+      "testes": [46, 8],
+      "libUAT": [39, 14],
       "hom": {
-        "aprovada": [
-          0,
-          0
-        ],
-        "emprod": [
-          0,
-          0
-        ],
-        "emhomol": [
-          0,
-          0
-        ],
-        "reprovada": [
-          0,
-          0
-        ]
+        "aprovada": [21, 0],
+        "emprod": [13, 0],
+        "emhomol": [5, 0],
+        "reprovada": [0, 0]
       },
-      "bloq": [
-        0,
-        0
-      ],
-      "corr": 0,
-      "alerts": []
+      "bloq": [9, 0],
+      "corr": 2,
+      "alerts": [
+        { "k": "MVPMO-330", "t": "Configuração de Permissões e Segurança para Visão de Cronograma (Gantt)", "type": "bloq" },
+        { "k": "MVPMO-329", "t": "Visualização de Cronograma (Gantt) para o Cliente", "type": "bloq" },
+        { "k": "MVPMO-321", "t": "Exceção de Obrigatoriedade de TEP", "type": "bloq" },
+        { "k": "MVPMO-305", "t": "Ajuste de Aprovação de Alteração Orçamentária e com Delta Acumulado", "type": "corr" },
+        { "k": "MVPMO-309", "t": "Criação do Objeto Candidato para Gestão de Leilão Externo", "type": "corr" }
+      ]
     }
   }
 }
