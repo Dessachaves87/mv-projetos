@@ -1,5 +1,5 @@
 {
-  "ts": "31/07/2026 · 15:29",
+  "ts": "31/07/2026 · 15:34",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
@@ -37,7 +37,7 @@
           0
         ],
         "aguardando": [
-          32,
+          29,
           0
         ],
         "reprovada": [
@@ -223,7 +223,7 @@
           0
         ],
         "aguardando": [
-          32,
+          29,
           0
         ],
         "reprovada": [
