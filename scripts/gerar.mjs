@@ -47,8 +47,9 @@ async function checarAcesso() {
 const IT = { testavel: ['10001', '10212'], habilitador: ['10005'], bug: '10004' };
 
 const ST = {
-  // esteira (upstream fora)
-  aDes:     ['Pronto para DEV', 'EM DESENVOLVIMENTO', 'Em Espera/Bloqueado'],
+  // esteira (upstream fora). "Em Espera/Bloqueado" NÃO entra no funil nem no total —
+  // US travada não está fluindo; ela aparece só no cartão/lista de Bloqueadas.
+  aDes:     ['Pronto para DEV', 'EM DESENVOLVIMENTO'],
   testes:   ['PRONTO PARA TESTES', 'Bug em Testes', 'Aguardando Review', 'Pós Review',
              'Realizando Deploy em QA', 'EM TESTE QA', 'Em Análise de PR'],
   emhomol:  ['EM APROVAÇÃO DO CLIENTE'],
