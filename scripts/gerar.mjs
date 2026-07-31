@@ -44,7 +44,7 @@ async function checarAcesso() {
   }
 }
 
-const IT = { testavel: ['10001', '10212'], habilitador: ['10005'] };
+const IT = { testavel: ['10001', '10212'], habilitador: ['10005'], bug: '10004' };
 
 const ST = {
   // esteira (upstream fora)
@@ -93,14 +93,77 @@ async function funil(pj, it) {
   return { aDes, testes, lib, total: aDes + testes + lib };
 }
 
+/** Chaves das US (testáveis) em cada estágio da homologação. */
+async function chaves(pj, statuses) {
+  const jql = `project = ${pj} AND ${list('issuetype', IT.testavel)} AND ${list('status', statuses)}`;
+  const out = [];
+  let token = null;
+  do {
+    const body = { jql, maxResults: 100, fields: ['status'] };
+    if (token) body.nextPageToken = token;
+    const r = await fetch(`https://${SITE}/rest/api/3/search/jql`, {
+      method: 'POST',
+      headers: { Authorization: AUTH, 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) throw new Error(`Jira ${r.status} ao listar chaves: ${await r.text()}`);
+    const d = await r.json();
+    out.push(...(d.issues || []).map(i => i.key));
+    token = d.nextPageToken || null;
+  } while (token);
+  return out;
+}
+
+/**
+ * US com Bug apontado — a fatia "Reprovada".
+ * Pega os Bugs do projeto (exceto cancelados) e coleta a qual US eles se referem,
+ * tanto por item-filho (parent) quanto por vínculo (issue link).
+ */
+async function usComBug(pj) {
+  const jql = `project = ${pj} AND issuetype = ${IT.bug} AND status != "Cancelado"`;
+  const marcadas = new Set();
+  let token = null;
+  do {
+    const body = { jql, maxResults: 100, fields: ['parent', 'issuelinks'] };
+    if (token) body.nextPageToken = token;
+    const r = await fetch(`https://${SITE}/rest/api/3/search/jql`, {
+      method: 'POST',
+      headers: { Authorization: AUTH, 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) { console.warn(`aviso: não consegui ler os bugs de ${pj} (HTTP ${r.status})`); return marcadas; }
+    const d = await r.json();
+    for (const bug of d.issues || []) {
+      if (bug.fields.parent) marcadas.add(bug.fields.parent.key);          // bug como item-filho do card
+      for (const l of bug.fields.issuelinks || []) {                        // bug vinculado ao card
+        const alvo = l.outwardIssue || l.inwardIssue;
+        if (alvo) marcadas.add(alvo.key);
+      }
+    }
+    token = d.nextPageToken || null;
+  } while (token);
+  return marcadas;
+}
+
+/**
+ * Homologação por status, com precedência: Bug (Reprovada) vence os demais estágios.
+ * Assim uma US com bug sai de "Aprovada"/"Em produção" e entra em "Reprovada".
+ */
 async function homologacao(pj) {
-  const base = `project = ${pj} AND ${list('issuetype', IT.testavel)}`;
-  const [emhomol, aprovada, emprod] = await Promise.all([
-    count(`${base} AND ${list('status', ST.emhomol)}`),
-    count(`${base} AND ${list('status', ST.aprovada)}`),
-    count(`${base} AND ${list('status', ST.emprod)}`),
+  const [kHomol, kAprov, kProd, comBug] = await Promise.all([
+    chaves(pj, ST.emhomol),
+    chaves(pj, ST.aprovada),
+    chaves(pj, ST.emprod),
+    usComBug(pj),
   ]);
-  return { emhomol, aprovada, emprod, reprovada: 0 }; // reprovada: card c/ Bug (a definir)
+  const semBug = ks => ks.filter(k => !comBug.has(k)).length;
+  const reprovada = [...kHomol, ...kAprov, ...kProd].filter(k => comBug.has(k)).length;
+  return {
+    emhomol: semBug(kHomol),
+    aprovada: semBug(kAprov),
+    emprod: semBug(kProd),
+    reprovada,
+  };
 }
 
 async function montarView(nome) {
@@ -163,5 +226,8 @@ const payload = {
 
 writeFileSync('data.json', JSON.stringify(payload, null, 2) + '\n');
 console.log('data.json gerado —', ts);
-console.log('Revenue  testáveis:', rev.total[0], '| liberadas:', rev.libUAT[0], '| homologadas:', rev.hom.aprovada[0] + rev.hom.emprod[0]);
-console.log('Central  testáveis:', cen.total[0], '| liberadas:', cen.libUAT[0], '| homologadas:', cen.hom.aprovada[0] + cen.hom.emprod[0]);
+for (const [nome, v] of [['Revenue', rev], ['Central', cen]]) {
+  const h = v.hom;
+  console.log(`${nome.padEnd(8)} testáveis ${v.total[0]} | liberadas ${v.libUAT[0]} | homologadas ${h.aprovada[0] + h.emprod[0]}` +
+    ` (aprovada ${h.aprovada[0]}, produção ${h.emprod[0]}, em homolog ${h.emhomol[0]}, reprovada ${h.reprovada[0]})`);
+}
