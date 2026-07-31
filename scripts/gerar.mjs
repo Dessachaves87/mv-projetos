@@ -52,17 +52,23 @@ const CAMPO_CATEGORIA = 'labels';
 const VALOR_REPROVADO = 'Reprovado(Bug)';
 const VALOR_APROVADO  = 'Aprovado';
 
+/**
+ * Régua da esteira. Ficam FORA do funil e do total:
+ *   upstream ....... BACKLOG, Em refinamento, Em prototipagem, EM ANÁLISE TÉCNICA,
+ *                    PRONTO PARA DESENVOLVIMENTO, EM APROVAÇÃO DO CLIENTE
+ *                    (esta última é o cliente aprovando a especificação, antes do dev)
+ *   travadas ....... Em Espera/Bloqueado  (aparecem só no cartão de Bloqueadas)
+ *   descartadas .... Cancelado
+ */
 const ST = {
-  // esteira (upstream fora). "Em Espera/Bloqueado" NÃO entra no funil nem no total —
-  // US travada não está fluindo; ela aparece só no cartão/lista de Bloqueadas.
-  aDes:     ['Pronto para DEV', 'EM DESENVOLVIMENTO'],
-  testes:   ['PRONTO PARA TESTES', 'Bug em Testes', 'Aguardando Review', 'Pós Review',
-             'Realizando Deploy em QA', 'EM TESTE QA', 'Em Análise de PR'],
-  emhomol:  ['EM APROVAÇÃO DO CLIENTE'],
-  aprovada: ['Liberado para deploy'],
-  emprod:   ['Deploy em Prod. realizado', 'CONCLUÍDO'],
+  aDes:    ['Pronto para DEV', 'EM DESENVOLVIMENTO'],
+  testes:  ['PRONTO PARA TESTES', 'Bug em Testes', 'Aguardando Review', 'Pós Review',
+            'Realizando Deploy em QA', 'EM TESTE QA', 'Em Análise de PR'],
+  liberadas: ['Liberado para deploy'],                        // disponível para homologar
+  emprod:    ['Deploy em Prod. realizado', 'CONCLUÍDO'],       // já implantada
 };
-const LIBERADAS = [...ST.emhomol, ...ST.aprovada, ...ST.emprod];
+// Universo em UAT (denominador da homologação) = liberadas + em produção
+const LIBERADAS = [...ST.liberadas, ...ST.emprod];
 
 const PROJETOS = { 'Revenue': 'MVREV', 'Central de Projetos': 'MVPMO' };
 const BLOQ = 'Em Espera/Bloqueado';
@@ -95,12 +101,13 @@ async function issues(jql, max = 50) {
 
 async function funil(pj, it) {
   const base = `project = ${pj} AND ${list('issuetype', it)}`;
-  const [aDes, testes, lib] = await Promise.all([
+  const [aDes, testes, lib, prod] = await Promise.all([
     count(`${base} AND ${list('status', ST.aDes)}`),
     count(`${base} AND ${list('status', ST.testes)}`),
-    count(`${base} AND ${list('status', LIBERADAS)}`),
+    count(`${base} AND ${list('status', ST.liberadas)}`),
+    count(`${base} AND ${list('status', ST.emprod)}`),
   ]);
-  return { aDes, testes, lib, total: aDes + testes + lib };
+  return { aDes, testes, lib, prod, total: aDes + testes + lib + prod };
 }
 
 /** Chaves das US (testáveis) em cada estágio da homologação. */
@@ -166,29 +173,24 @@ async function chavesPorEtiqueta(pj, etiqueta) {
  * Homologadas = apenas a fatia Aprovada.
  */
 async function homologacao(pj) {
-  const [kTodas, kProd, kApr, kRep, habUAT] = await Promise.all([
+  const [kTodas, kApr, kRep, habUAT] = await Promise.all([
     chaves(pj, LIBERADAS),
-    chaves(pj, ST.emprod),
     chavesPorEtiqueta(pj, VALOR_APROVADO),
     chavesPorEtiqueta(pj, VALOR_REPROVADO),
     // Habilitadores não passam por teste: ao chegarem à UAT já contam como aprovados.
     count(`project = ${pj} AND ${list('issuetype', IT.habilitador)} AND ${list('status', LIBERADAS)}`),
   ]);
   const apr = new Set(kApr), rep = new Set(kRep);
-  const semEtiqueta = k => !apr.has(k) && !rep.has(k);
-  const emprod  = kProd.filter(semEtiqueta).length;                       // em produção, sem veredito
-  const prodSet = new Set(kProd);
-  const emhomol = kTodas.filter(k => semEtiqueta(k) && !prodSet.has(k)).length;
+  const aguardando = kTodas.filter(k => !apr.has(k) && !rep.has(k)).length;
 
   console.log(`   ${pj}: aprovadas(etiqueta) = ${kApr.length}${kApr.length ? ' → ' + kApr.join(', ') : ''}` +
               ` | reprovadas = ${kRep.length}${kRep.length ? ' → ' + kRep.join(', ') : ''}` +
-              ` | habilitadores em UAT = ${habUAT}`);
+              ` | habilitadores em UAT = ${habUAT} | aguardando = ${aguardando}`);
   return {
-    emhomol,
     aprovada: kApr.length,
     aprovadaHab: habUAT,
-    emprod,
     reprovada: kRep.length,
+    aguardando,
   };
 }
 
@@ -206,11 +208,11 @@ async function montarView(nome) {
   ]);
   return {
     total: [t.total, h.total], aDes: [t.aDes, h.aDes],
-    desenv: [t.testes + t.lib, h.testes + h.lib],
-    testes: [t.testes, h.testes], libUAT: [t.lib, h.lib],
+    desenv: [t.testes + t.lib + t.prod, h.testes + h.lib + h.prod],
+    testes: [t.testes, h.testes], libUAT: [t.lib, h.lib], emprod: [t.prod, h.prod],
     hom: {
-      aprovada: [hom.aprovada, hom.aprovadaHab], emprod: [hom.emprod, 0],
-      emhomol: [hom.emhomol, 0], reprovada: [hom.reprovada, 0],
+      aprovada: [hom.aprovada, hom.aprovadaHab], emprod: [t.prod, h.prod],
+      aguardando: [hom.aguardando, 0], reprovada: [hom.reprovada, 0],
     },
     bloq: [bloq, 0], corr,
     alerts: [...alBloq.map(a => ({ ...a, type: 'bloq' })), ...alCorr.map(a => ({ ...a, type: 'corr' }))],
@@ -221,9 +223,10 @@ const pair = (x, y) => [x[0] + y[0], x[1] + y[1]];
 const consolidar = (a, b) => ({
   total: pair(a.total, b.total), aDes: pair(a.aDes, b.aDes), desenv: pair(a.desenv, b.desenv),
   testes: pair(a.testes, b.testes), libUAT: pair(a.libUAT, b.libUAT),
+  emprod: pair(a.emprod, b.emprod),
   hom: {
     aprovada: pair(a.hom.aprovada, b.hom.aprovada), emprod: pair(a.hom.emprod, b.hom.emprod),
-    emhomol: pair(a.hom.emhomol, b.hom.emhomol), reprovada: pair(a.hom.reprovada, b.hom.reprovada),
+    aguardando: pair(a.hom.aguardando, b.hom.aguardando), reprovada: pair(a.hom.reprovada, b.hom.reprovada),
   },
   bloq: pair(a.bloq, b.bloq), corr: a.corr + b.corr, alerts: [...a.alerts, ...b.alerts],
 });

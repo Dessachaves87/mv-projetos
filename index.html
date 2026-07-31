@@ -307,7 +307,7 @@ function render(view){
   // Trilha A — Testáveis (operacionais, índice 0)
   const tTot=d.total[0], tADes=d.aDes[0], tDes=d.desenv[0], tTes=d.testes[0], tLib=d.libUAT[0];
   // Aprovada = testáveis aprovadas + habilitadores em UAT (não passam por teste)
-  const aprov=d.hom.aprovada[0]+d.hom.aprovada[1], emprod=d.hom.emprod[0], emhomol=d.hom.emhomol[0], reprov=d.hom.reprovada[0];
+  const aprov=d.hom.aprovada[0]+d.hom.aprovada[1], emprod=d.hom.emprod[0], aguard=d.hom.aguardando[0], reprov=d.hom.reprovada[0];
   const homolg = aprov;   // homologada = só quem tem a etiqueta "Aprovado" (+ habilitadores)
   // Trilha B — Habilitadores (estruturais, índice 1) — não testáveis
   const hTot=d.total[1], hADes=d.aDes[1], hDes=d.desenv[1], hUAT=d.libUAT[1];
@@ -317,7 +317,7 @@ function render(view){
     {label:'Total de US (testáveis)', val:tTot, unit:'', ctx:`${hTot} habilitadores · ${tTot+hTot} no total`, c:'var(--violet)',
      tip:'Histórias e Melhorias que já entraram na esteira de execução (de "Pronto para DEV" em diante). Backlog, refinamento, prototipagem, análise técnica, bloqueadas e canceladas ficam de fora.'},
     {label:'Liberadas p/ UAT', val:tLib+hUAT, unit:'US', ctx:`${tLib} testáveis · ${hUAT} habilitadores`, c:'var(--cyan)',
-     tip:'Tudo que chegou ao ambiente de UAT — testáveis e habilitadores. Status: Liberado para deploy, Deploy em Prod. realizado, Em aprovação do cliente e Concluído.'},
+     tip:'US com status "Liberado para deploy" — disponíveis para o cliente homologar. Inclui testáveis e habilitadores.'},
     {label:'Homologadas', val:homolg, unit:'US', ctx:'com etiqueta Aprovado + habilitadores', c:'var(--good)',
      tip:'US com a etiqueta "Aprovado" no card, mais os habilitadores em UAT (não passam por teste). Estar em produção não conta como homologada — só o carimbo da etiqueta vale.'},
     {label:'Bloqueadas', val:d.bloq[0]+d.bloq[1], unit:'US', ctx:'US travadas — risco', c:'var(--bad)',
@@ -349,7 +349,8 @@ function render(view){
   const stages = [
     {n:'A desenvolver', s:'Jira · ainda não iniciadas', v:tADes, base:tTot, bl:'do total', c:'var(--slate)'},
     {n:'Em testes internos', s:'Jira · QA · review · deploy QA', v:tTes, base:tDes, bl:'das desenv.', c:'var(--warn)'},
-    {n:'Liberadas p/ UAT', s:'Jira · total em UAT', v:tLib, base:tDes, bl:'das desenv.', c:'var(--cyan)'},
+    {n:'Liberadas p/ UAT', s:'Jira · disponível para homologar', v:tLib, base:tDes, bl:'das desenv.', c:'var(--cyan)'},
+    {n:'Em produção', s:'Jira · implantada / concluída', v:d.emprod[0], base:tDes, bl:'das desenv.', c:'var(--violet)'},
   ];
   document.getElementById('pipe').innerHTML = stages.map(st=>{
     const wp = pct(st.v,tTot), bp = pct(st.v,st.base);
@@ -362,11 +363,11 @@ function render(view){
   requestAnimationFrame(()=>document.querySelectorAll('#pipe .bar span').forEach(s=>s.style.width=s.dataset.w+'%'));
 
   // Homologação — subdivisão do total em UAT (Jira). 4 fatias.
-  const emUAT = aprov + emprod + emhomol + reprov;
+  const emUAT = aprov + aguard + reprov;
   const ringP = pct(homolg, emUAT);
   const C = 452, R = 72;
   // Anel: homologadas (aprovada + em produção) em verde MV; demais fatias separadas.
-  const segDefs = [{v:aprov, c:'#35D6A4'}, {v:emprod, c:'#8b7cf6'}, {v:emhomol, c:'#22d3ee'}, {v:reprov, c:'#f87171'}];
+  const segDefs = [{v:aprov, c:'#35D6A4'}, {v:aguard, c:'#22d3ee'}, {v:reprov, c:'#f87171'}];
   let cum = 0;
   document.getElementById('ringSegs').innerHTML = segDefs.filter(s=>s.v>0).map(s=>{
     const len = emUAT ? (s.v/emUAT)*C : 0;
@@ -380,10 +381,8 @@ function render(view){
   const homDefs = [
     {v:aprov,   label:`Aprovada${d.hom.aprovada[1]?` (${d.hom.aprovada[1]} habilitadores)`:''}`, c:'var(--good)',
      tip:`US com a etiqueta "Aprovado" no card (${d.hom.aprovada[0]}) + habilitadores em UAT (${d.hom.aprovada[1]}), que não passam por teste. É o que conta como homologada.`},
-    {v:emprod,  label:'Em produção (sem veredito)', c:'var(--violet)',
-     tip:'Já foi para produção, mas o card ainda não recebeu a etiqueta de homologação. Não conta como homologada.'},
-    {v:emhomol, label:'Aguardando homologação', c:'var(--cyan)',
-     tip:'Está no ambiente de UAT e ainda não recebeu etiqueta — ninguém deu o veredito.'},
+    {v:aguard, label:'Aguardando homologação', c:'var(--cyan)',
+     tip:'Está em UAT (liberada ou já em produção) e ainda não recebeu etiqueta — ninguém deu o veredito.'},
     {v:reprov,  label:'Reprovada', c:'var(--bad)',
      tip:'US com a etiqueta "Reprovado(Bug)" no card. Vale só para testáveis e tem precedência: sai das outras fatias e entra aqui.'},
   ];
