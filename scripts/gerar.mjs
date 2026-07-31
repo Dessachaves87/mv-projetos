@@ -46,6 +46,10 @@ async function checarAcesso() {
 
 const IT = { testavel: ['10001', '10212'], habilitador: ['10005'], bug: '10004' };
 
+// Reprovada = campo "Categoria" da própria US preenchido com "Reprovado"
+const CAMPO_CATEGORIA = 'Categoria';
+const VALOR_REPROVADO = 'Reprovado';
+
 const ST = {
   // esteira (upstream fora). "Em Espera/Bloqueado" NÃO entra no funil nem no total —
   // US travada não está fluindo; ela aparece só no cartão/lista de Bloqueadas.
@@ -116,54 +120,54 @@ async function chaves(pj, statuses) {
 }
 
 /**
- * US com Bug apontado — a fatia "Reprovada".
- * Pega os Bugs do projeto (exceto cancelados) e coleta a qual US eles se referem,
- * tanto por item-filho (parent) quanto por vínculo (issue link).
+ * US reprovadas — o campo "Categoria" da própria US preenchido com "Reprovado".
+ * (Antes usávamos bug vinculado ao card; mudou em 31/07.)
  */
-async function usComBug(pj) {
-  const jql = `project = ${pj} AND issuetype = ${IT.bug} AND status != "Cancelado"`;
-  const marcadas = new Set();
+async function chavesReprovadas(pj) {
+  const jql = `project = ${pj} AND ${list('issuetype', IT.testavel)}` +
+              ` AND ${list('status', LIBERADAS)} AND ${CAMPO_CATEGORIA} = "${VALOR_REPROVADO}"`;
+  const out = [];
   let token = null;
   do {
-    const body = { jql, maxResults: 100, fields: ['parent', 'issuelinks'] };
+    const body = { jql, maxResults: 100, fields: ['status'] };
     if (token) body.nextPageToken = token;
     const r = await fetch(`https://${SITE}/rest/api/3/search/jql`, {
       method: 'POST',
       headers: { Authorization: AUTH, 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(body),
     });
-    if (!r.ok) { console.warn(`aviso: não consegui ler os bugs de ${pj} (HTTP ${r.status})`); return marcadas; }
-    const d = await r.json();
-    for (const bug of d.issues || []) {
-      if (bug.fields.parent) marcadas.add(bug.fields.parent.key);          // bug como item-filho do card
-      for (const l of bug.fields.issuelinks || []) {                        // bug vinculado ao card
-        const alvo = l.outwardIssue || l.inwardIssue;
-        if (alvo) marcadas.add(alvo.key);
-      }
+    if (!r.ok) {
+      console.warn(`aviso: não consegui ler as reprovadas de ${pj} (HTTP ${r.status}) — ` +
+                   `confira o nome do campo "${CAMPO_CATEGORIA}" e o valor "${VALOR_REPROVADO}"`);
+      console.warn(await r.text());
+      return out;
     }
+    const d = await r.json();
+    out.push(...(d.issues || []).map(i => i.key));
     token = d.nextPageToken || null;
   } while (token);
-  return marcadas;
+  return out;
 }
 
 /**
- * Homologação por status, com precedência: Bug (Reprovada) vence os demais estágios.
- * Assim uma US com bug sai de "Aprovada"/"Em produção" e entra em "Reprovada".
+ * Homologação por status, com precedência: Reprovada vence os demais estágios.
+ * Assim uma US reprovada sai de "Aprovada"/"Em produção" e entra em "Reprovada".
  */
 async function homologacao(pj) {
-  const [kHomol, kAprov, kProd, comBug] = await Promise.all([
+  const [kHomol, kAprov, kProd, kRep] = await Promise.all([
     chaves(pj, ST.emhomol),
     chaves(pj, ST.aprovada),
     chaves(pj, ST.emprod),
-    usComBug(pj),
+    chavesReprovadas(pj),
   ]);
-  const semBug = ks => ks.filter(k => !comBug.has(k)).length;
-  const reprovada = [...kHomol, ...kAprov, ...kProd].filter(k => comBug.has(k)).length;
+  const rep = new Set(kRep);
+  const semRep = ks => ks.filter(k => !rep.has(k)).length;
+  console.log(`   ${pj}: reprovadas encontradas = ${kRep.length}${kRep.length ? ' → ' + kRep.join(', ') : ''}`);
   return {
-    emhomol: semBug(kHomol),
-    aprovada: semBug(kAprov),
-    emprod: semBug(kProd),
-    reprovada,
+    emhomol: semRep(kHomol),
+    aprovada: semRep(kAprov),
+    emprod: semRep(kProd),
+    reprovada: kRep.length,
   };
 }
 
