@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Como calculamos — Painel de US · MV × Sotelli</title>
+<style>
+  :root{
+    --ground:#070b16; --card:rgba(148,180,235,.045); --code:rgba(10,20,35,.6);
+    --stroke:rgba(120,170,255,.16); --stroke-2:rgba(120,170,255,.3);
+    --ink:#e8eefb; --ink-2:#9fb0cc; --muted:#63728e;
+    --menta:#35D6A4; --cyan:#22d3ee; --violet:#8b7cf6; --bad:#f87171;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --ground:#f7faf9; --card:#ffffff; --code:#f1f7f7;
+      --stroke:#dce7e5; --stroke-2:#b9cfcb;
+      --ink:#0D1D26; --ink-2:#41545c; --muted:#7b8b92;
+      --menta:#0E9B7C; --cyan:#0e7490; --violet:#6d5bd0; --bad:#c4463a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#070b16; --card:rgba(148,180,235,.045); --code:rgba(10,20,35,.6);
+    --stroke:rgba(120,170,255,.16); --stroke-2:rgba(120,170,255,.3);
+    --ink:#e8eefb; --ink-2:#9fb0cc; --muted:#63728e;
+    --menta:#35D6A4; --cyan:#22d3ee; --violet:#8b7cf6; --bad:#f87171;
+  }
+  :root[data-theme="light"]{
+    --ground:#f7faf9; --card:#ffffff; --code:#f1f7f7;
+    --stroke:#dce7e5; --stroke-2:#b9cfcb;
+    --ink:#0D1D26; --ink-2:#41545c; --muted:#7b8b92;
+    --menta:#0E9B7C; --cyan:#0e7490; --violet:#6d5bd0; --bad:#c4463a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--ground); color:var(--ink); font-family:var(--sans);
+    line-height:1.6; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px; margin:0 auto; padding:44px 22px 80px}
+
+  header{border-bottom:1px solid var(--stroke); padding-bottom:26px; margin-bottom:8px}
+  .eyebrow{font-family:var(--mono); font-size:10.5px; letter-spacing:.28em;
+    text-transform:uppercase; color:var(--menta); margin-bottom:10px}
+  h1{font-size:31px; margin:0 0 8px; font-weight:660; letter-spacing:-.4px; text-wrap:balance}
+  .lead{color:var(--ink-2); font-size:14.5px; max-width:62ch; margin:0}
+  .meta{margin-top:20px; display:flex; flex-wrap:wrap; gap:8px 10px}
+  .pill{font-family:var(--mono); font-size:11px; color:var(--ink-2);
+    background:var(--card); border:1px solid var(--stroke); padding:5px 11px; border-radius:8px}
+  .pill a{color:var(--menta); text-decoration:none}
+  .pill a:hover{text-decoration:underline}
+
+  h2{font-size:19px; margin:44px 0 6px; font-weight:640; letter-spacing:-.2px; scroll-margin-top:20px}
+  h2 .n{font-family:var(--mono); font-size:13px; color:var(--menta); margin-right:9px}
+  h3{font-size:14.5px; margin:26px 0 4px; font-weight:600; color:var(--ink)}
+  h3 .res{font-family:var(--mono); font-size:12.5px; color:var(--menta); font-weight:600; margin-left:8px;
+    font-variant-numeric:tabular-nums}
+  p{margin:8px 0; max-width:70ch}
+  .nota{font-size:13px; color:var(--ink-2); border-left:2px solid var(--stroke-2);
+    padding-left:13px; margin:12px 0}
+  .nota b{color:var(--ink)}
+
+  .jql{position:relative; margin:10px 0 4px; background:var(--code);
+    border:1px solid var(--stroke); border-radius:10px; overflow:hidden}
+  .jql pre{margin:0; padding:14px 52px 14px 15px; font-family:var(--mono); font-size:12px;
+    line-height:1.65; color:var(--ink); overflow-x:auto; white-space:pre}
+  .cp{position:absolute; top:8px; right:8px; font-family:var(--mono); font-size:10.5px;
+    color:var(--ink-2); background:var(--card); border:1px solid var(--stroke);
+    border-radius:7px; padding:5px 9px; cursor:pointer; transition:.15s}
+  .cp:hover{color:var(--menta); border-color:var(--menta)}
+  .cp:focus-visible{outline:2px solid var(--menta); outline-offset:2px}
+  .cp.ok{color:var(--menta); border-color:var(--menta)}
+
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:13px}
+  th{text-align:left; font-weight:600; font-size:11px; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--muted); padding:8px 10px; border-bottom:1px solid var(--stroke-2)}
+  td{padding:8px 10px; border-bottom:1px solid var(--stroke); vertical-align:top}
+  td.mono, th.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
+  td.num{font-family:var(--mono); font-variant-numeric:tabular-nums; text-align:right}
+  tr.destaque td{font-weight:650; color:var(--menta)}
+  .tblwrap{overflow-x:auto}
+
+  .dot{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:7px;
+    vertical-align:baseline}
+  .d-ok{background:var(--menta)} .d-prod{background:var(--violet)}
+  .d-uat{background:var(--cyan)} .d-bad{background:var(--bad)}
+
+  footer{margin-top:56px; padding-top:22px; border-top:1px solid var(--stroke);
+    font-size:12px; color:var(--muted); display:flex; flex-wrap:wrap; gap:8px 20px;
+    justify-content:space-between}
+  footer a{color:var(--menta); text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Painel de acompanhamento de US</div>
+  <h1>Como calculamos cada número</h1>
+  <p class="lead">Todos os indicadores do painel saem do Jira. Abaixo está a consulta (JQL) exata por trás
+  de cada número — copie e cole na busca de issues do Jira para conferir você mesmo.</p>
+  <div class="meta">
+    <span class="pill">Projeto Nexus · MV × Sotelli</span>
+    <span class="pill">Revenue <b>MVREV</b> · Central <b>MVPMO</b></span>
+    <span class="pill">Base: <b id="base">31/07/2026</b></span>
+    <span class="pill"><a href="https://sottelli.atlassian.net/issues/" target="_blank" rel="noopener">Abrir busca no Jira ↗</a></span>
+  </div>
+</header>
+
+<h2><span class="n">01</span>O que entra na conta</h2>
+<p>Contamos <b>User Stories</b> de dois tipos, e cada uma cai numa das duas trilhas do painel:</p>
+<div class="tblwrap">
+<table>
+  <thead><tr><th>Tipo no Jira</th><th class="num">ID</th><th>Trilha no painel</th></tr></thead>
+  <tbody>
+    <tr><td>História</td><td class="num">10001</td><td>Testável — passa por homologação</td></tr>
+    <tr><td>Melhoria</td><td class="num">10212</td><td>Testável — passa por homologação</td></tr>
+    <tr><td>Habilitador</td><td class="num">10005</td><td>Não testável — só acompanhamos a chegada à UAT</td></tr>
+    <tr><td>Bug</td><td class="num">10004</td><td>Não é US — usado para marcar reprovação</td></tr>
+    <tr><td>Épico · Tarefa · Subtarefa</td><td class="num">10000 · 10002 · 10003</td><td>Fora do painel</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="nota">Usamos os <b>IDs</b> e não os nomes porque os tipos aparecem traduzidos no Jira e o
+JQL não reconhece os nomes em português.</div>
+
+<h2><span class="n">02</span>A régua: só o que já está na esteira</h2>
+<p>O painel mede <b>execução</b>, então tudo que ainda está em descoberta/refinamento fica de fora.
+A esteira começa em <b>“Pronto para DEV”</b>.</p>
+<div class="tblwrap">
+<table>
+  <thead><tr><th>Situação</th><th>Status do Jira</th></tr></thead>
+  <tbody>
+    <tr><td><b>Fora</b> — upstream</td><td class="mono">BACKLOG · Em refinamento · Em prototipagem · EM ANÁLISE TÉCNICA · PRONTO PARA DESENVOLVIMENTO</td></tr>
+    <tr><td><b>Fora</b> — descartadas</td><td class="mono">Cancelado</td></tr>
+    <tr><td>A desenvolver</td><td class="mono">Pronto para DEV · EM DESENVOLVIMENTO · Em Espera/Bloqueado</td></tr>
+    <tr><td>Em testes internos</td><td class="mono">PRONTO PARA TESTES · Bug em Testes · Aguardando Review · Pós Review · Realizando Deploy em QA · EM TESTE QA · Em Análise de PR</td></tr>
+    <tr><td>Liberadas p/ UAT</td><td class="mono">Liberado para deploy · Deploy em Prod. realizado · EM APROVAÇÃO DO CLIENTE · CONCLUÍDO</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="nota"><b>Total = A desenvolver + Em testes internos + Liberadas p/ UAT.</b>
+As três fases fecham com o total — é assim que conferimos se a conta está certa.</div>
+
+<h2><span class="n">03</span>Funil de entrega</h2>
+<p>Os exemplos usam <span class="mono">MVREV</span>. Para o Central, troque por
+<span class="mono">MVPMO</span>. Para habilitadores, troque
+<span class="mono">issuetype in (10001,10212)</span> por <span class="mono">issuetype = 10005</span>.</p>
+
+<h3>A desenvolver <span class="res">Revenue 19 · Central 10</span></h3>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
+  "Pronto para DEV","EM DESENVOLVIMENTO","Em Espera/Bloqueado")</pre></div>
+
+<h3>Em testes internos <span class="res">Revenue 72 · Central 46</span></h3>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
+  "PRONTO PARA TESTES","Bug em Testes","Aguardando Review","Pós Review",
+  "Realizando Deploy em QA","EM TESTE QA","Em Análise de PR")</pre></div>
+
+<h3>Liberadas p/ UAT — o total em UAT <span class="res">Revenue 38 · Central 39</span></h3>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
+  "Liberado para deploy","Deploy em Prod. realizado","EM APROVAÇÃO DO CLIENTE","CONCLUÍDO")</pre></div>
+
+<h3>Total de US testáveis <span class="res">Revenue 129 · Central 95</span></h3>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
+  "Pronto para DEV","EM DESENVOLVIMENTO","Em Espera/Bloqueado",
+  "PRONTO PARA TESTES","Bug em Testes","Aguardando Review","Pós Review",
+  "Realizando Deploy em QA","EM TESTE QA","Em Análise de PR",
+  "Liberado para deploy","Deploy em Prod. realizado","EM APROVAÇÃO DO CLIENTE","CONCLUÍDO")</pre></div>
+
+<h2><span class="n">04</span>Homologação</h2>
+<p>As US liberadas para UAT se dividem em quatro situações. A soma das quatro é sempre o total em UAT.</p>
+
+<h3><span class="dot d-ok"></span>Aprovada — homologada <span class="res">Revenue 18 · Central 21</span></h3>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "Liberado para deploy"</pre></div>
+<div class="nota">A descrição oficial deste status no Jira é <b>“homologação realizada, o card pode ser
+implantado em produção”</b> — por isso ele representa a US aprovada, aguardando o deploy.</div>
+
+<h3><span class="dot d-prod"></span>Em produção <span class="res">Revenue 19 · Central 13</span></h3>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in ("Deploy em Prod. realizado","CONCLUÍDO")</pre></div>
+
+<h3><span class="dot d-uat"></span>Em homologação UAT <span class="res">Revenue 1 · Central 5</span></h3>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "EM APROVAÇÃO DO CLIENTE"</pre></div>
+<div class="nota">Corresponde à coluna <b>“Homologação em UAT”</b> do board — são as US que o cliente está
+testando neste momento.</div>
+
+<h3><span class="dot d-bad"></span>Reprovada — US com Bug apontado <span class="res">hoje 0</span></h3>
+<p>Esta não é uma consulta única. O painel faz em dois passos:</p>
+<p><b>Passo 1 — busca os bugs ativos:</b></p>
+<div class="jql"><pre>project = MVREV AND issuetype = 10004 AND status != "Cancelado"</pre></div>
+<p>De cada bug, lê o campo <span class="mono">parent</span> (bug como item-filho do card) e
+<span class="mono">issuelinks</span> (bug vinculado ao card), montando a lista de US apontadas.</p>
+<p><b>Passo 2 — cruza com as US em UAT</b> (mesma consulta de “Liberadas p/ UAT”). As US que aparecem
+nas duas listas são as reprovadas.</p>
+<div class="nota"><b>O bug tem precedência.</b> Uma US aprovada que receber um bug sai de “Aprovada” e
+passa para “Reprovada” — assim nenhuma US é contada duas vezes e o total continua fechando.</div>
+
+<h3>Homologadas — o indicador que reportamos <span class="res">Revenue 37 · Central 34</span></h3>
+<div class="jql"><pre>Homologadas = Aprovada + Em produção      (já descontadas as reprovadas)</pre></div>
+
+<h2><span class="n">05</span>Habilitadores e alertas</h2>
+<p>Habilitadores usam a mesma régua de status, só muda o tipo. Eles <b>não</b> passam por homologação —
+acompanhamos apenas quantos chegaram à UAT.</p>
+
+<h3>Habilitadores já em UAT <span class="res">Revenue 1 · Central 17</span></h3>
+<div class="jql"><pre>project = MVREV AND issuetype = 10005 AND status in (
+  "Liberado para deploy","Deploy em Prod. realizado","EM APROVAÇÃO DO CLIENTE","CONCLUÍDO")</pre></div>
+
+<h3>Bloqueadas <span class="res">Revenue 16 · Central 9</span></h3>
+<div class="jql"><pre>project = MVREV AND status = "Em Espera/Bloqueado"</pre></div>
+
+<h3>Em correção <span class="res">Revenue 0 · Central 2</span></h3>
+<div class="jql"><pre>project = MVREV AND status = "Bug em Testes"</pre></div>
+<div class="nota">Estes dois <b>não</b> filtram por tipo — contam qualquer item travado ou em correção
+no projeto, porque para efeito de risco importa o item, não a sua classificação.</div>
+
+<h2><span class="n">06</span>Números na data-base</h2>
+<div class="tblwrap">
+<table>
+  <thead><tr><th>Indicador</th><th class="num">Revenue</th><th class="num">Central</th><th class="num">Consolidado</th></tr></thead>
+  <tbody>
+    <tr><td>Testáveis na esteira</td><td class="num">129</td><td class="num">95</td><td class="num">224</td></tr>
+    <tr><td>— A desenvolver</td><td class="num">19</td><td class="num">10</td><td class="num">29</td></tr>
+    <tr><td>— Em testes internos</td><td class="num">72</td><td class="num">46</td><td class="num">118</td></tr>
+    <tr><td>— Liberadas p/ UAT</td><td class="num">38</td><td class="num">39</td><td class="num">77</td></tr>
+    <tr><td><span class="dot d-ok"></span>Aprovada</td><td class="num">18</td><td class="num">21</td><td class="num">39</td></tr>
+    <tr><td><span class="dot d-prod"></span>Em produção</td><td class="num">19</td><td class="num">13</td><td class="num">32</td></tr>
+    <tr><td><span class="dot d-uat"></span>Em homologação UAT</td><td class="num">1</td><td class="num">5</td><td class="num">6</td></tr>
+    <tr><td><span class="dot d-bad"></span>Reprovada</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr>
+    <tr class="destaque"><td>Homologadas</td><td class="num">37</td><td class="num">34</td><td class="num">71</td></tr>
+    <tr><td>Habilitadores</td><td class="num">29</td><td class="num">33</td><td class="num">62</td></tr>
+    <tr><td>Bloqueadas</td><td class="num">16</td><td class="num">9</td><td class="num">25</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="nota"><b>Conferência:</b> 19 + 72 + 38 = 129 no Revenue · 10 + 46 + 39 = 95 no Central.
+As fases fecham com o total.</div>
+
+<h2><span class="n">07</span>De onde vêm os dados</h2>
+<p>Uma rotina automática consulta o Jira <b>todo dia às 00:00</b> e publica os números no painel.
+Ninguém digita nada — se um número mudou, é porque o card mudou de status no Jira.</p>
+<div class="tblwrap">
+<table>
+  <tbody>
+    <tr><td style="width:34%">Consultas usadas</td><td class="mono">/rest/api/3/search/approximate-count (contagens)<br>/rest/api/3/search/jql (listas)</td></tr>
+    <tr><td>Atualização</td><td>Diária, 00:00 (horário de São Paulo)</td></tr>
+    <tr><td>Onde mexer na régua</td><td class="mono">scripts/gerar.mjs — objetos ST (status) e IT (tipos)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<footer>
+  <div>Projeto Nexus · MV × Sotelli</div>
+  <div><a href="/">Voltar ao painel ↗</a></div>
+</footer>
+
+</div>
+
+<script>
+// Botão de copiar em cada bloco de JQL
+document.querySelectorAll('.jql').forEach(bloco => {
+  const btn = document.createElement('button');
+  btn.className = 'cp'; btn.type = 'button';
+  btn.textContent = 'copiar';
+  btn.setAttribute('aria-label', 'Copiar consulta JQL');
+  btn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(bloco.querySelector('pre').textContent);
+      btn.textContent = 'copiado'; btn.classList.add('ok');
+    } catch {
+      btn.textContent = 'selecione e copie';
+    }
+    setTimeout(() => { btn.textContent = 'copiar'; btn.classList.remove('ok'); }, 1800);
+  });
+  bloco.appendChild(btn);
+});
+
+// Data-base vem do mesmo arquivo que alimenta o painel
+fetch('data.json?' + Date.now())
+  .then(r => r.json())
+  .then(p => { if (p.ts) document.getElementById('base').textContent = p.ts; })
+  .catch(() => {});
+</script>
+</body>
+</html>

@@ -6,6 +6,9 @@
 const COOKIE = 'mvp_auth';
 const DIAS = 7;
 
+// Páginas abertas (sem senha) — a metodologia é pública para auditoria dos números.
+const PUBLICAS = new Set(['/metodologia', '/metodologia.html', '/data.json']);
+
 async function tokenEsperado(senha) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`mv-painel::${senha}`));
   return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
@@ -58,6 +61,8 @@ export default async (request, context) => {
   if (!senha) return context.next();               // sem senha configurada => site aberto
 
   const url = new URL(request.url);
+  if (PUBLICAS.has(url.pathname)) return context.next();   // aberto a todos
+
   const esperado = await tokenEsperado(senha);
 
   // submissão do formulário
