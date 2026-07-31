@@ -65,7 +65,9 @@ const ST = {
   aDes:    ['Pronto para DEV', 'EM DESENVOLVIMENTO'],
   testes:  ['PRONTO PARA TESTES', 'Bug em Testes', 'Aguardando Review', 'Pós Review',
             'Realizando Deploy em QA', 'EM TESTE QA', 'Em Análise de PR'],
-  liberadas: ['Liberado para deploy'],                        // disponível para homologar
+  // Disponível para homologar. "PRONTO PARA DEPLOY EM PROD" entrou em 31/07:
+  // a US já passou por UAT e espera janela de deploy — está entregue, não em teste.
+  liberadas: ['Liberado para deploy', 'PRONTO PARA DEPLOY EM PROD'],
   emprod:    ['Deploy em Prod. realizado', 'CONCLUÍDO'],       // já implantada
 };
 // Universo em UAT (denominador da homologação) = liberadas + em produção
