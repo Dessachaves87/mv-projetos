@@ -120,7 +120,7 @@
   <div class="meta">
     <span class="pill">Projeto Nexus · MV × Sotelli</span>
     <span class="pill">Revenue <b>MVREV</b> · Central <b>MVPMO</b></span>
-    <span class="pill">Base: <b id="base">31/07/2026</b></span>
+    <span class="pill" id="pillbase">Números de <b id="base">—</b> · atualiza sozinho</span>
     <span class="pill"><a href="https://sottelli.atlassian.net/issues/" target="_blank" rel="noopener">Abrir busca no Jira ↗</a></span>
   </div>
 </header>
@@ -181,30 +181,30 @@ As três fases fecham com o total — é assim que conferimos se a conta está c
       <td><b>Total de US (testáveis)</b><br><span style="color:var(--muted);font-size:12px">o número grande</span></td>
       <td class="mono">A desenvolver + Em testes internos + Liberadas p/ UAT<br>
         <span style="color:var(--muted)">(só História e Melhoria, na esteira)</span></td>
-      <td class="num">116</td><td class="num">90</td>
+      <td class="num" data-m="tot" data-pj="rev">—</td><td class="num" data-m="tot" data-pj="cen">—</td>
     </tr>
     <tr>
       <td>↳ <span style="color:var(--ink-2)">linha de apoio do mesmo cartão</span></td>
       <td class="mono">habilitadores · e o total geral (testáveis + habilitadores)</td>
-      <td class="num">26 · 142</td><td class="num">29 · 119</td>
+      <td class="num" data-m="habGeral" data-pj="rev">—</td><td class="num" data-m="habGeral" data-pj="cen">—</td>
     </tr>
     <tr>
       <td><b>Liberadas p/ UAT</b></td>
       <td class="mono">contagem dos 4 status de UAT<br>
         <span style="color:var(--muted)">(= o total em UAT da seção Homologação)</span></td>
-      <td class="num">38</td><td class="num">39</td>
+      <td class="num" data-m="lib" data-pj="rev">—</td><td class="num" data-m="lib" data-pj="cen">—</td>
     </tr>
     <tr>
       <td><b>Homologadas</b></td>
       <td class="mono">Aprovada + Em produção<br>
         <span style="color:var(--muted)">(já sem as reprovadas)</span></td>
-      <td class="num">37</td><td class="num">34</td>
+      <td class="num" data-m="homol" data-pj="rev">—</td><td class="num" data-m="homol" data-pj="cen">—</td>
     </tr>
     <tr>
       <td><b>Bloqueadas</b></td>
       <td class="mono">status = "Em Espera/Bloqueado"<br>
         <span style="color:var(--muted)">(qualquer tipo de item, não só US)</span></td>
-      <td class="num">16</td><td class="num">9</td>
+      <td class="num" data-m="bloq" data-pj="rev">—</td><td class="num" data-m="bloq" data-pj="cen">—</td>
     </tr>
   </tbody>
 </table>
@@ -217,20 +217,20 @@ como apoio logo abaixo.</div>
 <h2><span class="n">04</span>Funil de entrega</h2>
 <p>Use o seletor de <b>frente</b> no topo da página para alternar entre Revenue, Central e Consolidado — os JQLs e os números abaixo acompanham. Para habilitadores, troque <span class="mono">issuetype in (10001,10212)</span> por <span class="mono">issuetype = 10005</span>.</p>
 
-<h3>A desenvolver <span class="res" data-rev="6" data-cen="5" data-con="11">6</span></h3>
+<h3>A desenvolver <span class="res" data-m="ades">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "Pronto para DEV","EM DESENVOLVIMENTO")</pre></div>
 
-<h3>Em testes internos <span class="res" data-rev="72" data-cen="46" data-con="118">72</span></h3>
+<h3>Em testes internos <span class="res" data-m="tes">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "PRONTO PARA TESTES","Bug em Testes","Aguardando Review","Pós Review",
   "Realizando Deploy em QA","EM TESTE QA","Em Análise de PR")</pre></div>
 
-<h3>Liberadas p/ UAT — o total em UAT <span class="res" data-rev="38" data-cen="39" data-con="77">38</span></h3>
+<h3>Liberadas p/ UAT — o total em UAT <span class="res" data-m="lib">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "Liberado para deploy","Deploy em Prod. realizado","EM APROVAÇÃO DO CLIENTE","CONCLUÍDO")</pre></div>
 
-<h3>Total de US testáveis <span class="res" data-rev="116" data-cen="90" data-con="206">116</span></h3>
+<h3>Total de US testáveis <span class="res" data-m="tot">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "Pronto para DEV","EM DESENVOLVIMENTO",
   "PRONTO PARA TESTES","Bug em Testes","Aguardando Review","Pós Review",
@@ -240,20 +240,20 @@ como apoio logo abaixo.</div>
 <h2><span class="n">05</span>Homologação</h2>
 <p>As US liberadas para UAT se dividem em quatro situações. A soma das quatro é sempre o total em UAT.</p>
 
-<h3><span class="dot d-ok"></span>Aprovada — homologada <span class="res" data-rev="18" data-cen="21" data-con="39">18</span></h3>
+<h3><span class="dot d-ok"></span>Aprovada — homologada <span class="res" data-m="apr">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "Liberado para deploy"</pre></div>
 <div class="nota">A descrição oficial deste status no Jira é <b>“homologação realizada, o card pode ser
 implantado em produção”</b> — por isso ele representa a US aprovada, aguardando o deploy.</div>
 
-<h3><span class="dot d-prod"></span>Em produção <span class="res" data-rev="19" data-cen="13" data-con="32">19</span></h3>
+<h3><span class="dot d-prod"></span>Em produção <span class="res" data-m="prod">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in ("Deploy em Prod. realizado","CONCLUÍDO")</pre></div>
 
-<h3><span class="dot d-uat"></span>Em homologação UAT <span class="res" data-rev="1" data-cen="5" data-con="6">1</span></h3>
+<h3><span class="dot d-uat"></span>Em homologação UAT <span class="res" data-m="uat">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status = "EM APROVAÇÃO DO CLIENTE"</pre></div>
 <div class="nota">Corresponde à coluna <b>“Homologação em UAT”</b> do board — são as US que o cliente está
 testando neste momento.</div>
 
-<h3><span class="dot d-bad"></span>Reprovada — US com Bug apontado <span class="res" data-rev="0" data-cen="0" data-con="0">0</span></h3>
+<h3><span class="dot d-bad"></span>Reprovada — US com Bug apontado <span class="res" data-m="rep">—</span></h3>
 <p>Esta não é uma consulta única. O painel faz em dois passos:</p>
 <p><b>Passo 1 — busca os bugs ativos:</b></p>
 <div class="jql"><pre>project = MVREV AND issuetype = 10004 AND status != "Cancelado"</pre></div>
@@ -264,45 +264,45 @@ nas duas listas são as reprovadas.</p>
 <div class="nota"><b>O bug tem precedência.</b> Uma US aprovada que receber um bug sai de “Aprovada” e
 passa para “Reprovada” — assim nenhuma US é contada duas vezes e o total continua fechando.</div>
 
-<h3>Homologadas — o indicador que reportamos <span class="res" data-rev="37" data-cen="34" data-con="71">37</span></h3>
+<h3>Homologadas — o indicador que reportamos <span class="res" data-m="homol">—</span></h3>
 <div class="jql"><pre>Homologadas = Aprovada + Em produção      (já descontadas as reprovadas)</pre></div>
 
 <h2><span class="n">06</span>Habilitadores e alertas</h2>
 <p>Habilitadores usam a mesma régua de status, só muda o tipo. Eles <b>não</b> passam por homologação —
 acompanhamos apenas quantos chegaram à UAT.</p>
 
-<h3>Habilitadores já em UAT <span class="res" data-rev="1" data-cen="17" data-con="18">1</span></h3>
+<h3>Habilitadores já em UAT <span class="res" data-m="habLib">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype = 10005 AND status in (
   "Liberado para deploy","Deploy em Prod. realizado","EM APROVAÇÃO DO CLIENTE","CONCLUÍDO")</pre></div>
 
-<h3>Bloqueadas <span class="res" data-rev="16" data-cen="9" data-con="25">16</span></h3>
+<h3>Bloqueadas <span class="res" data-m="bloq">—</span></h3>
 <div class="jql"><pre>project = MVREV AND status = "Em Espera/Bloqueado"</pre></div>
 
-<h3>Em correção <span class="res" data-rev="0" data-cen="2" data-con="2">0</span></h3>
+<h3>Em correção <span class="res" data-m="corr">—</span></h3>
 <div class="jql"><pre>project = MVREV AND status = "Bug em Testes"</pre></div>
 <div class="nota">Estes dois <b>não</b> filtram por tipo — contam qualquer item travado ou em correção
 no projeto, porque para efeito de risco importa o item, não a sua classificação.</div>
 
-<h2><span class="n">07</span>Números na data-base</h2>
+<h2><span class="n">07</span>Números atuais</h2>
 <div class="tblwrap">
 <table>
   <thead><tr><th>Indicador</th><th class="num">Revenue</th><th class="num">Central</th><th class="num">Consolidado</th></tr></thead>
   <tbody>
-    <tr><td>Testáveis na esteira</td><td class="num">116</td><td class="num">90</td><td class="num">206</td></tr>
-    <tr><td>— A desenvolver</td><td class="num">6</td><td class="num">5</td><td class="num">11</td></tr>
-    <tr><td>— Em testes internos</td><td class="num">72</td><td class="num">46</td><td class="num">118</td></tr>
-    <tr><td>— Liberadas p/ UAT</td><td class="num">38</td><td class="num">39</td><td class="num">77</td></tr>
-    <tr><td><span class="dot d-ok"></span>Aprovada</td><td class="num">18</td><td class="num">21</td><td class="num">39</td></tr>
-    <tr><td><span class="dot d-prod"></span>Em produção</td><td class="num">19</td><td class="num">13</td><td class="num">32</td></tr>
-    <tr><td><span class="dot d-uat"></span>Em homologação UAT</td><td class="num">1</td><td class="num">5</td><td class="num">6</td></tr>
-    <tr><td><span class="dot d-bad"></span>Reprovada</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr>
-    <tr class="destaque"><td>Homologadas</td><td class="num">37</td><td class="num">34</td><td class="num">71</td></tr>
-    <tr><td>Habilitadores</td><td class="num">26</td><td class="num">29</td><td class="num">55</td></tr>
-    <tr><td>Bloqueadas</td><td class="num">16</td><td class="num">9</td><td class="num">25</td></tr>
+    <tr><td>Testáveis na esteira</td><td class="num" data-m="tot" data-pj="rev">—</td><td class="num" data-m="tot" data-pj="cen">—</td><td class="num" data-m="tot" data-pj="con">—</td></tr>
+    <tr><td>— A desenvolver</td><td class="num" data-m="ades" data-pj="rev">—</td><td class="num" data-m="ades" data-pj="cen">—</td><td class="num" data-m="ades" data-pj="con">—</td></tr>
+    <tr><td>— Em testes internos</td><td class="num" data-m="tes" data-pj="rev">—</td><td class="num" data-m="tes" data-pj="cen">—</td><td class="num" data-m="tes" data-pj="con">—</td></tr>
+    <tr><td>— Liberadas p/ UAT</td><td class="num" data-m="lib" data-pj="rev">—</td><td class="num" data-m="lib" data-pj="cen">—</td><td class="num" data-m="lib" data-pj="con">—</td></tr>
+    <tr><td><span class="dot d-ok"></span>Aprovada</td><td class="num" data-m="apr" data-pj="rev">—</td><td class="num" data-m="apr" data-pj="cen">—</td><td class="num" data-m="apr" data-pj="con">—</td></tr>
+    <tr><td><span class="dot d-prod"></span>Em produção</td><td class="num" data-m="prod" data-pj="rev">—</td><td class="num" data-m="prod" data-pj="cen">—</td><td class="num" data-m="prod" data-pj="con">—</td></tr>
+    <tr><td><span class="dot d-uat"></span>Em homologação UAT</td><td class="num" data-m="uat" data-pj="rev">—</td><td class="num" data-m="uat" data-pj="cen">—</td><td class="num" data-m="uat" data-pj="con">—</td></tr>
+    <tr><td><span class="dot d-bad"></span>Reprovada</td><td class="num" data-m="rep" data-pj="rev">—</td><td class="num" data-m="rep" data-pj="cen">—</td><td class="num" data-m="rep" data-pj="con">—</td></tr>
+    <tr class="destaque"><td>Homologadas</td><td class="num" data-m="homol" data-pj="rev">—</td><td class="num" data-m="homol" data-pj="cen">—</td><td class="num" data-m="homol" data-pj="con">—</td></tr>
+    <tr><td>Habilitadores</td><td class="num" data-m="hab" data-pj="rev">—</td><td class="num" data-m="hab" data-pj="cen">—</td><td class="num" data-m="hab" data-pj="con">—</td></tr>
+    <tr><td>Bloqueadas</td><td class="num" data-m="bloq" data-pj="rev">—</td><td class="num" data-m="bloq" data-pj="cen">—</td><td class="num" data-m="bloq" data-pj="con">—</td></tr>
   </tbody>
 </table>
 </div>
-<div class="nota"><b>Conferência:</b> 6 + 72 + 38 = 116 no Revenue · 5 + 46 + 39 = 90 no Central.
+<div class="nota"><b>Conferência:</b> <span id="conf">—</span>
 As fases fecham com o total.</div>
 
 <h2><span class="n">08</span>De onde vêm os dados</h2>
@@ -327,27 +327,79 @@ Ninguém digita nada — se um número mudou, é porque o card mudou de status n
 
 <script>
 
-// Seletor de frente — troca o projeto nos JQLs e os números dos títulos
+// ---- Números: vêm do mesmo data.json que alimenta o painel ----
 const PJ = {
-  rev: { jql: 'project = MVREV',              attr: 'rev' },
-  cen: { jql: 'project = MVPMO',              attr: 'cen' },
-  con: { jql: 'project in (MVREV,MVPMO)',     attr: 'con' },
+  rev: { jql: 'project = MVREV',          nome: 'Revenue' },
+  cen: { jql: 'project = MVPMO',          nome: 'Central de Projetos' },
+  con: { jql: 'project in (MVREV,MVPMO)', nome: 'Consolidado' },
 };
 const blocos = [...document.querySelectorAll('.jql pre')].map(p => ({ el: p, base: p.textContent }));
+let DADOS = null, escopo = 'rev';
 
-function aplicarEscopo(k){
-  const { jql, attr } = PJ[k];
-  blocos.forEach(b => { b.el.textContent = b.base.replace(/project = MVREV/g, jql); });
-  document.querySelectorAll('.res').forEach(s => {
-    const v = s.dataset[attr];
-    if (v !== undefined) s.textContent = v;
-  });
-  document.querySelectorAll('.scope .seg button').forEach(b =>
-    b.setAttribute('aria-pressed', String(b.dataset.pj === k)));
+// traduz uma métrica da página para o número correspondente no data.json
+function valor(v, m){
+  if (!v) return '—';
+  const h = v.hom, homol = h.aprovada[0] + h.emprod[0];
+  switch (m) {
+    case 'tot':      return v.total[0];
+    case 'hab':      return v.total[1];
+    case 'habGeral': return `${v.total[1]} · ${v.total[0] + v.total[1]}`;
+    case 'ades':     return v.aDes[0];
+    case 'tes':      return v.testes[0];
+    case 'lib':      return v.libUAT[0];
+    case 'habLib':   return v.libUAT[1];
+    case 'apr':      return h.aprovada[0];
+    case 'prod':     return h.emprod[0];
+    case 'uat':      return h.emhomol[0];
+    case 'rep':      return h.reprovada[0];
+    case 'homol':    return homol;
+    case 'bloq':     return v.bloq[0];
+    case 'corr':     return v.corr;
+    default:         return '—';
+  }
 }
+
+function pintar(){
+  const chave = { rev: 'Revenue', cen: 'Central de Projetos', con: 'Consolidado' }[escopo];
+  const v = DADOS ? DADOS[chave] : null;
+
+  // JQLs seguem o escopo escolhido
+  blocos.forEach(b => { b.el.textContent = b.base.replace(/project = MVREV/g, PJ[escopo].jql); });
+
+  // números dos títulos (seguem o escopo)
+  document.querySelectorAll('.res[data-m]').forEach(s => { s.textContent = valor(v, s.dataset.m); });
+
+  // números das tabelas (cada célula tem a sua frente fixa)
+  document.querySelectorAll('td[data-m]').forEach(td => {
+    const alvo = { rev: 'Revenue', cen: 'Central de Projetos', con: 'Consolidado' }[td.dataset.pj];
+    td.textContent = valor(DADOS ? DADOS[alvo] : null, td.dataset.m);
+  });
+
+  // frase de conferência
+  const conf = document.getElementById('conf');
+  if (conf && DADOS) {
+    const r = DADOS['Revenue'], ce = DADOS['Central de Projetos'];
+    conf.textContent =
+      `${r.aDes[0]} + ${r.testes[0]} + ${r.libUAT[0]} = ${r.total[0]} no Revenue · ` +
+      `${ce.aDes[0]} + ${ce.testes[0]} + ${ce.libUAT[0]} = ${ce.total[0]} no Central.`;
+  }
+
+  document.querySelectorAll('.scope .seg button').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.pj === escopo)));
+}
+
 document.querySelectorAll('.scope .seg button').forEach(b =>
-  b.addEventListener('click', () => aplicarEscopo(b.dataset.pj)));
-aplicarEscopo('rev');
+  b.addEventListener('click', () => { escopo = b.dataset.pj; pintar(); }));
+
+fetch('data.json?' + Date.now())
+  .then(r => r.json())
+  .then(p => { DADOS = p.data; document.getElementById('base').textContent = p.ts; pintar(); })
+  .catch(() => {
+    document.getElementById('base').textContent = 'indisponível';
+    document.querySelectorAll('[data-m]').forEach(e => { e.textContent = '—'; });
+  });
+
+pintar();
 
 // Botão de copiar em cada bloco de JQL
 document.querySelectorAll('.jql').forEach(bloco => {
@@ -367,11 +419,6 @@ document.querySelectorAll('.jql').forEach(bloco => {
   bloco.appendChild(btn);
 });
 
-// Data-base vem do mesmo arquivo que alimenta o painel
-fetch('data.json?' + Date.now())
-  .then(r => r.json())
-  .then(p => { if (p.ts) document.getElementById('base').textContent = p.ts; })
-  .catch(() => {});
 </script>
 </body>
 </html>
