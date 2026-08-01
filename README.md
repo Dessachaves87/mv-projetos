@@ -12,10 +12,20 @@ GitHub Action (cron 03:00 UTC = 00:00 SP)
                                        └─ Edge Function "gate" = login único
 ```
 
+## Por onde começar
+
+| Você quer | Leia |
+|---|---|
+| Ajustar status, etiquetas ou projetos — **sem código** | [`COMO-EDITAR.md`](COMO-EDITAR.md) |
+| Mexer no código (layout, cálculo, textos) | [`GUIA-DEV.md`](GUIA-DEV.md) |
+| Entender de onde vem cada número | [metodologia](https://painelprojetonexus.netlify.app/metodologia.html) |
+| Montar o ambiente do zero | este arquivo, seção *Setup* |
+
 ## Arquivos
 | Arquivo | Função |
 |---|---|
 | `index.html` | O painel (lê `data.json`) |
+| `regua.json` | Régua de negócio — status, etiquetas, projetos |
 | `data.json` | Números gerados pela Action |
 | `scripts/gerar.mjs` | Consulta o Jira e escreve o `data.json` |
 | `netlify/edge-functions/gate.js` | Login único (senha em env var) |
@@ -56,26 +66,36 @@ GitHub Action (cron 03:00 UTC = 00:00 SP)
 
 **Universo:** Histórias (10001) + Melhorias (10212) = *testáveis* · Habilitadores (10005) = *não testáveis*.
 
-**Upstream fica FORA** do total/funil: `BACKLOG`, `Em refinamento`, `Em prototipagem`,
-`EM ANÁLISE TÉCNICA`, `PRONTO PARA DESENVOLVIMENTO`.
+**Upstream fica FORA** do total e do funil: `BACKLOG`, `Em refinamento`, `Em prototipagem`,
+`EM ANÁLISE TÉCNICA`, `PRONTO PARA DESENVOLVIMENTO`, `EM APROVAÇÃO DO CLIENTE`
+(esta última é o cliente aprovando a *especificação*, antes do dev).
 
-| Fase | Status |
+As quatro fases — `aDesenvolver`, `emTestesInternos`, `liberadasUAT`, `emProducao` — e os
+status de cada uma vivem em **[`regua.json`](regua.json)**, editável pelo navegador.
+A lista não é repetida aqui de propósito: duas cópias de uma régua sempre divergem.
+
+**Homologação — quem manda é a ETIQUETA do card, não o status** (regra de 31/07):
+
+| Fatia | Origem |
 |---|---|
-| A desenvolver | `Pronto para DEV`, `EM DESENVOLVIMENTO`, `Em Espera/Bloqueado` |
-| Em testes internos | `PRONTO PARA TESTES`, `Bug em Testes`, `Aguardando Review`, `Pós Review`, `Realizando Deploy em QA`, `EM TESTE QA`, `Em Análise de PR` |
-| Liberadas p/ UAT | `Liberado para deploy`, `Deploy em Prod. realizado`, `EM APROVAÇÃO DO CLIENTE`, `CONCLUÍDO` |
+| 🟢 Aprovada | etiqueta `Aprovado` + habilitadores em UAT (não passam por teste) |
+| 🔵 Aguardando | etiqueta `Em-Homologacao-Cliente` ainda sem veredito |
+| 🔴 Reprovada | etiqueta `Reprovado(Bug)` — tem precedência sobre as outras |
 
-**Homologação** (subdivisão das liberadas):
-- 🟢 **Aprovada** = `Liberado para deploy`
-- 🟣 **Em produção** = `Deploy em Prod. realizado` + `CONCLUÍDO`
-- 🔵 **Em homologação UAT** = `EM APROVAÇÃO DO CLIENTE`
-- 🔴 **Reprovada** = card marcado como Bug — *a definir com o time* (hoje 0)
+**Homologadas = a fatia Aprovada.** Estar em produção não conta — só o carimbo da etiqueta vale.
 
-**Homologadas (de fato) = Aprovada + Em produção.**
+No funil, o balde de UAT aparece dividido em três barras que somam as liberadas:
+**Em UAT para homologar · Homologadas · Reprovadas**. "Em produção" continua dentro do
+total, mas não tem barra própria (01/08).
+
+> A explicação completa, com os JQLs de cada número, é a página pública
+> [metodologia](https://painelprojetonexus.netlify.app/metodologia.html) — é ela que o
+> cliente usa para auditar a conta. **Mexeu em número? Atualize ela junto.**
 
 ---
 
 ## Manutenção
 - **Mudar o horário:** `cron` em `.github/workflows/atualizar.yml` (UTC — 03:00 UTC = 00:00 SP).
-- **Mudar a régua de status:** objeto `ST` em `scripts/gerar.mjs`.
+- **Mudar a régua de status/etiquetas:** [`regua.json`](regua.json) — ver [`COMO-EDITAR.md`](COMO-EDITAR.md).
+- **Mexer no código:** ver [`GUIA-DEV.md`](GUIA-DEV.md).
 - **Rodar local:** `JIRA_EMAIL=... JIRA_TOKEN=... node scripts/gerar.mjs`

@@ -72,11 +72,11 @@ O nome precisa ser **idêntico ao do Jira**: acento, maiúscula, espaço, ponto.
 
 ## O que **não** dá pra mudar por aqui
 
-- Criar uma fase nova no funil (hoje são 4)
+- Criar uma fase nova no funil
 - Mudar cores, textos ou layout
 - Mudar a lógica de precedência da homologação
 
-Isso é código — precisa de quem desenvolveu.
+Isso é código — ver [`GUIA-DEV.md`](GUIA-DEV.md).
 
 ---
 
@@ -107,7 +107,8 @@ O painel só reflete o que está no Jira. Duas disciplinas mantêm ele correto:
 1. **Arrastar o card no quadro.** O funil é por status — card parado no lugar
    errado aparece na fase errada.
 2. **Etiquetar quem entra em UAT.** A homologação é por etiqueta. US em UAT sem
-   `Em-Homologacao-Cliente` aparece no funil mas some do quadrante de homologação.
+   etiqueta nenhuma fica parada em **"Em UAT para homologar"** no funil e não entra
+   no anel — parece que ninguém olhou, mesmo que já tenha sido homologada.
 
 Este JQL mostra quem está em UAT sem etiqueta (troque `MVREV` por `MVPMO` para o Central):
 
