@@ -110,7 +110,7 @@ O painel só reflete o que está no Jira. Duas disciplinas mantêm ele correto:
    etiqueta nenhuma fica parada em **"Em UAT para homologar"** no funil e não entra
    no anel — parece que ninguém olhou, mesmo que já tenha sido homologada.
 
-Este JQL mostra quem está em UAT sem etiqueta (troque `MVREV` por `MVPMO` para o Central):
+Este JQL mostra quem está em UAT **sem etiqueta nenhuma** (troque `MVREV` por `MVPMO` para o Central):
 
 ```
 project = MVREV AND issuetype in (10001,10212)
@@ -119,6 +119,15 @@ project = MVREV AND issuetype in (10001,10212)
 ```
 
 Se der 0, está tudo fechado.
+
+> ⚠️ **Este número não é o mesmo da barra "Em UAT para homologar".** A barra desconta só
+> quem já tem veredito (`Aprovado` ou `Reprovado(Bug)`) — quem está com
+> `Em-Homologacao-Cliente` **continua na barra**, porque ainda não foi decidido.
+> O JQL acima é mais restrito: mostra só quem ninguém marcou de forma alguma.
+>
+> Em 01/08 isso aparece bem: no Revenue a barra tem **48** e este JQL dá **0** (todas
+> etiquetadas); na Central os dois dão **26** (nenhuma etiquetada). Ver o 0 e achar que
+> o painel está errado é o engano mais comum aqui.
 
 ---
 

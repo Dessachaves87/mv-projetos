@@ -80,7 +80,10 @@ A lista não é repetida aqui de propósito: duas cópias de uma régua sempre d
 |---|---|
 | 🟢 Aprovada | etiqueta `Aprovado` + habilitadores em UAT (não passam por teste) |
 | 🔵 Aguardando | etiqueta `Em-Homologacao-Cliente` ainda sem veredito |
-| 🔴 Reprovada | etiqueta `Reprovado(Bug)` — tem precedência sobre as outras |
+| 🔴 Reprovada | etiqueta `Reprovado(Bug)` |
+
+Um veredito (`Aprovado` ou `Reprovado(Bug)`) tira a US de "Aguardando". Entre os dois vereditos **não
+há precedência**: card com as duas etiquetas é contado duas vezes — deixe só uma por card.
 
 **Homologadas = a fatia Aprovada.** Estar em produção não conta — só o carimbo da etiqueta vale.
 

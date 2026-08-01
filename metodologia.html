@@ -260,7 +260,10 @@ total que já passou por lá. As três barras somam o número acima.</div>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "Liberado para deploy","PRONTO PARA DEPLOY EM PROD")
   AND (labels IS EMPTY OR labels NOT IN ("Aprovado","Reprovado(Bug)"))</pre></div>
-<div class="nota">Em UAT e ainda sem veredito nenhum — é a fila real do cliente.</div>
+<div class="nota">Em UAT e ainda sem veredito — é a fila real do cliente. <b>Inclui quem já está com a
+etiqueta</b> <span class="mono">Em-Homologacao-Cliente</span>: ela diz que o cliente está olhando, não
+que decidiu. Por isso este número é <b>maior</b> que o de “US em UAT sem etiqueta nenhuma”, que é a
+checagem de disciplina do time (em 01/08: barra 48 × sem etiqueta 0, no Revenue).</div>
 
 <h3>— Homologadas (no funil) <span class="res" data-m="homF">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND labels = "Aprovado"</pre></div>
@@ -325,9 +328,13 @@ diferentes do quadro — o que vale é o carimbo.</div>
 <h3><span class="dot d-bad"></span>Reprovada — etiqueta “Reprovado(Bug)” <span class="res" data-m="rep">—</span></h3>
 <p>A US reprovada recebe a <b>etiqueta</b> <span class="mono">Reprovado(Bug)</span> no próprio card:</p>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND labels = "Reprovado(Bug)"</pre></div>
-<div class="nota"><b>A reprovação tem precedência.</b> Uma US que receber a etiqueta sai de
-“Aprovada”, “Em produção” ou “Em homologação” e passa para “Reprovada” — assim nenhuma US é contada
-duas vezes e o total continua fechando.</div>
+<div class="nota"><b>Um veredito vence “Em homologação”.</b> Uma US que receba <span class="mono">Aprovado</span>
+ou <span class="mono">Reprovado(Bug)</span> sai da fatia “Aguardando”, mesmo que ainda tenha a etiqueta
+<span class="mono">Em-Homologacao-Cliente</span> — já houve decisão.</div>
+<div class="nota" style="border-left-color:var(--warn)"><b>O que a régua não resolve:</b> se o mesmo card
+receber <span class="mono">Aprovado</span> <b>e</b> <span class="mono">Reprovado(Bug)</span> ao mesmo tempo,
+ele entra nas duas fatias e é contado duas vezes. Não há precedência entre os dois vereditos — a
+consistência depende de o time deixar só uma etiqueta de veredito por card.</div>
 <div class="nota"><b>Vale apenas para testáveis.</b> Habilitadores não passam por homologação, então
 não entram nesta fatia mesmo que recebam a etiqueta.</div>
 
