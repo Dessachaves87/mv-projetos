@@ -419,7 +419,11 @@ let DADOS = null, escopo = 'rev';
 // traduz uma métrica da página para o número correspondente no data.json
 function valor(v, m){
   if (!v) return '—';
-  const h = v.hom, homol = h.aprovada[0] + h.emprod[0];
+  // Homologadas = etiqueta "Aprovado" (testáveis) + habilitadores em UAT.
+  // Até 01/08 esta linha somava h.emprod[0] — a regra anterior a 31/07, quando estar
+  // em produção contava como homologada. Ficou divergindo do painel (26 x 40 no
+  // consolidado) e da descrição da própria linha logo acima.
+  const h = v.hom, homol = h.aprovada[0] + h.aprovada[1];
   switch (m) {
     case 'tot':      return v.total[0];
     case 'hab':      return v.total[1];
