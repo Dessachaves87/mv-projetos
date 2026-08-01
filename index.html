@@ -277,7 +277,7 @@
     <div class="legend">
       <span><i style="background:var(--slate)"></i>A desenvolver</span>
       <span><i style="background:var(--warn)"></i>Testes internos</span>
-      <span><i style="background:var(--cyan)"></i>Disponíveis p/ homologar</span>
+      <span><i style="background:var(--cyan)"></i>Em UAT para homologar</span>
       <span><i style="background:var(--good)"></i>Homologadas</span>
       <span><i style="background:var(--bad)"></i>Reprovadas</span>
     </div>
@@ -313,7 +313,7 @@ function render(view){
   // Trilha B — Habilitadores (estruturais, índice 1) — não testáveis
   const hTot=d.total[1], hADes=d.aDes[1], hDes=d.desenv[1], hUAT=d.libUAT[1];
   // O balde de UAT se divide em três no funil: quem já tem veredito (aprovado ou reprovado)
-  // sai da fila de "disponíveis" e ganha etapa própria — as três somam tLib.
+  // sai da fila "Em UAT para homologar" e ganha etapa própria — as três somam tLib.
   // Só testáveis: vale hom.aprovada[0], sem os habilitadores (que têm bloco à parte
   // e por isso o KPI "Homologadas" mostra um número maior).
   const tHom  = d.hom.aprovada[0];
@@ -358,7 +358,7 @@ function render(view){
   const stages = [
     {n:'A desenvolver', s:'Jira · ainda não iniciadas', v:tADes, base:tTot, bl:'do total', c:'var(--slate)'},
     {n:'Em testes internos', s:'Jira · QA · review · deploy QA', v:tTes, base:tDes, bl:'das desenv.', c:'var(--warn)'},
-    {n:'Disponíveis p/ homologar', s:'Jira · em UAT, ainda sem veredito', v:tPend, base:tLib, bl:'das em UAT', c:'var(--cyan)'},
+    {n:'Em UAT para homologar', s:'Jira · ainda sem veredito', v:tPend, base:tLib, bl:'das em UAT', c:'var(--cyan)'},
     {n:'Homologadas', s:'etiqueta Aprovado · só testáveis', v:tHom, base:tLib, bl:'das em UAT', c:'var(--good)'},
     {n:'Reprovadas', s:'etiqueta Reprovado(Bug) · volta p/ correção', v:tRep, base:tLib, bl:'das em UAT', c:'var(--bad)'},
   ];

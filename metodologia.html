@@ -182,7 +182,7 @@ Por isso fica fora do funil e do total.</div>
 <div class="nota"><b>Total = A desenvolver + Em testes internos + Liberadas p/ UAT + Em produção.</b> As US <b>bloqueadas ficam fora</b> — elas não estão fluindo, e aparecem no cartão e na lista de Bloqueadas.
 As quatro fases fecham com o total — é assim que conferimos se a conta está certa.
 <b>No funil</b>, “Em produção” deixou de ter barra própria (01/08) e “Liberadas p/ UAT” aparece
-dividida em três — disponíveis, homologadas e reprovadas.</div>
+dividida em três — em UAT para homologar, homologadas e reprovadas.</div>
 
 <h2><span class="n">03</span>Os quatro cartões do topo</h2>
 <p>São os números grandes da primeira faixa do painel. Cada um vem de uma conta simples:</p>
@@ -253,10 +253,10 @@ teste. Antes esse status não constava na régua e 32 US ficavam invisíveis no 
 13 no Central).</div>
 <div class="nota"><b>No funil, esta fase aparece dividida em três</b> (mudança de 01/08): quem já tem
 veredito do cliente — aprovado ou reprovado — sai da fila e vira etapa própria. Assim a barra
-“Disponíveis p/ homologar” responde quanto <b>ainda falta</b> o cliente olhar, em vez de repetir o
+“Em UAT para homologar” responde quanto <b>ainda falta</b> o cliente olhar, em vez de repetir o
 total que já passou por lá. As três barras somam o número acima.</div>
 
-<h3>— Disponíveis p/ homologar <span class="res" data-m="libPend">—</span></h3>
+<h3>— Em UAT para homologar <span class="res" data-m="libPend">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "Liberado para deploy","PRONTO PARA DEPLOY EM PROD")
   AND (labels IS EMPTY OR labels NOT IN ("Aprovado","Reprovado(Bug)"))</pre></div>
@@ -362,7 +362,7 @@ do painel. Épico, Tarefa, Subtarefa e Bug ficam de fora.</div>
     <tr><td>— A desenvolver</td><td class="num" data-m="ades" data-pj="rev">—</td><td class="num" data-m="ades" data-pj="cen">—</td><td class="num" data-m="ades" data-pj="con">—</td></tr>
     <tr><td>— Em testes internos</td><td class="num" data-m="tes" data-pj="rev">—</td><td class="num" data-m="tes" data-pj="cen">—</td><td class="num" data-m="tes" data-pj="con">—</td></tr>
     <tr><td>— Liberadas p/ UAT</td><td class="num" data-m="lib" data-pj="rev">—</td><td class="num" data-m="lib" data-pj="cen">—</td><td class="num" data-m="lib" data-pj="con">—</td></tr>
-    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;· disponíveis p/ homologar</td><td class="num" data-m="libPend" data-pj="rev">—</td><td class="num" data-m="libPend" data-pj="cen">—</td><td class="num" data-m="libPend" data-pj="con">—</td></tr>
+    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;· em UAT para homologar</td><td class="num" data-m="libPend" data-pj="rev">—</td><td class="num" data-m="libPend" data-pj="cen">—</td><td class="num" data-m="libPend" data-pj="con">—</td></tr>
     <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;· homologadas (testáveis)</td><td class="num" data-m="homF" data-pj="rev">—</td><td class="num" data-m="homF" data-pj="cen">—</td><td class="num" data-m="homF" data-pj="con">—</td></tr>
     <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;· reprovadas</td><td class="num" data-m="rep" data-pj="rev">—</td><td class="num" data-m="rep" data-pj="cen">—</td><td class="num" data-m="rep" data-pj="con">—</td></tr>
     <tr><td><span class="dot d-ok"></span>Aprovada</td><td class="num" data-m="apr" data-pj="rev">—</td><td class="num" data-m="apr" data-pj="cen">—</td><td class="num" data-m="apr" data-pj="con">—</td></tr>
