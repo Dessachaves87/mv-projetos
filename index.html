@@ -76,8 +76,6 @@
      ao passar o mouse, o grupo inteiro sobe de camada */
   .kpis{position:relative; z-index:1}
   .kpis:hover, .kpis:focus-within{z-index:70}
-  .two{position:relative; z-index:1}
-  .two:hover, .two:focus-within{z-index:70}
   .panel.kpi{overflow:visible}
   .panel.kpi::before{border-radius:var(--radius) 0 0 var(--radius)}
   [data-tip]{position:relative; cursor:help}
@@ -106,7 +104,6 @@
   /* último card: alinha o balão pela direita para não vazar da tela */
   .kpis .kpi:last-child[data-tip]::after{left:auto; right:0}
   .kpis .kpi:last-child[data-tip]::before{left:auto; right:16px}
-  .hom[data-tip]::after{max-width:250px}
   @media(max-width:520px){ [data-tip]::after{max-width:76vw} }
 
   .section-h{display:flex; align-items:baseline; gap:12px; margin:26px 2px 12px}
@@ -115,7 +112,15 @@
   .section-h .tag-src{font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.05em}
 
   /* ---- Funil (full width) ---- */
-  .funnelpanel{margin-bottom:16px}
+  /* overflow visível + z-index: senão o painel recorta a tooltip do anel */
+  .funnelpanel{margin-bottom:16px; overflow:visible; z-index:1}
+  .funnelpanel:hover, .funnelpanel:focus-within{z-index:70}
+  /* barras à esquerda, anel à direita — o anel é o resultado do funil */
+  .funnel-body{display:grid; grid-template-columns:1fr 236px; gap:8px 28px; align-items:center}
+  .funnel-ring{display:flex; flex-direction:column; align-items:center; gap:12px;
+    border-left:1px solid var(--stroke); padding:4px 0 4px 28px; align-self:stretch; justify-content:center}
+  .funnel-ring .fr-cap{font-size:11.5px; color:var(--ink-2); letter-spacing:.35px;
+    text-transform:uppercase; font-weight:600; text-align:center}
   .funnel-hero{display:flex; align-items:center; gap:22px; flex-wrap:wrap;
     padding:6px 4px 20px; margin-bottom:6px; border-bottom:1px solid var(--stroke)}
   .funnel-hero .fh-num{font-family:var(--mono); font-size:64px; font-weight:650; line-height:.9;
@@ -129,36 +134,29 @@
   .funnel-hero .fh-side b{color:var(--ink); font-weight:600}
 
   .pipe{display:flex; flex-direction:column; gap:13px; padding-top:6px}
-  .stage{display:grid; grid-template-columns:190px 1fr auto; align-items:center; gap:16px}
-  .stage .sname{font-size:13.5px; color:var(--ink-2); font-weight:550}
-  .stage .sname small{display:block; color:var(--muted); font-size:11px; font-weight:400; font-family:var(--mono)}
+  .stage{display:grid; grid-template-columns:166px 1fr auto; align-items:center; gap:16px}
+  /* legendas discretas: quem manda na leitura são as barras e os números */
+  .stage .sname{font-size:11.5px; color:var(--ink-2); font-weight:500; letter-spacing:.15px; line-height:1.25}
+  .stage .sname small{display:block; margin-top:2px; color:var(--muted); font-size:9.5px; font-weight:400;
+    font-family:var(--mono); letter-spacing:.1px; opacity:.7}
   .bar{height:30px; border-radius:8px; background:rgba(255,255,255,.04); overflow:hidden; position:relative}
   .bar span{display:block; height:100%; border-radius:8px; transition:width .9s cubic-bezier(.2,.8,.2,1);
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
   .stage .snum{min-width:140px; display:flex; flex-direction:column; align-items:flex-end; gap:1px}
   .stage .snum b{font-family:var(--mono); font-size:17px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
-  .stage .snum i{color:var(--muted); font-style:normal; font-size:10.5px; font-family:var(--mono); letter-spacing:.2px}
+  .stage .snum i{color:var(--muted); font-style:normal; font-size:9.5px; font-family:var(--mono); letter-spacing:.2px; opacity:.8}
   .stage .snum i em{font-style:normal; color:var(--ink-2)}
 
   /* ---- Ring ---- */
-  .ringwrap{display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:14px; padding-top:4px}
+  .ringwrap{display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:14px; border-radius:12px}
+  .ringwrap:focus-visible{outline:2px solid var(--cyan); outline-offset:4px}
   .ring{position:relative; width:168px; height:168px}
   .ring svg{transform:rotate(-90deg)}
   .ring .center{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center}
   .ring .center .big{font-family:var(--mono); font-size:38px; font-weight:600; font-variant-numeric:tabular-nums}
   .ring .center .cap{font-size:11px; color:var(--ink-2); letter-spacing:.4px; text-transform:uppercase; margin-top:2px}
-  .homchips{display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%}
-  .hom{display:flex; align-items:center; gap:8px; background:rgba(255,255,255,.03); border:1px solid var(--stroke);
-    padding:8px 12px; border-radius:10px; font-size:12.5px}
-  .hom .hd{width:9px;height:9px;border-radius:50%;flex:none}
-  .hom b{font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--ink)}
-  .hom span{color:var(--ink-2)}
-  .homtotal{margin:0 0 12px; font-size:13px; color:var(--ink-2); text-align:center}
-  .homtotal b{font-family:var(--mono); font-size:20px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
 
-  /* ---- grids ---- */
-  .two{grid-template-columns:1fr 1fr; align-items:start}
-  .two > .panel{overflow:visible}
 
   /* ---- Alerts ---- */
   .alertsums{display:flex; gap:10px; flex-wrap:wrap; margin:4px 0 14px}
@@ -195,8 +193,11 @@
   .legend span{display:flex; align-items:center; gap:6px}
   .legend i{width:10px;height:10px;border-radius:3px}
 
-  @media(max-width:860px){ .kpis{grid-template-columns:repeat(2,1fr)} .two{grid-template-columns:1fr} .stage{grid-template-columns:150px 1fr auto} .funnel-hero .fh-num{font-size:52px} }
-  @media(max-width:520px){ .kpis{grid-template-columns:1fr 1fr} .stage{grid-template-columns:1fr; gap:5px} .stage .snum{text-align:left; align-items:flex-start} .kpi .kval{font-size:34px} .homchips{grid-template-columns:1fr} }
+  @media(max-width:860px){ .kpis{grid-template-columns:repeat(2,1fr)} .stage{grid-template-columns:132px 1fr auto} .funnel-hero .fh-num{font-size:52px}
+    /* anel desce para baixo das barras: a divisória vira horizontal */
+    .funnel-body{grid-template-columns:1fr; gap:4px}
+    .funnel-ring{border-left:0; border-top:1px solid var(--stroke); padding:22px 0 4px} }
+  @media(max-width:520px){ .kpis{grid-template-columns:1fr 1fr} .stage{grid-template-columns:1fr; gap:5px} .stage .snum{text-align:left; align-items:flex-start} .kpi .kval{font-size:34px} }
   /* ---- Animações ---- */
   @keyframes reveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   @keyframes livepulse{0%,100%{box-shadow:0 0 0 4px rgba(34,211,238,.15),0 0 18px 2px rgba(34,211,238,.7)}50%{box-shadow:0 0 0 7px rgba(34,211,238,.05),0 0 28px 5px rgba(34,211,238,.95)}}
@@ -237,37 +238,35 @@
 
   <div class="grid kpis" id="kpis"></div>
 
-  <!-- FUNIL — largura inteira, protagonista -->
+  <!-- FUNIL — largura inteira, protagonista.
+       01/08: o anel da homologação entrou aqui, à direita das barras. Ele é o resultado
+       do funil (quanto do que chegou à UAT já foi aprovado), então lê melhor junto. -->
   <div class="panel funnelpanel">
     <div class="section-h" style="margin-top:2px"><h2>Funil de entrega</h2><div class="rule"></div>
       <span class="tag-src">testáveis · fonte: Jira</span></div>
     <div class="funnel-hero" id="funnelHero"></div>
-    <div class="pipe" id="pipe"></div>
+    <div class="funnel-body">
+      <div class="pipe" id="pipe"></div>
+      <aside class="funnel-ring">
+        <div class="fr-cap">Homologação (UAT)</div>
+        <div class="ringwrap" id="ringWrap" tabindex="0">
+          <div class="ring">
+            <svg width="168" height="168" viewBox="0 0 168 168">
+              <circle cx="84" cy="84" r="72" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="14"/>
+              <g id="ringSegs"></g>
+            </svg>
+            <div class="center"><div class="big" id="ringPct">0%</div><div class="cap">Homologadas</div></div>
+          </div>
+        </div>
+      </aside>
+    </div>
   </div>
 
-  <!-- HOMOLOGAÇÃO (desceu) + ALERTAS -->
-  <div class="grid two">
-    <div class="panel">
-      <div class="section-h" style="margin-top:2px"><h2>Homologação (UAT)</h2><div class="rule"></div>
-        <span class="tag-src">fonte: Jira (status)</span></div>
-      <div class="homtotal" id="homtotal"></div>
-      <div class="ringwrap">
-        <div class="ring">
-          <svg width="168" height="168" viewBox="0 0 168 168">
-            <circle cx="84" cy="84" r="72" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="14"/>
-            <g id="ringSegs"></g>
-          </svg>
-          <div class="center"><div class="big" id="ringPct">0%</div><div class="cap">Homologadas</div></div>
-        </div>
-        <div class="homchips" id="homchips"></div>
-      </div>
-    </div>
-    <div class="panel" id="alertPanel">
-      <div class="section-h" style="margin-top:2px"><h2>Alertas &amp; bloqueios</h2><div class="rule"></div>
-        <span id="alertCount" class="chip" style="background:rgba(248,113,113,.16);color:#fca5a5">0</span></div>
-      <div class="alertsums" id="alertsums"></div>
-      <ul class="alertlist" id="alertlist"></ul>
-    </div>
+  <div class="panel" id="alertPanel">
+    <div class="section-h" style="margin-top:2px"><h2>Alertas &amp; bloqueios</h2><div class="rule"></div>
+      <span id="alertCount" class="chip" style="background:rgba(248,113,113,.16);color:#fca5a5">0</span></div>
+    <div class="alertsums" id="alertsums"></div>
+    <ul class="alertlist" id="alertlist"></ul>
   </div>
 
   <div class="section-h"><h2>Habilitadores · não testáveis</h2><div class="rule"></div>
@@ -278,10 +277,9 @@
     <div class="legend">
       <span><i style="background:var(--slate)"></i>A desenvolver</span>
       <span><i style="background:var(--warn)"></i>Testes internos</span>
-      <span><i style="background:var(--cyan)"></i>Liberadas UAT</span>
-      <span><i style="background:var(--good)"></i>Aprovada</span>
-      <span><i style="background:var(--violet)"></i>Em produção</span>
-      <span><i style="background:var(--bad)"></i>Reprovada</span>
+      <span><i style="background:var(--cyan)"></i>Disponíveis p/ homologar</span>
+      <span><i style="background:var(--good)"></i>Homologadas</span>
+      <span><i style="background:var(--bad)"></i>Reprovadas</span>
     </div>
     <div>Atualização automática diária (00:00) · fonte Jira ·
       <a href="/metodologia.html">como calculamos ↗</a> ·
@@ -314,6 +312,13 @@ function render(view){
   const homolg = aprov;   // homologada = só quem tem a etiqueta "Aprovado" (+ habilitadores)
   // Trilha B — Habilitadores (estruturais, índice 1) — não testáveis
   const hTot=d.total[1], hADes=d.aDes[1], hDes=d.desenv[1], hUAT=d.libUAT[1];
+  // O balde de UAT se divide em três no funil: quem já tem veredito (aprovado ou reprovado)
+  // sai da fila de "disponíveis" e ganha etapa própria — as três somam tLib.
+  // Só testáveis: vale hom.aprovada[0], sem os habilitadores (que têm bloco à parte
+  // e por isso o KPI "Homologadas" mostra um número maior).
+  const tHom  = d.hom.aprovada[0];
+  const tRep  = d.hom.reprovada[0];
+  const tPend = Math.max(0, tLib - tHom - tRep);   // a etiqueta não filtra status; evita negativo
 
   // KPIs — Total destaca TESTÁVEIS (149)
   const kpis = [
@@ -345,6 +350,7 @@ function render(view){
     <div class="fh-side">
       <div><b>${tDes}</b> desenvolvidas · <b>${pct(tDes,tTot)}%</b></div>
       <div><b>${tLib}</b> liberadas p/ UAT · <b>${pct(tLib,tTot)}%</b></div>
+      <div><b>${tHom}</b> homologadas · <b>${pct(tHom,tLib)}%</b> das em UAT</div>
     </div>`;
   animateNum(document.querySelector('#funnelHero .fh-num'), tTot);
 
@@ -352,8 +358,9 @@ function render(view){
   const stages = [
     {n:'A desenvolver', s:'Jira · ainda não iniciadas', v:tADes, base:tTot, bl:'do total', c:'var(--slate)'},
     {n:'Em testes internos', s:'Jira · QA · review · deploy QA', v:tTes, base:tDes, bl:'das desenv.', c:'var(--warn)'},
-    {n:'Liberadas p/ UAT', s:'Jira · disponível para homologar', v:tLib, base:tDes, bl:'das desenv.', c:'var(--cyan)'},
-    {n:'Em produção', s:'Jira · implantada / concluída', v:d.emprod[0], base:tDes, bl:'das desenv.', c:'var(--violet)'},
+    {n:'Disponíveis p/ homologar', s:'Jira · em UAT, ainda sem veredito', v:tPend, base:tLib, bl:'das em UAT', c:'var(--cyan)'},
+    {n:'Homologadas', s:'etiqueta Aprovado · só testáveis', v:tHom, base:tLib, bl:'das em UAT', c:'var(--good)'},
+    {n:'Reprovadas', s:'etiqueta Reprovado(Bug) · volta p/ correção', v:tRep, base:tLib, bl:'das em UAT', c:'var(--bad)'},
   ];
   document.getElementById('pipe').innerHTML = stages.map(st=>{
     const wp = pct(st.v,tTot), bp = pct(st.v,st.base);
@@ -381,17 +388,12 @@ function render(view){
   }).join('');
   requestAnimationFrame(()=>document.querySelectorAll('#ringSegs circle').forEach(c=>{ c.style.strokeDasharray = c.dataset.da; }));
   animateNum(document.getElementById('ringPct'), ringP, '%');
-  const homDefs = [
-    {v:aprov,   label:`Aprovada${d.hom.aprovada[1]?` (${d.hom.aprovada[1]} habilitadores)`:''}`, c:'var(--good)',
-     tip:`US com a etiqueta "Aprovado" no card (${d.hom.aprovada[0]}) + habilitadores em UAT (${d.hom.aprovada[1]}), que não passam por teste. É o que conta como homologada.`},
-    {v:aguard, label:'Aguardando homologação', c:'var(--cyan)',
-     tip:'Está em UAT (liberada ou já em produção) e ainda não recebeu etiqueta — ninguém deu o veredito.'},
-    {v:reprov,  label:'Reprovada', c:'var(--bad)',
-     tip:'US com a etiqueta "Reprovado(Bug)" no card. Vale só para testáveis e tem precedência: sai das outras fatias e entra aqui.'},
-  ];
-  document.getElementById('homchips').innerHTML = homDefs.map(h=>`
-    <div class="hom" data-tip="${h.tip}" tabindex="0"><span class="hd" style="background:${h.c}"></span><b>${h.v}</b> <span>${h.label}</span></div>`).join('');
-  document.getElementById('homtotal').innerHTML = `<b>${emUAT}</b> US em UAT (Jira) · <b>${homolg}</b> homologadas`;
+  // Os chips (Aprovada/Aguardando/Reprovada) e a linha de total saíram em 01/08:
+  // viraram duplicata do funil, que já traz as mesmas fatias com percentual.
+  // Sobra o anel — a leitura de uma olhada só. O detalhe vive na tooltip.
+  document.getElementById('ringWrap').dataset.tip =
+    `${emUAT} US em UAT · ${homolg} homologadas (${aprov - d.hom.aprovada[1]} com etiqueta Aprovado`
+    + ` + ${d.hom.aprovada[1]} habilitadores) · ${aguard} aguardando · ${reprov} reprovadas.`;
 
   renderHabil(hTot, hADes, hDes, hUAT);
   renderAlerts(d);

@@ -180,7 +180,9 @@ Por isso fica fora do funil e do total.</div>
 </table>
 </div>
 <div class="nota"><b>Total = A desenvolver + Em testes internos + Liberadas p/ UAT + Em produção.</b> As US <b>bloqueadas ficam fora</b> — elas não estão fluindo, e aparecem no cartão e na lista de Bloqueadas.
-As três fases fecham com o total — é assim que conferimos se a conta está certa.</div>
+As quatro fases fecham com o total — é assim que conferimos se a conta está certa.
+<b>No funil</b>, “Em produção” deixou de ter barra própria (01/08) e “Liberadas p/ UAT” aparece
+dividida em três — disponíveis, homologadas e reprovadas.</div>
 
 <h2><span class="n">03</span>Os quatro cartões do topo</h2>
 <p>São os números grandes da primeira faixa do painel. Cada um vem de uma conta simples:</p>
@@ -242,18 +244,46 @@ aparecem separados na linha de apoio do cartão.</div>
   "PRONTO PARA TESTES","Bug em Testes","Aguardando Review","Pós Review",
   "Realizando Deploy em QA","EM TESTE QA","Em Análise de PR")</pre></div>
 
-<h3>Liberadas p/ UAT — disponível para homologar <span class="res" data-m="lib">—</span></h3>
+<h3>Liberadas p/ UAT <span class="res" data-m="lib">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "Liberado para deploy","PRONTO PARA DEPLOY EM PROD")</pre></div>
-<div class="nota">São as US entregues no ambiente de UAT, aguardando o veredito do cliente.
-<b>“Pronto para deploy em prod” entrou aqui em 31/07:</b> a US já passou por UAT e aguarda apenas a
-janela de implantação — está entregue, não em teste. Antes esse status não constava na régua e
-32 US ficavam invisíveis no painel (19 no Revenue, 13 no Central).</div>
+<div class="nota">São as US entregues no ambiente de UAT. <b>“Pronto para deploy em prod” entrou aqui
+em 31/07:</b> a US já passou por UAT e aguarda apenas a janela de implantação — está entregue, não em
+teste. Antes esse status não constava na régua e 32 US ficavam invisíveis no painel (19 no Revenue,
+13 no Central).</div>
+<div class="nota"><b>No funil, esta fase aparece dividida em três</b> (mudança de 01/08): quem já tem
+veredito do cliente — aprovado ou reprovado — sai da fila e vira etapa própria. Assim a barra
+“Disponíveis p/ homologar” responde quanto <b>ainda falta</b> o cliente olhar, em vez de repetir o
+total que já passou por lá. As três barras somam o número acima.</div>
+
+<h3>— Disponíveis p/ homologar <span class="res" data-m="libPend">—</span></h3>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
+  "Liberado para deploy","PRONTO PARA DEPLOY EM PROD")
+  AND (labels IS EMPTY OR labels NOT IN ("Aprovado","Reprovado(Bug)"))</pre></div>
+<div class="nota">Em UAT e ainda sem veredito nenhum — é a fila real do cliente.</div>
+
+<h3>— Homologadas (no funil) <span class="res" data-m="homF">—</span></h3>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND labels = "Aprovado"</pre></div>
+<div class="nota"><b>Só testáveis.</b> Este número é menor que o do cartão “Homologadas” do topo, que
+soma também os habilitadores em UAT. O funil acompanha apenas a trilha de quem passa por homologação —
+habilitadores têm bloco próprio no fim da página.</div>
+
+<h3>— Reprovadas <span class="res" data-m="rep">—</span></h3>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND labels = "Reprovado(Bug)"</pre></div>
+<div class="nota">Veredito negativo do cliente: a US volta para correção. Fica no funil porque continua
+sendo escopo entregue — o que mudou é que agora dá para ver o retrabalho de UAT direto na esteira,
+sem abrir o bloco de homologação.</div>
 
 <h3>Em produção <span class="res" data-m="prodF">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in ("Deploy em Prod. realizado","CONCLUÍDO")</pre></div>
-<div class="nota">Já implantadas. Continuam no funil (fazem parte do escopo entregue) e entram no
-denominador da homologação.</div>
+<div class="nota">Já implantadas. <b>Saíram das barras do funil em 01/08</b> — o funil passou a acompanhar
+a trilha da homologação, e produção é o passo seguinte. Continuam <b>dentro do total</b> (fazem parte
+do escopo entregue) e no denominador da homologação.</div>
+<div class="nota" style="border-left-color:var(--warn)"><b>Atenção à soma.</b> Enquanto “Em produção”
+for zero — situação de 01/08 nas duas frentes — as barras do funil fecham com o total. Quando as
+primeiras US forem para produção, elas passam a contar no total sem aparecer em nenhuma barra, e a
+soma das barras ficará menor que o total. Na virada, decidir: reincluir a barra ou passar a descontar
+produção do total do funil.</div>
 
 <h3>Total de US testáveis <span class="res" data-m="tot">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
@@ -332,6 +362,9 @@ do painel. Épico, Tarefa, Subtarefa e Bug ficam de fora.</div>
     <tr><td>— A desenvolver</td><td class="num" data-m="ades" data-pj="rev">—</td><td class="num" data-m="ades" data-pj="cen">—</td><td class="num" data-m="ades" data-pj="con">—</td></tr>
     <tr><td>— Em testes internos</td><td class="num" data-m="tes" data-pj="rev">—</td><td class="num" data-m="tes" data-pj="cen">—</td><td class="num" data-m="tes" data-pj="con">—</td></tr>
     <tr><td>— Liberadas p/ UAT</td><td class="num" data-m="lib" data-pj="rev">—</td><td class="num" data-m="lib" data-pj="cen">—</td><td class="num" data-m="lib" data-pj="con">—</td></tr>
+    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;· disponíveis p/ homologar</td><td class="num" data-m="libPend" data-pj="rev">—</td><td class="num" data-m="libPend" data-pj="cen">—</td><td class="num" data-m="libPend" data-pj="con">—</td></tr>
+    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;· homologadas (testáveis)</td><td class="num" data-m="homF" data-pj="rev">—</td><td class="num" data-m="homF" data-pj="cen">—</td><td class="num" data-m="homF" data-pj="con">—</td></tr>
+    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;· reprovadas</td><td class="num" data-m="rep" data-pj="rev">—</td><td class="num" data-m="rep" data-pj="cen">—</td><td class="num" data-m="rep" data-pj="con">—</td></tr>
     <tr><td><span class="dot d-ok"></span>Aprovada</td><td class="num" data-m="apr" data-pj="rev">—</td><td class="num" data-m="apr" data-pj="cen">—</td><td class="num" data-m="apr" data-pj="con">—</td></tr>
     <tr><td>— Em produção</td><td class="num" data-m="prodF" data-pj="rev">—</td><td class="num" data-m="prodF" data-pj="cen">—</td><td class="num" data-m="prodF" data-pj="con">—</td></tr>
     <tr><td><span class="dot d-uat"></span>Aguardando homologação</td><td class="num" data-m="aguard" data-pj="rev">—</td><td class="num" data-m="aguard" data-pj="cen">—</td><td class="num" data-m="aguard" data-pj="con">—</td></tr>
@@ -389,6 +422,9 @@ function valor(v, m){
     case 'ades':     return v.aDes[0];
     case 'tes':      return v.testes[0];
     case 'lib':      return v.libUAT[0];
+    // as três barras em que o funil divide "Liberadas p/ UAT"
+    case 'homF':     return h.aprovada[0];
+    case 'libPend':  return Math.max(0, v.libUAT[0] - h.aprovada[0] - h.reprovada[0]);
     case 'habLib':   return v.libUAT[1];
     case 'apr':      return h.aprovada[0] + h.aprovada[1];
     case 'aprHab':   return h.aprovada[1];
