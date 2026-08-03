@@ -1,0 +1,521 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Central de Projetos — Fluxo de Ponta a Ponta</title>
+<style>
+  :root{
+    --ink:#1A2233; --ink-2:#3C4759; --muted:#64708A; --faint:#8FA3C9;
+    --ground:#F4F8FB; --card:#FFFFFF; --soft:#FAFCFD; --line:#E2EAF0; --line-2:#C7D0DC;
+    --teal:#17B294; --teal-deep:#0E8E75; --mint:#E7FAF4; --mint-2:#A9E7D8;
+    --blue:#2F6FE0; --blue-soft:#EDF3FD; --blue-2:#9DB4E6; --navy:#0F2E45;
+    --amber:#E08A2F; --amber-soft:#FDF1E0; --coral:#DC4C4C; --coral-soft:#FCEAEA;
+    --sans:"Calibri","Segoe UI",system-ui,-apple-system,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+    --r:14px; --shadow:0 1px 2px rgba(26,34,51,.05), 0 8px 24px -14px rgba(26,34,51,.28);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#E6EDF5; --ink-2:#C2CDDC; --muted:#8B9BB4; --faint:#6B7C97;
+      --ground:#0C1420; --card:#131C2A; --soft:#101827; --line:#243146; --line-2:#33415A;
+      --teal:#2ED3AE; --teal-deep:#7EEBD0; --mint:#0F2E2B; --mint-2:#1C544A;
+      --blue:#6C9BF0; --blue-soft:#15233C; --blue-2:#3D557F; --navy:#8FB4D8;
+      --amber:#EDA855; --amber-soft:#33240F; --coral:#EE6D6D; --coral-soft:#3A1A1C;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -14px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#E6EDF5; --ink-2:#C2CDDC; --muted:#8B9BB4; --faint:#6B7C97;
+    --ground:#0C1420; --card:#131C2A; --soft:#101827; --line:#243146; --line-2:#33415A;
+    --teal:#2ED3AE; --teal-deep:#7EEBD0; --mint:#0F2E2B; --mint-2:#1C544A;
+    --blue:#6C9BF0; --blue-soft:#15233C; --blue-2:#3D557F; --navy:#8FB4D8;
+    --amber:#EDA855; --amber-soft:#33240F; --coral:#EE6D6D; --coral-soft:#3A1A1C;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -14px rgba(0,0,0,.7);
+  }
+  :root[data-theme="light"]{
+    --ink:#1A2233; --ink-2:#3C4759; --muted:#64708A; --faint:#8FA3C9;
+    --ground:#F4F8FB; --card:#FFFFFF; --soft:#FAFCFD; --line:#E2EAF0; --line-2:#C7D0DC;
+    --teal:#17B294; --teal-deep:#0E8E75; --mint:#E7FAF4; --mint-2:#A9E7D8;
+    --blue:#2F6FE0; --blue-soft:#EDF3FD; --blue-2:#9DB4E6; --navy:#0F2E45;
+    --amber:#E08A2F; --amber-soft:#FDF1E0; --coral:#DC4C4C; --coral-soft:#FCEAEA;
+    --shadow:0 1px 2px rgba(26,34,51,.05), 0 8px 24px -14px rgba(26,34,51,.28);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px 72px}
+
+  /* ---------- topo ---------- */
+  .brandbar{display:flex;align-items:center;gap:12px;padding:22px 0 0}
+  .mv{width:34px;height:34px;border-radius:9px;background:var(--teal);color:#fff;
+    display:grid;place-items:center;font-weight:700;font-size:13px;letter-spacing:.5px;flex:none}
+  .brandbar .who{font-size:12px;color:var(--muted);line-height:1.3}
+  .brandbar .who b{display:block;color:var(--ink);font-size:13px;font-weight:600}
+  .brandbar .spacer{flex:1}
+  .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--teal);font-weight:600}
+
+  header.hero{padding:34px 0 26px;border-bottom:1px solid var(--line)}
+  h1{font-size:clamp(30px,4.4vw,46px);line-height:1.08;margin:12px 0 0;font-weight:700;
+    letter-spacing:-.9px;text-wrap:balance;max-width:19ch}
+  h1 em{font-style:normal;color:var(--teal)}
+  .lede{margin:16px 0 0;max-width:64ch;color:var(--ink-2);font-size:15.5px}
+
+  /* ---------- barra de prontidão ---------- */
+  .readiness{margin-top:28px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px 32px;align-items:end}
+  .rbar{height:14px;border-radius:7px;overflow:hidden;display:flex;background:var(--line);
+    box-shadow:inset 0 0 0 1px var(--line-2)}
+  .rbar i{display:block;height:100%;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+  .rbar .s-atual{background:var(--teal)}
+  .rbar .s-ant{background:var(--blue)}
+  .rbar .s-sem{background:var(--line-2)}
+  .rlegend{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:12px;font-size:12.5px;color:var(--muted)}
+  .rlegend span{display:flex;align-items:center;gap:7px}
+  .rlegend i{width:10px;height:10px;border-radius:3px;flex:none}
+  .rlegend b{color:var(--ink);font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums}
+  .bignum{text-align:right;line-height:1}
+  .bignum .n{font-family:var(--mono);font-size:52px;font-weight:600;letter-spacing:-2px;
+    color:var(--teal);font-variant-numeric:tabular-nums}
+  .bignum .n small{font-size:22px;color:var(--muted);letter-spacing:-1px}
+  .bignum .cap{font-size:12px;color:var(--muted);margin-top:6px;max-width:17ch;margin-left:auto;line-height:1.35}
+
+  /* ---------- controles ---------- */
+  .controls{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ground) 88%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 0;margin-bottom:8px}
+  .toggle{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line-2);
+    background:var(--card);border-radius:999px;padding:7px 15px 7px 11px;cursor:pointer;
+    font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--ink-2);transition:.18s}
+  .toggle:hover{border-color:var(--teal)}
+  .toggle .sw{width:32px;height:18px;border-radius:999px;background:var(--line-2);position:relative;transition:.18s;flex:none}
+  .toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;transition:.18s;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+  .toggle[aria-pressed="true"]{color:var(--teal-deep);border-color:var(--teal);background:var(--mint)}
+  .toggle[aria-pressed="true"] .sw{background:var(--teal)}
+  .toggle[aria-pressed="true"] .sw::after{transform:translateX(14px)}
+  .toggle:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+  .controls .hint{font-size:12.5px;color:var(--muted)}
+  .controls .spacer{flex:1}
+  .jump{font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;
+    border:1px solid var(--line);border-radius:7px;padding:5px 9px;transition:.15s}
+  .jump:hover{border-color:var(--teal);color:var(--teal-deep)}
+
+  /* ---------- etapas ---------- */
+  .stage{display:grid;grid-template-columns:78px minmax(0,1fr);gap:0 24px;position:relative;padding:30px 0}
+  .stage + .stage{border-top:1px solid var(--line)}
+  .rail{position:relative}
+  .rail .num{width:52px;height:52px;border-radius:15px;background:var(--card);border:1px solid var(--line-2);
+    display:grid;place-items:center;font-family:var(--mono);font-size:19px;font-weight:600;color:var(--ink);
+    box-shadow:var(--shadow);position:relative;z-index:2;font-variant-numeric:tabular-nums}
+  .stage.hot .rail .num{border-color:var(--teal);color:var(--teal-deep);background:var(--mint)}
+  .rail .thread{position:absolute;left:26px;top:52px;bottom:-30px;width:2px;background:var(--line);z-index:1}
+  .stage:last-of-type .rail .thread{display:none}
+  .rail .mini{margin-top:12px;font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;
+    width:52px;font-variant-numeric:tabular-nums}
+
+  .sh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .sh h2{font-size:21px;margin:0;font-weight:700;letter-spacing:-.4px;color:var(--ink)}
+  .sh .kicker{font-size:13px;color:var(--muted)}
+  .sdesc{margin:10px 0 0;color:var(--ink-2);font-size:14.5px;max-width:74ch}
+
+  .meter{display:flex;gap:3px;margin:16px 0 14px;height:5px}
+  .meter i{border-radius:3px;height:100%}
+  .meter .m-atual{background:var(--teal)}
+  .meter .m-ant{background:var(--blue-2)}
+  .meter .m-sem{background:var(--line-2)}
+
+  .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:8px}
+  .chip{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;
+    background:var(--card);border:1px solid var(--line);border-radius:11px;padding:10px 12px;
+    transition:border-color .16s, opacity .22s, transform .16s;text-decoration:none;color:inherit}
+  .chip:hover{border-color:var(--line-2);transform:translateY(-1px)}
+  .chip .k{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.02em;
+    padding:3px 7px;border-radius:6px;white-space:nowrap}
+  .chip .t{font-size:13px;color:var(--ink-2);line-height:1.38}
+  .chip.atual{border-left:3px solid var(--teal)}
+  .chip.atual .k{background:var(--mint);color:var(--teal-deep)}
+  .chip.atual:hover{border-color:var(--teal)}
+  .chip.ant{border-left:3px solid var(--blue-2)}
+  .chip.ant .k{background:var(--blue-soft);color:var(--blue)}
+  .chip.sem{border-left:3px dashed var(--line-2);background:var(--soft)}
+  .chip.sem .k{background:var(--line);color:var(--muted)}
+  .chip.sem .t{color:var(--muted);font-style:italic}
+
+  /* modo homologação */
+  body.focus .chip:not(.atual){opacity:.26;filter:saturate(.3)}
+  body.focus .chip.atual{box-shadow:0 0 0 1px var(--teal), 0 6px 18px -10px rgba(23,178,148,.6)}
+  body.focus .stage:not(.hot){opacity:.55}
+
+  /* regras de alçada */
+  .rules{margin:16px 0 4px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+  .rules .rt{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);padding:10px 14px;border-bottom:1px solid var(--line);background:var(--soft)}
+  .rules dl{margin:0;display:grid;grid-template-columns:minmax(180px,auto) minmax(0,1fr)}
+  .rules dt{padding:9px 14px;font-size:12.5px;font-family:var(--mono);color:var(--ink);
+    border-bottom:1px solid var(--line);background:var(--soft)}
+  .rules dd{margin:0;padding:9px 14px;font-size:13px;color:var(--ink-2);border-bottom:1px solid var(--line)}
+  .rules dl>:nth-last-child(-n+2){border-bottom:0}
+
+  /* ---------- ciclo de vida ---------- */
+  .lifecycle{margin:26px 0 0;padding:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+  .lc-flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .lc-step{display:flex;align-items:center;gap:9px;background:var(--soft);border:1px solid var(--line);
+    border-radius:10px;padding:9px 14px}
+  .lc-step .i{font-family:var(--mono);font-size:11px;color:var(--teal);font-weight:600}
+  .lc-step .l{font-size:13.5px;font-weight:600;color:var(--ink)}
+  .lc-arrow{color:var(--line-2);font-size:16px}
+  .lc-exc{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+  .lc-exc .x{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:7px;
+    border:1px solid var(--line);border-radius:8px;padding:6px 11px;background:var(--soft)}
+  .lc-exc .x i{width:7px;height:7px;border-radius:50%;background:var(--amber);flex:none}
+  .lc-exc .x.stop i{background:var(--coral)}
+
+  /* ---------- síntese ---------- */
+  .synth{margin-top:44px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);overflow:hidden}
+  .synth h2{margin:0;padding:18px 22px;font-size:16px;border-bottom:1px solid var(--line);
+    letter-spacing:-.2px;background:var(--soft)}
+  .tblwrap{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;min-width:520px}
+  th,td{text-align:left;padding:10px 22px;border-bottom:1px solid var(--line);font-size:13.5px}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);font-weight:600}
+  td.n{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums;width:1%;white-space:nowrap}
+  td.n b{color:var(--teal-deep)}
+  tr:last-child td{border-bottom:0}
+  tfoot td{background:var(--soft);font-weight:700}
+  .barcell{width:120px}
+  .minibar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;display:flex}
+  .minibar i{height:100%}
+
+  footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-size:12px;color:var(--muted)}
+  footer .mono{font-family:var(--mono)}
+
+  @media(max-width:720px){
+    .readiness{grid-template-columns:1fr}
+    .bignum{text-align:left}.bignum .cap{margin-left:0}
+    .stage{grid-template-columns:1fr;gap:14px}
+    .rail{display:flex;align-items:center;gap:12px}
+    .rail .thread{display:none}
+    .rail .mini{margin-top:0;text-align:left;width:auto}
+    .rules dl{grid-template-columns:1fr}
+    .rules dt{border-bottom:0;padding-bottom:0;background:transparent}
+    .rules dd{background:transparent}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="brandbar">
+    <div class="mv">MV</div>
+    <div class="who"><b>Projeto Nexus</b>Central de Projetos · MV × Sotelli</div>
+    <div class="spacer"></div>
+    <div class="eyebrow">Fluxo de negócio · onepage</div>
+  </div>
+
+  <header class="hero">
+    <h1>O ciclo completo, <em>da virada à entrega</em></h1>
+    <p class="lede">Todo o processo da Central de Projetos em uma página — da parametrização inicial ao
+      encerramento. Cada passo mostra as User Stories que o sustentam e, principalmente,
+      <b>quais entram nesta rodada de homologação</b>.</p>
+
+    <div class="readiness">
+      <div>
+        <div class="rbar" role="img" aria-label="66 US no lote atual, 24 já homologadas, 3 passos sem US">
+          <i class="s-atual" style="width:0" data-w="70.97"></i>
+          <i class="s-ant"   style="width:0" data-w="25.81"></i>
+          <i class="s-sem"   style="width:0" data-w="3.22"></i>
+        </div>
+        <div class="rlegend">
+          <span><i style="background:var(--teal)"></i><b>66</b> nesta homologação</span>
+          <span><i style="background:var(--blue)"></i><b>24</b> homologadas antes</span>
+          <span><i style="background:var(--line-2)"></i><b>3</b> passos sem US</span>
+        </div>
+      </div>
+      <div class="bignum">
+        <div class="n">66<small>/90</small></div>
+        <div class="cap">User Stories a validar nesta rodada</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <button class="toggle" id="focusBtn" aria-pressed="false">
+      <span class="sw" aria-hidden="true"></span>
+      Modo homologação
+    </button>
+    <span class="hint" id="focusHint">Realça só as 66 US desta rodada</span>
+    <span class="spacer"></span>
+    <a class="jump" href="#sintese">síntese ↓</a>
+  </div>
+
+  <section class="lifecycle" aria-labelledby="lc-t">
+    <div class="eyebrow" id="lc-t">Status do projeto · ciclo de vida</div>
+    <div class="lc-flow" style="margin-top:14px">
+      <div class="lc-step"><span class="i">1</span><span class="l">Planejamento</span></div>
+      <span class="lc-arrow" aria-hidden="true">→</span>
+      <div class="lc-step"><span class="i">2</span><span class="l">Execução</span></div>
+      <span class="lc-arrow" aria-hidden="true">→</span>
+      <div class="lc-step"><span class="i">3</span><span class="l">Aguardando TEP</span></div>
+      <span class="lc-arrow" aria-hidden="true">→</span>
+      <div class="lc-step"><span class="i">4</span><span class="l">Encerrado</span></div>
+    </div>
+    <div class="lc-exc">
+      <span class="x"><i></i>Suspenso</span>
+      <span class="x stop"><i></i>Encerrado compulsório</span>
+      <span class="x stop"><i></i>Distrato / Cancelado</span>
+    </div>
+  </section>
+
+  <main id="stages"></main>
+
+  <section class="synth" id="sintese">
+    <h2>O ciclo completo, etapa por etapa</h2>
+    <div class="tblwrap">
+      <table>
+        <thead><tr>
+          <th>Etapa</th><th class="barcell">Composição</th>
+          <th style="text-align:right">Nesta rodada</th><th style="text-align:right">Antes</th><th style="text-align:right">Total</th>
+        </tr></thead>
+        <tbody id="synthBody"></tbody>
+        <tfoot><tr>
+          <td>12 etapas</td><td></td>
+          <td class="n"><b id="tAtual">66</b></td><td class="n" id="tAnt">24</td><td class="n" id="tTot">90</td>
+        </tr></tfoot>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <span>Base: <span class="mono">central_projetos_fluxo_onepage</span> · Jira <span class="mono">MVPMO</span></span>
+    <span class="mono">PROJETO NEXUS · MV × SOTELLI</span>
+  </footer>
+</div>
+
+<script>
+const S = "atual", A = "ant", N = "sem";
+
+const STAGES = [
+  { n:1, nome:"Parametrização inicial", kicker:"pré-onboarding — a base antes do primeiro projeto",
+    desc:"Antes de qualquer projeto existir, o Administrador da Plataforma organiza a base que sustenta toda a Central: estrutura organizacional, cargos e o ciclo de vida padrão que todo projeto vai seguir.",
+    us:[
+      ["MVPMO-29",'Criação do objeto "Cargos"',A],
+      ["MVPMO-31",'Criação do objeto "Habilidades"',A],
+      ["MVPMO-32",'Criação do objeto "Local de Trabalho"',A],
+      ["MVPMO-28",'Criação do objeto "Unidade Vertical"',A],
+      ["MVPMO-27",'Criação do objeto "Centro de Custo"',A],
+      ["MVPMO-35",'Criação do objeto "Cidade"',A],
+      ["MVPMO-264","Melhoria — exibição da hierarquia de Verticais via LWC",S],
+      ["MVPMO-265","Ajustes e melhorias no objeto Cargos",S],
+      ["MVPMO-294","Gestão de ciclo de vida e status do projeto",S],
+    ]},
+  { n:2, nome:"Onboarding & Kickoff", kicker:"criação do Projeto/Programa — o ponto de partida",
+    desc:"A jornada começa no onboarding: metodologia e modelo já vêm da virada, o sistema dispara a criação do registro, e o Projeto nasce com cronograma e orçamento esboçados a partir da cotação e do contrato.",
+    us:[
+      ["","Seleção de metodologia e modelo (na virada)",N],
+      ["","Gatilho de criação (aviso automático)",N],
+      ["MVPMO-165","Estrutura de modelo de projetos",S],
+      ["MVPMO-94","Criação de programa e vínculo do projeto ao programa",S],
+      ["","Geração automática do baseline (cotação + contrato)",N],
+      ["MVPMO-4",'Criação do objeto "Projetos"',A],
+      ["MVPMO-92","Cadastro de metodologia de fases de projeto",A],
+      ["MVPMO-103","Gestão de fases do projeto",A],
+      ["MVPMO-148","Integração IBGE",S],
+      ["MVPMO-257","Tipo de conclusão em fases do projeto",S],
+      ["MVPMO-86","Automação e governança de fases do projeto",A],
+      ["MVPMO-302","Auditoria de alterações no cronograma",S],
+      ["MVPMO-180","Habilitador — bibliotecas Bryntum (Gantt, Calendar, Task Board)",S],
+      ["MVPMO-9",'Criação do objeto "Destaques do Projeto"',A],
+      ["MVPMO-90","Base de lições aprendidas por projeto",S],
+      ["MVPMO-167","Tela para filtrar e buscar lições aprendidas",S],
+      ["MVPMO-91","Cálculo de % prevista e % realizada por tarefa, projeto e programa",S],
+      ["MVPMO-296","Governança de fluxo de SLA de TEP",S],
+    ]},
+  { n:3, nome:"Planejamento — Orçamento", kicker:"versionamento, comparação e aprovação financeira",
+    desc:"Com o projeto criado, entra o planejamento financeiro. Nenhuma alteração acontece no registro aprovado — tudo passa por nova versão, comparação e um fluxo de aprovação por margem.",
+    rules:[
+      ["Margem ≥ 45%","Notificação de ciência (PMO / Gestão Direta)"],
+      ["Margem < 45%","Aprovação Nível 1 → Nível 2 (Diretoria)"],
+      ["Delta acumulado > 10% da Baseline Zero","Alçada especial de aprovação"],
+      ["Reprovado em qualquer nível","Volta para Rascunho"],
+    ],
+    us:[
+      ["MVPMO-33",'Criação do objeto "Linhas de orçamento"',A],
+      ["MVPMO-99","Aprovação de orçamento inicial",A],
+      ["MVPMO-100","Aprovação de alteração de orçamento",S],
+      ["MVPMO-102","Comparativo de versão de orçamento de projetos",S],
+      ["MVPMO-272","Habilitador — comparativo em horas e datas das versões",S],
+      ["MVPMO-289","Botão de comparativo de versões na tela de aprovação",S],
+      ["MVPMO-172","Notificação de ciência e motivos estruturados para alteração",S],
+      ["MVPMO-304","Ajuste do fluxo de aprovação de orçamento inicial",S],
+      ["MVPMO-305","Ajuste de aprovação de alteração orçamentária com delta acumulado",S],
+      ["MVPMO-48","Bloqueio de alteração em linhas de versões aprovadas",A],
+      ["MVPMO-101","Estrutura do DRE orçado, planejado, realizado e real",S],
+    ]},
+  { n:4, nome:"Planejamento — Versão do Projeto", kicker:"clonagem, ativação e controle de versões",
+    desc:"Toda mudança relevante — orçamento, prazo ou escopo — nasce como uma nova Versão do Projeto. Esta etapa mostra como essa versão é criada, ativada e mantida organizada.",
+    us:[
+      ["MVPMO-14",'Criação do objeto "Versão do Projeto"',A],
+      ["MVPMO-153","Criação de nova versão do projeto",S],
+      ["MVPMO-261","Ajuste — centro de custo na versão do projeto",S],
+      ["MVPMO-154","Exclusão de versão inválida ou rascunho",S],
+      ["MVPMO-227","Ativação de versão de projeto rascunho",S],
+      ["MVPMO-306","Aprovação para ativação de versão por alteração de prazo",S],
+      ["MVPMO-287","Ajustes de campos na versão do projeto",S],
+    ]},
+  { n:5, nome:"Planejamento — Linhas / Cronograma", kicker:"estruturando fases, entregas e atividades",
+    desc:"Dentro da versão ativa, o cronograma ganha forma: fases se desdobram em atividades, entregas e dependências — com regras de hierarquia e governança de exclusão.",
+    us:[
+      ["MVPMO-6","Criação de linha do projeto",A],
+      ["MVPMO-290","Hierarquia e classificação de tipos no objeto Linha do Projeto",S],
+      ["MVPMO-292","Criação automática de linha de projeto ao criar fase",S],
+      ["MVPMO-96","Cadastrar fase da linha do projeto",S],
+      ["MVPMO-10",'Criação do objeto "Dependências do Projeto"',A],
+      ["MVPMO-95","Cadastrar entregas do produto e do projeto",A],
+      ["MVPMO-97",'Objeto "Entrega" da linha do projeto',A],
+      ["MVPMO-286","Ajustes no objeto Entregas e Atividades",S],
+      ["MVPMO-231","Habilitador — cálculo de datas para linha agrupadora",S],
+      ["MVPMO-199","Habilitador — atribuição em horas para atividades",S],
+      ["MVPMO-187","Anexo obrigatório na conclusão de atividades",S],
+      ["MVPMO-312","Governança e notificação na exclusão de atividades com vínculos",S],
+      ["MVPMO-258","Habilitador — alterações em verticais",S],
+    ]},
+  { n:6, nome:"Planejamento — Gantt", kicker:"o cronograma em gráfico, tempo real",
+    desc:"O mesmo cronograma ganha uma camada visual: o Gantt (Bryntum) permite navegar, editar e comparar versões do projeto sem sair da tela gráfica.",
+    us:[
+      ["MVPMO-204","Interface do Gantt com o cronograma de metodologia",S],
+      ["MVPMO-291","Renderizador Gantt para nova estrutura de hierarquia e tipos",S],
+      ["MVPMO-254","Criação de atividades pelo renderizador Gantt",S],
+      ["MVPMO-255","Alternar e visualizar versões de projetos pelo Gantt",S],
+    ]},
+  { n:7, nome:"Planejamento — Calendário", kicker:"agenda de recursos e atividades",
+    desc:"Complementando o Gantt, o Calendário (Bryntum) dá uma visão de agenda — por recurso ou por atividade — e permite tratar exceções de dias úteis.",
+    us:[
+      ["MVPMO-224","Interface do Calendar para recursos",S],
+      ["MVPMO-225","Interface do Calendar para atividades",S],
+      ["MVPMO-228","Inclusão de dia útil ao calendário do projeto",S],
+    ]},
+  { n:8, nome:"Alocação de Recursos", kicker:"integração LG — internos, parceiros e externos",
+    desc:"Com o cronograma pronto, entra a alocação: buscar o recurso certo, solicitar, aprovar e — quando necessário — abrir a demanda para parceiros externos.",
+    us:[
+      ["MVPMO-7",'Criação do objeto "Recurso"',A],
+      ["MVPMO-84",'Criação do objeto "Habilidades do Recurso"',A],
+      ["MVPMO-36",'Exibição do objeto "Habilidades" via LWC',A],
+      ["MVPMO-191","Filtragem e visualização na disponibilidade dos recursos",S],
+      ["MVPMO-267","Habilitador — recursos internos e externos",S],
+      ["MVPMO-268","Agrupamento de internos e externos",S],
+      ["MVPMO-47",'Criação do objeto "Alocações do Projeto"',A],
+      ["MVPMO-223","Modal de solicitação de recursos",S],
+      ["MVPMO-8",'Criação do objeto "Atribuição"',A],
+      ["MVPMO-269","Modal de envio de vagas para terceiros",S],
+      ["MVPMO-288","Estrutura de dados para solicitação de recursos externos",S],
+      ["MVPMO-309","Objeto Candidato para gestão de leilão externo",S],
+      ["MVPMO-201","Alçada de aprovação para alocação de recursos",S],
+      ["MVPMO-203",'Habilitador — ajustes do objeto "Alocações do Projeto"',S],
+      ["MVPMO-285","Período de indisponibilidade para DateTime",S],
+      ["MVPMO-266","Melhoria — regra de duplicidade para habilidades",S],
+      ["MVPMO-314","Objeto de solicitação de extensão de prazo",S],
+    ]},
+  { n:9, nome:"Execução — Despesas", kicker:"integração Benner / MOVE",
+    desc:"Durante a execução, as despesas reais chegam automaticamente de um sistema financeiro externo (MOVE), sem lançamento manual duplicado.",
+    us:[
+      ["MVPMO-93","Habilitador — integração com o MOVE",S],
+      ["MVPMO-83",'Habilitador — "Despesas Mestre" e "Apontamentos Despesa"',S],
+      ["MVPMO-166","Salvar os dados retornados do MOVE no apontamento de despesas",S],
+    ]},
+  { n:10, nome:"Governança — Mudanças (GMUD)", kicker:"controlando alterações de escopo, prazo e custo",
+    desc:"Com o projeto rodando, mudanças relevantes de escopo, prazo ou custo não acontecem informalmente — passam por uma Gestão de Mudanças formal.",
+    us:[
+      ["MVPMO-174",'Habilitador — criação do objeto "GMUD"',S],
+      ["MVPMO-212","Fluxo de solicitação e aprovação de mudanças",S],
+      ["MVPMO-303","Alçadas GMUD: projetos e programas",S],
+    ]},
+  { n:11, nome:"Governança — Riscos", kicker:"riscos, issues e suspensão de projetos",
+    desc:"A governança de riscos acompanha o projeto do início ao fim — do registro simples de um risco até, em casos graves, a suspensão formal do projeto.",
+    us:[
+      ["MVPMO-12",'Criação do objeto "Riscos do Projeto"',S],
+      ["MVPMO-173","Registro para apontamento de issues",S],
+      ["MVPMO-293","Gestão e fluxo de suspensão de projetos",S],
+    ]},
+  { n:12, nome:"Indicadores & Encerramento", kicker:"fechando o ciclo do projeto",
+    desc:"No fim do ciclo, a Central consolida o que realmente aconteceu — incidentes registrados e o tempo real de execução, descontando períodos de suspensão.",
+    us:[
+      ["MVPMO-175","Cadastro de incidentes",S],
+      ["MVPMO-295","Automatização do tempo de projeto (data efetiva)",S],
+    ]},
+];
+
+const JIRA = "https://sottelli.atlassian.net/browse/";
+const cnt = (st, t) => st.us.filter(u => u[2] === t).length;
+
+document.getElementById("stages").innerHTML = STAGES.map(st => {
+  const a = cnt(st,S), b = cnt(st,A), c = cnt(st,N), tot = st.us.length;
+  const pct = x => (x / tot * 100).toFixed(2) + "%";
+  const rules = st.rules ? `
+    <div class="rules">
+      <div class="rt">Alçada de aprovação por margem</div>
+      <dl>${st.rules.map(([k,v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>
+    </div>` : "";
+  return `
+  <section class="stage${a ? " hot" : ""}" id="e${st.n}">
+    <div class="rail">
+      <div class="num">${st.n}</div>
+      <div class="thread" aria-hidden="true"></div>
+      <div class="mini">${tot} US</div>
+    </div>
+    <div>
+      <div class="sh"><h2>${st.nome}</h2><span class="kicker">${st.kicker}</span></div>
+      <p class="sdesc">${st.desc}</p>
+      <div class="meter" aria-hidden="true">
+        ${a ? `<i class="m-atual" style="flex:0 0 ${pct(a)}"></i>` : ""}
+        ${b ? `<i class="m-ant"   style="flex:0 0 ${pct(b)}"></i>` : ""}
+        ${c ? `<i class="m-sem"   style="flex:0 0 ${pct(c)}"></i>` : ""}
+      </div>
+      ${rules}
+      <div class="chips">
+        ${st.us.map(([k,t,tp]) => {
+          const cls = tp === S ? "atual" : tp === A ? "ant" : "sem";
+          const label = tp === S ? k : tp === A ? k : "próximo passo";
+          const inner = `<span class="k">${label}</span><span class="t">${t}</span>`;
+          return k
+            ? `<a class="chip ${cls}" href="${JIRA}${k}" target="_blank" rel="noopener">${inner}</a>`
+            : `<div class="chip ${cls}">${inner}</div>`;
+        }).join("")}
+      </div>
+    </div>
+  </section>`;
+}).join("");
+
+document.getElementById("synthBody").innerHTML = STAGES.map(st => {
+  const a = cnt(st,S), b = cnt(st,A), c = cnt(st,N), tot = st.us.length;
+  const w = x => (x / tot * 100).toFixed(2) + "%";
+  return `<tr>
+    <td><a href="#e${st.n}" style="color:inherit;text-decoration:none">${st.n}. ${st.nome}</a></td>
+    <td class="barcell"><div class="minibar">
+      ${a?`<i style="width:${w(a)};background:var(--teal)"></i>`:""}
+      ${b?`<i style="width:${w(b)};background:var(--blue-2)"></i>`:""}
+      ${c?`<i style="width:${w(c)};background:var(--line-2)"></i>`:""}
+    </div></td>
+    <td class="n"><b>${a || "—"}</b></td>
+    <td class="n">${b || "—"}</td>
+    <td class="n">${tot}</td>
+  </tr>`;
+}).join("");
+
+// modo homologação
+const btn = document.getElementById("focusBtn"), hint = document.getElementById("focusHint");
+btn.addEventListener("click", () => {
+  const on = btn.getAttribute("aria-pressed") === "true";
+  btn.setAttribute("aria-pressed", String(!on));
+  document.body.classList.toggle("focus", !on);
+  hint.textContent = !on
+    ? "Só as 66 US desta rodada em destaque — o resto recuou"
+    : "Realça só as 66 US desta rodada";
+});
+
+// entrada da barra
+requestAnimationFrame(() => {
+  document.querySelectorAll(".rbar i").forEach(i => { i.style.width = i.dataset.w + "%"; });
+});
+</script>
+</body></html>
