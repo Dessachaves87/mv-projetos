@@ -339,10 +339,16 @@ consistência depende de o time deixar só uma etiqueta de veredito por card.</d
 não entram nesta fatia mesmo que recebam a etiqueta.</div>
 
 <h3>Homologadas — o indicador que reportamos <span class="res" data-m="homol">—</span></h3>
-<div class="jql"><pre>Homologadas = Aprovada      (etiqueta "Aprovado" + habilitadores em UAT)</pre></div>
-<div class="nota">Só entra aqui quem tem <b>carimbo explícito</b>: a etiqueta “Aprovado” no card, ou
+<p>Não é uma query só — é a <b>soma de duas</b>: testáveis com a etiqueta "Aprovado" mais os
+habilitadores que já chegaram à UAT (eles não passam por teste, então contam direto assim que entregues).</p>
+<p style="color:var(--muted);font-size:12.5px;margin:14px 0 2px">1 · Testáveis aprovadas <span class="res" data-m="homF">—</span></p>
+<div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND labels = "Aprovado"</pre></div>
+<p style="color:var(--muted);font-size:12.5px;margin:14px 0 2px">2 · Habilitadores em UAT <span class="res" data-m="aprHab">—</span></p>
+<div class="jql"><pre>project = MVREV AND issuetype = 10005 AND status in (
+  "Liberado para deploy","PRONTO PARA DEPLOY EM PROD")</pre></div>
+<div class="nota">Só entra aqui quem tem <b>carimbo explícito</b>: a etiqueta "Aprovado" no card, ou
 ser um habilitador em UAT (que não passa por teste). Estar em produção, ou estar na coluna de
-homologação, <b>não basta</b>.</div>
+homologação, <b>não basta</b>. <b>Homologadas = 1 + 2.</b></div>
 
 <h2><span class="n">06</span>Habilitadores e alertas</h2>
 <p>Habilitadores usam a mesma régua de status, só muda o tipo. Eles <b>não</b> passam por homologação —
