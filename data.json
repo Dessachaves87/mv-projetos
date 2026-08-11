@@ -1,5 +1,5 @@
 {
-  "ts": "10/08/2026 · 01:37",
+  "ts": "11/08/2026 · 01:19",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
@@ -9,19 +9,19 @@
       ],
       "aDes": [
         14,
-        9
+        8
       ],
       "desenv": [
         202,
-        48
+        49
       ],
       "testes": [
-        79,
-        29
+        76,
+        28
       ],
       "libUAT": [
-        123,
-        19
+        126,
+        21
       ],
       "emprod": [
         0,
@@ -30,7 +30,7 @@
       "hom": {
         "aprovada": [
           26,
-          19
+          21
         ],
         "emprod": [
           0,
@@ -187,12 +187,12 @@
         26
       ],
       "testes": [
-        58,
-        25
+        55,
+        23
       ],
       "libUAT": [
-        56,
-        1
+        59,
+        3
       ],
       "emprod": [
         0,
@@ -201,7 +201,7 @@
       "hom": {
         "aprovada": [
           9,
-          1
+          3
         ],
         "emprod": [
           0,
@@ -311,15 +311,15 @@
       ],
       "aDes": [
         4,
-        4
+        3
       ],
       "desenv": [
         88,
-        22
+        23
       ],
       "testes": [
         21,
-        4
+        5
       ],
       "libUAT": [
         67,
