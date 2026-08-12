@@ -1,15 +1,15 @@
 {
-  "ts": "12/08/2026 · 01:46",
+  "ts": "12/08/2026 · 16:13",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
         216,
-        58
+        59
       ],
       "aDes": [
         13,
-        9
+        10
       ],
       "desenv": [
         203,
@@ -17,11 +17,11 @@
       ],
       "testes": [
         74,
-        25
+        24
       ],
       "libUAT": [
         129,
-        24
+        25
       ],
       "emprod": [
         0,
@@ -30,7 +30,7 @@
       "hom": {
         "aprovada": [
           26,
-          24
+          25
         ],
         "emprod": [
           0,
@@ -46,7 +46,7 @@
         ]
       },
       "bloq": [
-        24,
+        36,
         0
       ],
       "corr": 0,
@@ -82,8 +82,63 @@
           "type": "bloq"
         },
         {
+          "k": "MVREV-353",
+          "t": "Definições de Parâmetros gerais Revenue Cloud para cobrança",
+          "type": "bloq"
+        },
+        {
           "k": "MVREV-352",
           "t": "Processo de Integração para Comissionamento",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-350",
+          "t": "Implementar Objeto de Títulos e Pagamentos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-349",
+          "t": "Implementar integração de Títulos e Pagamentos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-348",
+          "t": "Processo de Cancelamento de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-347",
+          "t": "Implementar integração de Cancelamento de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-346",
+          "t": "Processo de Integração de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-345",
+          "t": "Processo de Integração de Contas",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-344",
+          "t": "Implementar objeto de condições de pagamentos Salesforce",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-343",
+          "t": "Implementar Integração de Contas",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-342",
+          "t": "Implementar integração de consulta de Condições de Pagamento",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-341",
+          "t": "Implementar integração de criação de Notas Fiscais",
           "type": "bloq"
         },
         {
@@ -109,6 +164,11 @@
         {
           "k": "MVREV-331",
           "t": "Manutenção de Requisitos através do Gemini",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-298",
+          "t": "Alertar Remoção de Produto com Requisito Vinculado",
           "type": "bloq"
         },
         {
@@ -188,11 +248,11 @@
       ],
       "testes": [
         52,
-        20
+        19
       ],
       "libUAT": [
         62,
-        6
+        7
       ],
       "emprod": [
         0,
@@ -201,7 +261,7 @@
       "hom": {
         "aprovada": [
           9,
-          6
+          7
         ],
         "emprod": [
           0,
@@ -217,7 +277,7 @@
         ]
       },
       "bloq": [
-        16,
+        28,
         0
       ],
       "corr": 0,
@@ -253,8 +313,63 @@
           "type": "bloq"
         },
         {
+          "k": "MVREV-353",
+          "t": "Definições de Parâmetros gerais Revenue Cloud para cobrança",
+          "type": "bloq"
+        },
+        {
           "k": "MVREV-352",
           "t": "Processo de Integração para Comissionamento",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-350",
+          "t": "Implementar Objeto de Títulos e Pagamentos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-349",
+          "t": "Implementar integração de Títulos e Pagamentos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-348",
+          "t": "Processo de Cancelamento de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-347",
+          "t": "Implementar integração de Cancelamento de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-346",
+          "t": "Processo de Integração de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-345",
+          "t": "Processo de Integração de Contas",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-344",
+          "t": "Implementar objeto de condições de pagamentos Salesforce",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-343",
+          "t": "Implementar Integração de Contas",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-342",
+          "t": "Implementar integração de consulta de Condições de Pagamento",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-341",
+          "t": "Implementar integração de criação de Notas Fiscais",
           "type": "bloq"
         },
         {
@@ -283,6 +398,11 @@
           "type": "bloq"
         },
         {
+          "k": "MVREV-298",
+          "t": "Alertar Remoção de Produto com Requisito Vinculado",
+          "type": "bloq"
+        },
+        {
           "k": "MVREV-248",
           "t": "Benefícios no prontuário do cliente ",
           "type": "bloq"
@@ -307,11 +427,11 @@
     "Central de Projetos": {
       "total": [
         92,
-        27
+        28
       ],
       "aDes": [
         3,
-        4
+        5
       ],
       "desenv": [
         89,
