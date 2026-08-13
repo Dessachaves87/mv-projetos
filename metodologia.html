@@ -239,6 +239,12 @@ aparecem separados na linha de apoio do cartão.</div>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "Pronto para DEV","EM DESENVOLVIMENTO")</pre></div>
 
+<h3>Desenvolvidas <span class="res" data-m="des">—</span></h3>
+<div class="nota"><b>Desenvolvidas = Em testes internos + Liberadas p/ UAT + Em produção</b> (só testáveis). É o
+número que aparece ao lado do funil, junto com o % da US testáveis que ele representa: quanto já saiu
+de "A desenvolver" e está em algum ponto adiante do fluxo.</div>
+<div class="nota" style="border-left-color:var(--warn)"><b>Correção de 13/08.</b> Até então este número somava <b>testáveis + habilitadores</b>, mas era dividido só pelo total de testáveis — o percentual ao lado do funil podia passar de 100% (chegou a mostrar 122%). Corrigido para contar só testáveis, como o resto desta seção (mesma régua de "Liberadas p/ UAT" e "Homologadas (no funil)" logo abaixo).</div>
+
 <h3>Em testes internos <span class="res" data-m="tes">—</span></h3>
 <div class="jql"><pre>project = MVREV AND issuetype in (10001,10212) AND status in (
   "PRONTO PARA TESTES","Bug em Testes","Aguardando Review","Pós Review",
@@ -437,6 +443,7 @@ function valor(v, m){
     case 'libGeral': return v.libUAT[0] + v.libUAT[1];
     case 'libSplit': return `${v.libUAT[0]} testáveis · ${v.libUAT[1]} habilitadores`;
     case 'ades':     return v.aDes[0];
+    case 'des':      return v.desenv[0];
     case 'tes':      return v.testes[0];
     case 'lib':      return v.libUAT[0];
     // as três barras em que o funil divide "Liberadas p/ UAT"
