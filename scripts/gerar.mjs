@@ -243,9 +243,9 @@ async function montarView(nome) {
     homologacao(pj),
     // só User Stories (História, Melhoria, Habilitador) — Épico/Tarefa/Subtarefa/Bug ficam fora
     count(`project = ${pj} AND ${US} AND status = "${BLOQ}"`),
-    count(`project = ${pj} AND ${US} AND status = "${CORR}"`),
+    count(`project = ${pj} AND ${list('issuetype', [...IT.testavel, ...IT.habilitador])} AND labels IN ("BugEmTestes")`),
     issues(`project = ${pj} AND ${US} AND status = "${BLOQ}" ORDER BY key DESC`),
-    issues(`project = ${pj} AND ${US} AND status = "${CORR}" ORDER BY key DESC`),
+    issues(`project = ${pj} AND ${list('issuetype', [...IT.testavel, ...IT.habilitador])} AND labels IN ("BugEmTestes") ORDER BY key DESC`),
   ]);
   return {
     total: [t.total, h.total], aDes: [t.aDes, h.aDes],
