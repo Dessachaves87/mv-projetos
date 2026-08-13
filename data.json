@@ -1,519 +1,539 @@
-﻿{
-    "ts":  "13/08/2026 Â· 14:52",
-    "regra":  "esteira (upstream fora) Â· fonte Jira por status",
-    "data":  {
-                 "Consolidado":  {
-                                     "total":  [
-                                                   216,
-                                                   60
-                                               ],
-                                     "aDes":  [
-                                                  11,
-                                                  9
-                                              ],
-                                     "desenv":  [
-                                                    205,
-                                                    51
-                                                ],
-                                     "testes":  [
-                                                    76,
-                                                    26
-                                                ],
-                                     "libUAT":  [
-                                                    129,
-                                                    25
-                                                ],
-                                     "emprod":  [
-                                                    0,
-                                                    0
-                                                ],
-                                     "hom":  {
-                                                 "aprovada":  [
-                                                                  26,
-                                                                  25
-                                                              ],
-                                                 "emprod":  [
-                                                                0,
-                                                                0
-                                                            ],
-                                                 "aguardando":  [
-                                                                    48,
-                                                                    0
-                                                                ],
-                                                 "reprovada":  [
-                                                                   0,
-                                                                   0
-                                                               ]
-                                             },
-                                     "bloq":  [
-                                                  36,
-                                                  0
-                                              ],
-                                     "corr":  2,
-                                     "alerts":  [
-                                                    {
-                                                        "k":  "MVREV-382",
-                                                        "t":  "Encaminhamento de cotaÃ§Ã£o em fase de arquitetura para anÃ¡lise especializada de infraestrutura",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-381",
-                                                        "t":  "UI de consulta, criaÃ§Ã£o, ediÃ§Ã£o e exclusÃ£o de requisitos na cotaÃ§Ã£o",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-380",
-                                                        "t":  "BotÃ£o Processar Infraestrutura e geraÃ§Ã£o automÃ¡tica de requisitos",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-379",
-                                                        "t":  "Record Type e motor de geraÃ§Ã£o Campo/Valor",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-378",
-                                                        "t":  "Record Type e motor de validaÃ§Ã£o de infraestrutura",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-377",
-                                                        "t":  "Record Type e editor de Planilha de ReferÃªncia de Requisitos",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-353",
-                                                        "t":  "DefiniÃ§Ãµes de ParÃ¢metros gerais Revenue Cloud para cobranÃ§a",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-352",
-                                                        "t":  "Processo de IntegraÃ§Ã£o para Comissionamento",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-350",
-                                                        "t":  "Implementar Objeto de TÃ­tulos e Pagamentos",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-349",
-                                                        "t":  "Implementar integraÃ§Ã£o de TÃ­tulos e Pagamentos",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-348",
-                                                        "t":  "Processo de Cancelamento de Notas Fiscais",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-347",
-                                                        "t":  "Implementar integraÃ§Ã£o de Cancelamento de Notas Fiscais",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-346",
-                                                        "t":  "Processo de IntegraÃ§Ã£o de Notas Fiscais",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-345",
-                                                        "t":  "Processo de IntegraÃ§Ã£o de Contas",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-344",
-                                                        "t":  "Implementar objeto de condiÃ§Ãµes de pagamentos Salesforce",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-343",
-                                                        "t":  "Implementar IntegraÃ§Ã£o de Contas",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-342",
-                                                        "t":  "Implementar integraÃ§Ã£o de consulta de CondiÃ§Ãµes de Pagamento",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-341",
-                                                        "t":  "Implementar integraÃ§Ã£o de criaÃ§Ã£o de Notas Fiscais",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-340",
-                                                        "t":  "Cadastro de Regras, Verticais, Produtos e Infraestrutura",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-338",
-                                                        "t":  "Resumo Comercial",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-334",
-                                                        "t":  "CriaÃ§Ã£o do tipo de registro Requisitos no objeto Requisitos",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-332",
-                                                        "t":  "NotificaÃ§Ã£o SistÃªmica das Verticais",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-331",
-                                                        "t":  "ManutenÃ§Ã£o de Requisitos atravÃ©s do Gemini",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-298",
-                                                        "t":  "Alertar RemoÃ§Ã£o de Produto com Requisito Vinculado",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-248",
-                                                        "t":  "BenefÃ­cios no prontuÃ¡rio do cliente ",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-245",
-                                                        "t":  "Mostrar Personas no prontuario ",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-241",
-                                                        "t":  "Ajustar visualizaÃ§Ã£o da seÃ§Ã£o de LicenÃ§as com indicadores visuais",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVREV-209",
-                                                        "t":  "MigraÃ§Ã£o de Dados de Contas",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVPMO-330",
-                                                        "t":  "ConfiguraÃ§Ã£o de PermissÃµes e SeguranÃ§a para VisÃ£o de Cronograma (Gantt)",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVPMO-329",
-                                                        "t":  "VisualizaÃ§Ã£o de Cronograma (Gantt) para o Cliente",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVPMO-315",
-                                                        "t":  "GestÃ£o de Faturamento e Reconhecimento de Receita por Fase",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVPMO-307",
-                                                        "t":  "Ajustes de AprovaÃ§Ã£o de ConclusÃ£o de Fase e NotificaÃ§Ã£o de Receita",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVPMO-271",
-                                                        "t":  "Habilitador - visualizaÃ§Ã£o em horas na DRE",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVPMO-262",
-                                                        "t":  "Melhoria - Ajuste de Nomenclatura e Layout no Centro de Custo",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVPMO-256",
-                                                        "t":  "VisualizaÃ§Ã£o dos Programas pelo renderizador Gantt",
-                                                        "type":  "bloq"
-                                                    },
-                                                    {
-                                                        "k":  "MVPMO-229",
-                                                        "t":  "ImplementaÃ§Ã£o de Regras de CÃ¡lculo e ConsolidaÃ§Ã£o da DRE Financeira",
-                                                        "type":  "bloq"
-                                                    }
-                                                ]
-                                 },
-                 "Revenue":  {
-                                 "total":  [
-                                               124,
-                                               31
-                                           ],
-                                 "aDes":  [
-                                              8,
-                                              5
-                                          ],
-                                 "desenv":  [
-                                                116,
-                                                26
-                                            ],
-                                 "testes":  [
-                                                54,
-                                                19
-                                            ],
-                                 "libUAT":  [
-                                                62,
-                                                7
-                                            ],
-                                 "emprod":  [
-                                                0,
-                                                0
-                                            ],
-                                 "hom":  {
-                                             "aprovada":  [
-                                                              9,
-                                                              7
-                                                          ],
-                                             "emprod":  [
-                                                            0,
-                                                            0
-                                                        ],
-                                             "aguardando":  [
-                                                                48,
-                                                                0
-                                                            ],
-                                             "reprovada":  [
-                                                               0,
-                                                               0
-                                                           ]
-                                         },
-                                 "bloq":  [
-                                              28,
-                                              0
-                                          ],
-                                 "corr":  0,
-                                 "alerts":  [
-                                                {
-                                                    "k":  "MVREV-382",
-                                                    "t":  "Encaminhamento de cotaÃ§Ã£o em fase de arquitetura para anÃ¡lise especializada de infraestrutura",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-381",
-                                                    "t":  "UI de consulta, criaÃ§Ã£o, ediÃ§Ã£o e exclusÃ£o de requisitos na cotaÃ§Ã£o",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-380",
-                                                    "t":  "BotÃ£o Processar Infraestrutura e geraÃ§Ã£o automÃ¡tica de requisitos",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-379",
-                                                    "t":  "Record Type e motor de geraÃ§Ã£o Campo/Valor",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-378",
-                                                    "t":  "Record Type e motor de validaÃ§Ã£o de infraestrutura",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-377",
-                                                    "t":  "Record Type e editor de Planilha de ReferÃªncia de Requisitos",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-353",
-                                                    "t":  "DefiniÃ§Ãµes de ParÃ¢metros gerais Revenue Cloud para cobranÃ§a",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-352",
-                                                    "t":  "Processo de IntegraÃ§Ã£o para Comissionamento",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-350",
-                                                    "t":  "Implementar Objeto de TÃ­tulos e Pagamentos",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-349",
-                                                    "t":  "Implementar integraÃ§Ã£o de TÃ­tulos e Pagamentos",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-348",
-                                                    "t":  "Processo de Cancelamento de Notas Fiscais",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-347",
-                                                    "t":  "Implementar integraÃ§Ã£o de Cancelamento de Notas Fiscais",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-346",
-                                                    "t":  "Processo de IntegraÃ§Ã£o de Notas Fiscais",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-345",
-                                                    "t":  "Processo de IntegraÃ§Ã£o de Contas",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-344",
-                                                    "t":  "Implementar objeto de condiÃ§Ãµes de pagamentos Salesforce",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-343",
-                                                    "t":  "Implementar IntegraÃ§Ã£o de Contas",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-342",
-                                                    "t":  "Implementar integraÃ§Ã£o de consulta de CondiÃ§Ãµes de Pagamento",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-341",
-                                                    "t":  "Implementar integraÃ§Ã£o de criaÃ§Ã£o de Notas Fiscais",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-340",
-                                                    "t":  "Cadastro de Regras, Verticais, Produtos e Infraestrutura",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-338",
-                                                    "t":  "Resumo Comercial",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-334",
-                                                    "t":  "CriaÃ§Ã£o do tipo de registro Requisitos no objeto Requisitos",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-332",
-                                                    "t":  "NotificaÃ§Ã£o SistÃªmica das Verticais",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-331",
-                                                    "t":  "ManutenÃ§Ã£o de Requisitos atravÃ©s do Gemini",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-298",
-                                                    "t":  "Alertar RemoÃ§Ã£o de Produto com Requisito Vinculado",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-248",
-                                                    "t":  "BenefÃ­cios no prontuÃ¡rio do cliente ",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-245",
-                                                    "t":  "Mostrar Personas no prontuario ",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-241",
-                                                    "t":  "Ajustar visualizaÃ§Ã£o da seÃ§Ã£o de LicenÃ§as com indicadores visuais",
-                                                    "type":  "bloq"
-                                                },
-                                                {
-                                                    "k":  "MVREV-209",
-                                                    "t":  "MigraÃ§Ã£o de Dados de Contas",
-                                                    "type":  "bloq"
-                                                }
-                                            ]
-                             },
-                 "Central de Projetos":  {
-                                             "total":  [
-                                                           92,
-                                                           29
-                                                       ],
-                                             "aDes":  [
-                                                          3,
-                                                          4
-                                                      ],
-                                             "desenv":  [
-                                                            89,
-                                                            25
-                                                        ],
-                                             "testes":  [
-                                                            22,
-                                                            7
-                                                        ],
-                                             "libUAT":  [
-                                                            67,
-                                                            18
-                                                        ],
-                                             "emprod":  [
-                                                            0,
-                                                            0
-                                                        ],
-                                             "hom":  {
-                                                         "aprovada":  [
-                                                                          17,
-                                                                          18
-                                                                      ],
-                                                         "emprod":  [
-                                                                        0,
-                                                                        0
-                                                                    ],
-                                                         "aguardando":  [
-                                                                            0,
-                                                                            0
-                                                                        ],
-                                                         "reprovada":  [
-                                                                           0,
-                                                                           0
-                                                                       ]
-                                                     },
-                                             "bloq":  [
-                                                          8,
-                                                          0
-                                                      ],
-                                             "corr":  2,
-                                             "alerts":  [
-                                                            {
-                                                                "k":  "MVPMO-330",
-                                                                "t":  "ConfiguraÃ§Ã£o de PermissÃµes e SeguranÃ§a para VisÃ£o de Cronograma (Gantt)",
-                                                                "type":  "bloq"
-                                                            },
-                                                            {
-                                                                "k":  "MVPMO-329",
-                                                                "t":  "VisualizaÃ§Ã£o de Cronograma (Gantt) para o Cliente",
-                                                                "type":  "bloq"
-                                                            },
-                                                            {
-                                                                "k":  "MVPMO-315",
-                                                                "t":  "GestÃ£o de Faturamento e Reconhecimento de Receita por Fase",
-                                                                "type":  "bloq"
-                                                            },
-                                                            {
-                                                                "k":  "MVPMO-307",
-                                                                "t":  "Ajustes de AprovaÃ§Ã£o de ConclusÃ£o de Fase e NotificaÃ§Ã£o de Receita",
-                                                                "type":  "bloq"
-                                                            },
-                                                            {
-                                                                "k":  "MVPMO-271",
-                                                                "t":  "Habilitador - visualizaÃ§Ã£o em horas na DRE",
-                                                                "type":  "bloq"
-                                                            },
-                                                            {
-                                                                "k":  "MVPMO-262",
-                                                                "t":  "Melhoria - Ajuste de Nomenclatura e Layout no Centro de Custo",
-                                                                "type":  "bloq"
-                                                            },
-                                                            {
-                                                                "k":  "MVPMO-256",
-                                                                "t":  "VisualizaÃ§Ã£o dos Programas pelo renderizador Gantt",
-                                                                "type":  "bloq"
-                                                            },
-                                                            {
-                                                                "k":  "MVPMO-229",
-                                                                "t":  "ImplementaÃ§Ã£o de Regras de CÃ¡lculo e ConsolidaÃ§Ã£o da DRE Financeira",
-                                                                "type":  "bloq"
-                                                            }
-                                                        ]
-                                         }
-             }
+{
+  "ts": "13/08/2026 · 15:51",
+  "regra": "esteira (upstream fora) · fonte Jira por status",
+  "data": {
+    "Consolidado": {
+      "total": [
+        216,
+        60
+      ],
+      "aDes": [
+        11,
+        9
+      ],
+      "desenv": [
+        205,
+        51
+      ],
+      "testes": [
+        76,
+        26
+      ],
+      "libUAT": [
+        129,
+        25
+      ],
+      "emprod": [
+        0,
+        0
+      ],
+      "hom": {
+        "aprovada": [
+          26,
+          25
+        ],
+        "emprod": [
+          0,
+          0
+        ],
+        "aguardando": [
+          48,
+          0
+        ],
+        "reprovada": [
+          0,
+          0
+        ]
+      },
+      "bloq": [
+        36,
+        0
+      ],
+      "corr": 2,
+      "alerts": [
+        {
+          "k": "MVREV-382",
+          "t": "Encaminhamento de cotação em fase de arquitetura para análise especializada de infraestrutura",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-381",
+          "t": "UI de consulta, criação, edição e exclusão de requisitos na cotação",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-380",
+          "t": "Botão Processar Infraestrutura e geração automática de requisitos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-379",
+          "t": "Record Type e motor de geração Campo/Valor",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-378",
+          "t": "Record Type e motor de validação de infraestrutura",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-377",
+          "t": "Record Type e editor de Planilha de Referência de Requisitos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-353",
+          "t": "Definições de Parâmetros gerais Revenue Cloud para cobrança",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-352",
+          "t": "Processo de Integração para Comissionamento",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-350",
+          "t": "Implementar Objeto de Títulos e Pagamentos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-349",
+          "t": "Implementar integração de Títulos e Pagamentos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-348",
+          "t": "Processo de Cancelamento de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-347",
+          "t": "Implementar integração de Cancelamento de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-346",
+          "t": "Processo de Integração de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-345",
+          "t": "Processo de Integração de Contas",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-344",
+          "t": "Implementar objeto de condições de pagamentos Salesforce",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-343",
+          "t": "Implementar Integração de Contas",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-342",
+          "t": "Implementar integração de consulta de Condições de Pagamento",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-341",
+          "t": "Implementar integração de criação de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-340",
+          "t": "Cadastro de Regras, Verticais, Produtos e Infraestrutura",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-338",
+          "t": "Resumo Comercial",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-334",
+          "t": "Criação do tipo de registro Requisitos no objeto Requisitos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-332",
+          "t": "Notificação Sistêmica das Verticais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-331",
+          "t": "Manutenção de Requisitos através do Gemini",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-298",
+          "t": "Alertar Remoção de Produto com Requisito Vinculado",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-248",
+          "t": "Benefícios no prontuário do cliente ",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-245",
+          "t": "Mostrar Personas no prontuario ",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-241",
+          "t": "Ajustar visualização da seção de Licenças com indicadores visuais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-209",
+          "t": "Migração de Dados de Contas",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-330",
+          "t": "Configuração de Permissões e Segurança para Visão de Cronograma (Gantt)",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-329",
+          "t": "Visualização de Cronograma (Gantt) para o Cliente",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-315",
+          "t": "Gestão de Faturamento e Reconhecimento de Receita por Fase",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-307",
+          "t": "Ajustes de Aprovação de Conclusão de Fase e Notificação de Receita",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-271",
+          "t": "Habilitador - visualização em horas na DRE",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-262",
+          "t": "Melhoria - Ajuste de Nomenclatura e Layout no Centro de Custo",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-256",
+          "t": "Visualização dos Programas pelo renderizador Gantt",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-229",
+          "t": "Implementação de Regras de Cálculo e Consolidação da DRE Financeira",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-262",
+          "t": "Melhoria - Ajuste de Nomenclatura e Layout no Centro de Custo",
+          "type": "corr"
+        },
+        {
+          "k": "MVPMO-256",
+          "t": "Visualização dos Programas pelo renderizador Gantt",
+          "type": "corr"
+        }
+      ]
+    },
+    "Revenue": {
+      "total": [
+        124,
+        31
+      ],
+      "aDes": [
+        8,
+        5
+      ],
+      "desenv": [
+        116,
+        26
+      ],
+      "testes": [
+        54,
+        19
+      ],
+      "libUAT": [
+        62,
+        7
+      ],
+      "emprod": [
+        0,
+        0
+      ],
+      "hom": {
+        "aprovada": [
+          9,
+          7
+        ],
+        "emprod": [
+          0,
+          0
+        ],
+        "aguardando": [
+          48,
+          0
+        ],
+        "reprovada": [
+          0,
+          0
+        ]
+      },
+      "bloq": [
+        28,
+        0
+      ],
+      "corr": 0,
+      "alerts": [
+        {
+          "k": "MVREV-382",
+          "t": "Encaminhamento de cotação em fase de arquitetura para análise especializada de infraestrutura",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-381",
+          "t": "UI de consulta, criação, edição e exclusão de requisitos na cotação",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-380",
+          "t": "Botão Processar Infraestrutura e geração automática de requisitos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-379",
+          "t": "Record Type e motor de geração Campo/Valor",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-378",
+          "t": "Record Type e motor de validação de infraestrutura",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-377",
+          "t": "Record Type e editor de Planilha de Referência de Requisitos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-353",
+          "t": "Definições de Parâmetros gerais Revenue Cloud para cobrança",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-352",
+          "t": "Processo de Integração para Comissionamento",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-350",
+          "t": "Implementar Objeto de Títulos e Pagamentos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-349",
+          "t": "Implementar integração de Títulos e Pagamentos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-348",
+          "t": "Processo de Cancelamento de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-347",
+          "t": "Implementar integração de Cancelamento de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-346",
+          "t": "Processo de Integração de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-345",
+          "t": "Processo de Integração de Contas",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-344",
+          "t": "Implementar objeto de condições de pagamentos Salesforce",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-343",
+          "t": "Implementar Integração de Contas",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-342",
+          "t": "Implementar integração de consulta de Condições de Pagamento",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-341",
+          "t": "Implementar integração de criação de Notas Fiscais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-340",
+          "t": "Cadastro de Regras, Verticais, Produtos e Infraestrutura",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-338",
+          "t": "Resumo Comercial",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-334",
+          "t": "Criação do tipo de registro Requisitos no objeto Requisitos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-332",
+          "t": "Notificação Sistêmica das Verticais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-331",
+          "t": "Manutenção de Requisitos através do Gemini",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-298",
+          "t": "Alertar Remoção de Produto com Requisito Vinculado",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-248",
+          "t": "Benefícios no prontuário do cliente ",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-245",
+          "t": "Mostrar Personas no prontuario ",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-241",
+          "t": "Ajustar visualização da seção de Licenças com indicadores visuais",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-209",
+          "t": "Migração de Dados de Contas",
+          "type": "bloq"
+        }
+      ]
+    },
+    "Central de Projetos": {
+      "total": [
+        92,
+        29
+      ],
+      "aDes": [
+        3,
+        4
+      ],
+      "desenv": [
+        89,
+        25
+      ],
+      "testes": [
+        22,
+        7
+      ],
+      "libUAT": [
+        67,
+        18
+      ],
+      "emprod": [
+        0,
+        0
+      ],
+      "hom": {
+        "aprovada": [
+          17,
+          18
+        ],
+        "emprod": [
+          0,
+          0
+        ],
+        "aguardando": [
+          0,
+          0
+        ],
+        "reprovada": [
+          0,
+          0
+        ]
+      },
+      "bloq": [
+        8,
+        0
+      ],
+      "corr": 2,
+      "alerts": [
+        {
+          "k": "MVPMO-330",
+          "t": "Configuração de Permissões e Segurança para Visão de Cronograma (Gantt)",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-329",
+          "t": "Visualização de Cronograma (Gantt) para o Cliente",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-315",
+          "t": "Gestão de Faturamento e Reconhecimento de Receita por Fase",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-307",
+          "t": "Ajustes de Aprovação de Conclusão de Fase e Notificação de Receita",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-271",
+          "t": "Habilitador - visualização em horas na DRE",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-262",
+          "t": "Melhoria - Ajuste de Nomenclatura e Layout no Centro de Custo",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-256",
+          "t": "Visualização dos Programas pelo renderizador Gantt",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-229",
+          "t": "Implementação de Regras de Cálculo e Consolidação da DRE Financeira",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-262",
+          "t": "Melhoria - Ajuste de Nomenclatura e Layout no Centro de Custo",
+          "type": "corr"
+        },
+        {
+          "k": "MVPMO-256",
+          "t": "Visualização dos Programas pelo renderizador Gantt",
+          "type": "corr"
+        }
+      ]
+    }
+  }
 }
