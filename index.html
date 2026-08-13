@@ -306,8 +306,7 @@ function animateNum(el, to, suffix=''){
 function render(view){
   const d = DATA[view];
   // Trilha A — Testáveis (operacionais, índice 0)
-  const totalGeral = d.total[0] + d.total[1];
-  const tTot=d.total[0], tADes=d.aDes[0]+d.aDes[1], tDes=d.desenv[0], tTes=d.testes[0], tLib=d.libUAT[0];
+  const tTot=d.total[0], tADes=d.aDes[0], tDes=d.desenv[0], tTes=d.testes[0], tLib=d.libUAT[0];
   // Aprovada = testáveis aprovadas + habilitadores em UAT (não passam por teste)
   const aprov=d.hom.aprovada[0]+d.hom.aprovada[1], emprod=d.hom.emprod[0], aguard=d.hom.aguardando[0], reprov=d.hom.reprovada[0];
   const homolg = aprov;   // homologada = só quem tem a etiqueta "Aprovado" (+ habilitadores)
@@ -355,9 +354,9 @@ function render(view){
     </div>`;
   animateNum(document.querySelector('#funnelHero .fh-num'), tTot);
 
-  // Funil — fases (fonte Jira). Largura da barra = % do total (testáveis + habilitadores)
+  // Funil — fases (fonte Jira). Só testáveis (trilha A); soma das fases = tTot.
   const stages = [
-    {n:'A desenvolver', s:'Jira · ainda não iniciadas', v:tADes, base:totalGeral, bl:'do total', c:'var(--slate)'},
+    {n:'A desenvolver', s:'Jira · ainda não iniciadas', v:tADes, base:tTot, bl:'do total', c:'var(--slate)'},
     {n:'Em testes internos', s:'Jira · QA · review · deploy QA', v:tTes, base:tDes, bl:'das desenv.', c:'var(--warn)'},
     {n:'Em UAT para homologar', s:'Jira · ainda sem veredito', v:tPend, base:tLib, bl:'das em UAT', c:'var(--cyan)'},
     {n:'Homologadas', s:'etiqueta Aprovado · só testáveis', v:tHom, base:tLib, bl:'das em UAT', c:'var(--good)'},
