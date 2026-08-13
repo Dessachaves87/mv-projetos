@@ -344,7 +344,7 @@ function render(view){
     <div class="fh-num" data-num="${tTot}">0</div>
     <div class="fh-meta">
       <div class="fh-lbl">US testáveis</div>
-      <div class="fh-sub">operacionais · funil de entrega</div>
+      <div class="fh-sub">Operacionais · Funil de Entrega — sem considerar itens em correção</div>
     </div>
     <div class="fh-spacer"></div>
     <div class="fh-side">
@@ -361,7 +361,7 @@ function render(view){
     {n:'Em UAT para homologar', s:'Jira · ainda sem veredito', v:tPend, base:tLib, bl:'das em UAT', c:'var(--cyan)'},
     {n:'Homologadas', s:'etiqueta Aprovado · só testáveis', v:tHom, base:tLib, bl:'das em UAT', c:'var(--good)'},
     {n:'Reprovadas', s:'etiqueta Reprovado(Bug) · volta p/ correção', v:tRep, base:tLib, bl:'das em UAT', c:'var(--bad)'},
-    {n:'Em correção', s:'label BugEmTestes · project MVPMO', v:d.corr, base:tLib, bl:'das reprovadas', c:'var(--melh)'},
+    {n:'Em correção', s:'label BugEmTestes · project MVREV/MVPMO', v:d.corr, base:tLib, bl:'das reprovadas', c:'var(--melh)'},
   ];
   document.getElementById('pipe').innerHTML = stages.map(st=>{
     const wp = pct(st.v,tTot), bp = pct(st.v,st.base);
