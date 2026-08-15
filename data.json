@@ -1,15 +1,15 @@
 {
-  "ts": "14/08/2026 · 01:48",
+  "ts": "15/08/2026 · 00:38",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        215,
-        60
+        222,
+        62
       ],
       "aDes": [
-        10,
-        8
+        17,
+        10
       ],
       "desenv": [
         205,
@@ -46,7 +46,7 @@
         ]
       },
       "bloq": [
-        36,
+        35,
         0
       ],
       "corr": 2,
@@ -204,11 +204,6 @@
         {
           "k": "MVPMO-315",
           "t": "Gestão de Faturamento e Reconhecimento de Receita por Fase",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-307",
-          "t": "Ajustes de Aprovação de Conclusão de Fase e Notificação de Receita",
           "type": "bloq"
         },
         {
@@ -436,12 +431,12 @@
     },
     "Central de Projetos": {
       "total": [
-        91,
-        29
+        98,
+        31
       ],
       "aDes": [
-        2,
-        3
+        9,
+        5
       ],
       "desenv": [
         89,
@@ -478,7 +473,7 @@
         ]
       },
       "bloq": [
-        8,
+        7,
         0
       ],
       "corr": 2,
@@ -496,11 +491,6 @@
         {
           "k": "MVPMO-315",
           "t": "Gestão de Faturamento e Reconhecimento de Receita por Fase",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-307",
-          "t": "Ajustes de Aprovação de Conclusão de Fase e Notificação de Receita",
           "type": "bloq"
         },
         {
