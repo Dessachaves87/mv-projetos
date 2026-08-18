@@ -1,5 +1,5 @@
 {
-  "ts": "18/08/2026 · 00:44",
+  "ts": "18/08/2026 · 11:13",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
@@ -29,7 +29,7 @@
       ],
       "hom": {
         "aprovada": [
-          26,
+          31,
           25
         ],
         "emprod": [
@@ -456,7 +456,7 @@
       ],
       "hom": {
         "aprovada": [
-          17,
+          22,
           18
         ],
         "emprod": [
