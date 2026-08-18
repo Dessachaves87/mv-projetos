@@ -120,9 +120,10 @@ const BLOQ = R.alertas.bloqueada;
 const CORR = R.alertas.emCorrecao;
 
 const list = (f, a) => `${f} in (${a.map(s => `"${s}"`).join(',')})`;
+const listNums = (f, a) => `${f} in (${a.join(',')})`;  // sem aspas para números
 
 // Universo de User Stories: História + Melhoria + Habilitador (usado nos alertas)
-const US = list('issuetype', [...IT.testavel, ...IT.habilitador]);
+const US = listNums('issuetype', [...IT.testavel, ...IT.habilitador]);
 
 async function count(jql) {
   const r = await fetch(`https://${SITE}/rest/api/3/search/approximate-count`, {
@@ -145,11 +146,16 @@ async function issues(jql, max = 50) {
 }
 
 async function funil(pj, it) {
-  const base = `project = ${pj} AND ${list('issuetype', it)}`;
+  const base = `project = ${pj} AND ${listNums('issuetype', it)}`;
+  // Central de Projetos (MVPMO) usa apenas "Liberado para deploy"
+  const liberadasQuery = pj === 'MVPMO'
+    ? `${base} AND status in ("Liberado para deploy")`
+    : `${base} AND ${list('status', ST.liberadas)}`;
+
   const [aDes, testes, lib, prod] = await Promise.all([
     count(`${base} AND ${list('status', ST.aDes)}`),
     count(`${base} AND ${list('status', ST.testes)}`),
-    count(`${base} AND ${list('status', ST.liberadas)}`),
+    count(liberadasQuery),
     count(`${base} AND ${list('status', ST.emprod)}`),
   ]);
   return { aDes, testes, lib, prod, total: aDes + testes + lib + prod };
@@ -157,7 +163,7 @@ async function funil(pj, it) {
 
 /** Chaves das US (testáveis) em cada estágio da homologação. */
 async function chaves(pj, statuses) {
-  const jql = `project = ${pj} AND ${list('issuetype', IT.testavel)} AND ${list('status', statuses)}`;
+  const jql = `project = ${pj} AND ${listNums('issuetype', IT.testavel)} AND ${list('status', statuses)}`;
   const out = [];
   let token = null;
   do {
@@ -182,7 +188,7 @@ async function chaves(pj, statuses) {
  * e as US etiquetadas estão espalhadas por vários status do board.
  */
 async function chavesPorEtiqueta(pj, etiqueta) {
-  const jql = `project = ${pj} AND ${list('issuetype', IT.testavel)}` +
+  const jql = `project = ${pj} AND ${listNums('issuetype', IT.testavel)}` +
               ` AND ${CAMPO_CATEGORIA} = "${etiqueta}"`;
   const out = [];
   let token = null;
@@ -220,7 +226,7 @@ async function homologacao(pj) {
     chavesPorEtiqueta(pj, VALOR_REPROVADO),
     chavesPorEtiqueta(pj, VALOR_EM_HOMOL),
     // Habilitadores não passam por teste: ao chegarem à UAT já contam como aprovados.
-    count(`project = ${pj} AND ${list('issuetype', IT.habilitador)} AND ${list('status', ST.liberadas)}`),
+    count(`project = ${pj} AND ${listNums('issuetype', IT.habilitador)} AND ${list('status', ST.liberadas)}`),
   ]);
   const apr = new Set(kApr), rep = new Set(kRep);
   const aguardando = kEmHomol.filter(k => !apr.has(k) && !rep.has(k)).length;
@@ -243,9 +249,9 @@ async function montarView(nome) {
     homologacao(pj),
     // só User Stories (História, Melhoria, Habilitador) — Épico/Tarefa/Subtarefa/Bug ficam fora
     count(`project = ${pj} AND ${US} AND status = "${BLOQ}"`),
-    count(`project = ${pj} AND ${list('issuetype', [...IT.testavel, ...IT.habilitador])} AND labels IN ("BugEmTestes")`),
+    count(`project = ${pj} AND ${listNums('issuetype', [...IT.testavel, ...IT.habilitador])} AND labels IN ("BugEmTestes")`),
     issues(`project = ${pj} AND ${US} AND status = "${BLOQ}" ORDER BY key DESC`),
-    issues(`project = ${pj} AND ${list('issuetype', [...IT.testavel, ...IT.habilitador])} AND labels IN ("BugEmTestes") ORDER BY key DESC`),
+    issues(`project = ${pj} AND ${listNums('issuetype', [...IT.testavel, ...IT.habilitador])} AND labels IN ("BugEmTestes") ORDER BY key DESC`),
   ]);
   return {
     total: [t.total, h.total], aDes: [t.aDes, h.aDes],
