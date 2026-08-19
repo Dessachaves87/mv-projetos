@@ -1,30 +1,30 @@
 {
-  "ts": "19/08/2026 · 10:36",
+  "ts": "19/08/2026 · 12:18",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        206,
-        63
+        228,
+        64
       ],
       "aDes": [
         14,
         9
       ],
       "desenv": [
-        192,
-        54
+        214,
+        55
       ],
       "testes": [
-        84,
+        85,
         30
       ],
       "libUAT": [
-        107,
-        24
+        129,
+        25
       ],
       "emprod": [
-        1,
+        0,
         0
       ],
       "hom": {
@@ -33,7 +33,7 @@
           25
         ],
         "emprod": [
-          1,
+          0,
           0
         ],
         "aguardando": [
@@ -252,7 +252,7 @@
         29
       ],
       "testes": [
-        61,
+        62,
         22
       ],
       "libUAT": [
@@ -260,7 +260,7 @@
         7
       ],
       "emprod": [
-        1,
+        0,
         0
       ],
       "hom": {
@@ -269,7 +269,7 @@
           7
         ],
         "emprod": [
-          1,
+          0,
           0
         ],
         "aguardando": [
@@ -431,24 +431,24 @@
     },
     "Central de Projetos": {
       "total": [
-        77,
-        30
+        99,
+        31
       ],
       "aDes": [
         9,
         5
       ],
       "desenv": [
-        68,
-        25
+        90,
+        26
       ],
       "testes": [
         23,
         8
       ],
       "libUAT": [
-        45,
-        17
+        67,
+        18
       ],
       "emprod": [
         0,
