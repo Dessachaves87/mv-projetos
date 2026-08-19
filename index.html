@@ -318,7 +318,7 @@ function render(view){
   // e por isso o KPI "Homologadas" mostra um número maior).
   const tHom  = d.hom.aprovada[0];
   const tRep  = d.hom.reprovada[0];
-  const tPend = Math.max(0, tLib - tHom - tRep);   // a etiqueta não filtra status; evita negativo
+  const tPend = aguard;   // valor vem do data.json (query por status, não por etiqueta)
 
   // KPIs — Total destaca TESTÁVEIS (149)
   const kpis = [
