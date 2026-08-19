@@ -7,6 +7,7 @@
  *                        EM ANÁLISE TÉCNICA, PRONTO PARA DESENVOLVIMENTO
  */
 import { writeFileSync, readFileSync } from 'node:fs';
+import fetch from 'node-fetch';
 
 // A régua vive em regua.json — editável pelo GitHub sem mexer neste arquivo.
 // Ver COMO-EDITAR.md.
@@ -221,24 +222,43 @@ async function chavesPorEtiqueta(pj, etiqueta) {
  * Homologadas = apenas a fatia Aprovada.
  */
 async function homologacao(pj) {
-  const [kApr, kRep, kEmHomol, habUAT] = await Promise.all([
-    chavesPorEtiqueta(pj, VALOR_APROVADO),
-    chavesPorEtiqueta(pj, VALOR_REPROVADO),
-    chavesPorEtiqueta(pj, VALOR_EM_HOMOL),
-    // Habilitadores não passam por teste: ao chegarem à UAT já contam como aprovados.
-    count(`project = ${pj} AND ${listNums('issuetype', IT.habilitador)} AND ${list('status', ST.liberadas)}`),
-  ]);
-  const apr = new Set(kApr), rep = new Set(kRep);
-  const aguardando = kEmHomol.filter(k => !apr.has(k) && !rep.has(k)).length;
+  const isMVPMO = pj === 'MVPMO';
 
-  console.log(`   ${pj}: aprovadas = ${kApr.length} | reprovadas = ${kRep.length}` +
-              ` | habilitadores = ${habUAT} | aguardando = ${aguardando}`);
-  return {
-    aprovada: kApr.length,
-    aprovadaHab: habUAT,
-    reprovada: kRep.length,
-    aguardando,
-  };
+  if (isMVPMO) {
+    // Central de Projetos: busca por STATUS em UAT sem veredito
+    const [kApr, kRep, aguardandoCount, habUAT] = await Promise.all([
+      chavesPorEtiqueta(pj, VALOR_APROVADO),
+      chavesPorEtiqueta(pj, VALOR_REPROVADO),
+      count(`project = ${pj} AND ${listNums('issuetype', IT.testavel)} AND status in ("Liberado para deploy","PRONTO PARA DEPLOY EM PROD") AND (labels is EMPTY OR (labels != "Aprovado" AND labels != "Reprovado(Bug)"))`),
+      count(`project = ${pj} AND ${listNums('issuetype', IT.habilitador)} AND ${list('status', ST.liberadas)}`),
+    ]);
+    console.log(`   ${pj}: aprovadas = ${kApr.length} | reprovadas = ${kRep.length}` +
+                ` | habilitadores = ${habUAT} | aguardando = ${aguardandoCount}`);
+    return {
+      aprovada: kApr.length,
+      aprovadaHab: habUAT,
+      reprovada: kRep.length,
+      aguardando: aguardandoCount,
+    };
+  } else {
+    // Revenue: busca por ETIQUETA
+    const [kApr, kRep, kEmHomol, habUAT] = await Promise.all([
+      chavesPorEtiqueta(pj, VALOR_APROVADO),
+      chavesPorEtiqueta(pj, VALOR_REPROVADO),
+      chavesPorEtiqueta(pj, VALOR_EM_HOMOL),
+      count(`project = ${pj} AND ${listNums('issuetype', IT.habilitador)} AND ${list('status', ST.liberadas)}`),
+    ]);
+    const apr = new Set(kApr), rep = new Set(kRep);
+    const aguardando = kEmHomol.filter(k => !apr.has(k) && !rep.has(k)).length;
+    console.log(`   ${pj}: aprovadas = ${kApr.length} | reprovadas = ${kRep.length}` +
+                ` | habilitadores = ${habUAT} | aguardando = ${aguardando}`);
+    return {
+      aprovada: kApr.length,
+      aprovadaHab: habUAT,
+      reprovada: kRep.length,
+      aguardando,
+    };
+  }
 }
 
 async function montarView(nome) {
