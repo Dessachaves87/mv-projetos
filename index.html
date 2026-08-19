@@ -319,10 +319,11 @@ function render(view){
   const tHom  = d.hom.aprovada[0];
   const tRep  = d.hom.reprovada[0];
   const tPend = aguard;   // valor vem do data.json (query por status, não por etiqueta)
+  const totGeral = tTot + hTot;  // total geral para porcentagens
 
-  // KPIs — Total destaca TESTÁVEIS (149)
+  // KPIs — Total destaca TESTÁVEIS + HABILITADORES (99)
   const kpis = [
-    {label:'Total de US (testáveis)', val:tTot, unit:'', ctx:`${hTot} habilitadores · ${tTot+hTot} no total`, c:'var(--violet)',
+    {label:'Total de US', val:totGeral, unit:'', ctx:`${tTot} testáveis · ${hTot} habilitadores`, c:'var(--violet)',
      tip:'Histórias e Melhorias que já entraram na esteira de execução (de "Pronto para DEV" em diante). Backlog, refinamento, prototipagem, análise técnica, bloqueadas e canceladas ficam de fora.'},
     {label:'Liberadas p/ UAT', val:tLib+hUAT, unit:'US', ctx:`${tLib} testáveis · ${hUAT} habilitadores`, c:'var(--cyan)',
      tip:'US com status "Liberado para deploy" — disponíveis para o cliente homologar. Inclui testáveis e habilitadores.'},
@@ -339,24 +340,24 @@ function render(view){
     </div>`).join('');
   document.querySelectorAll('#kpis [data-num]').forEach(el=>animateNum(el, +el.dataset.num, el.dataset.suf));
 
-  // Funil HERO — 149 testáveis em destaque
+  // Funil HERO — 99 testáveis + habilitadores em destaque
   document.getElementById('funnelHero').innerHTML = `
-    <div class="fh-num" data-num="${tTot}">0</div>
+    <div class="fh-num" data-num="${totGeral}">0</div>
     <div class="fh-meta">
-      <div class="fh-lbl">US testáveis</div>
-      <div class="fh-sub">Operacionais · Funil de Entrega — sem considerar itens em correção</div>
+      <div class="fh-lbl">US totais</div>
+      <div class="fh-sub">Testáveis e Habilitadores · Funil de Entrega — sem considerar itens em correção</div>
     </div>
     <div class="fh-spacer"></div>
     <div class="fh-side">
-      <div><b>${tDes}</b> desenvolvidas · <b>${pct(tDes,tTot)}%</b></div>
-      <div><b>${tLib}</b> liberadas p/ UAT · <b>${pct(tLib,tTot)}%</b></div>
+      <div><b>${tDes}</b> desenvolvidas · <b>${pct(tDes,totGeral)}%</b></div>
+      <div><b>${tLib}</b> liberadas p/ UAT · <b>${pct(tLib,totGeral)}%</b></div>
       <div><b>${tHom}</b> homologadas · <b>${pct(tHom,tLib)}%</b> das em UAT</div>
     </div>`;
-  animateNum(document.querySelector('#funnelHero .fh-num'), tTot);
+  animateNum(document.querySelector('#funnelHero .fh-num'), totGeral);
 
-  // Funil — fases (fonte Jira). Só testáveis (trilha A); soma das fases = tTot.
+  // Funil — fases (fonte Jira). Testáveis + Habilitadores; soma das fases = totGeral.
   const stages = [
-    {n:'A desenvolver', s:'Jira · ainda não iniciadas', v:tADes, base:tTot, bl:'do total', c:'var(--slate)'},
+    {n:'A desenvolver', s:'Jira · ainda não iniciadas', v:tADes, base:totGeral, bl:'do total', c:'var(--slate)'},
     {n:'Em testes internos', s:'Jira · QA · review · deploy QA', v:tTes, base:tDes, bl:'das desenv.', c:'var(--warn)'},
     {n:'Em UAT para homologar', s:'Jira · ainda sem veredito', v:tPend, base:tLib, bl:'das em UAT', c:'var(--cyan)'},
     {n:'Homologadas', s:'etiqueta Aprovado · só testáveis', v:tHom, base:tLib, bl:'das em UAT', c:'var(--good)'},
@@ -364,7 +365,7 @@ function render(view){
     {n:'Em correção', s:'label BugEmTestes · project MVREV/MVPMO', v:d.corr, base:tLib, bl:'das reprovadas', c:'var(--melh)'},
   ];
   document.getElementById('pipe').innerHTML = stages.map(st=>{
-    const wp = pct(st.v,tTot), bp = pct(st.v,st.base);
+    const wp = pct(st.v,totGeral), bp = pct(st.v,st.base);
     return `<div class="stage">
       <div class="sname">${st.n}<small>${st.s}</small></div>
       <div class="bar"><span style="width:0;background:linear-gradient(90deg,${st.c},color-mix(in srgb,${st.c} 55%, transparent))" data-w="${wp}"></span></div>

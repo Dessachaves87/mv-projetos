@@ -148,10 +148,7 @@ async function issues(jql, max = 50) {
 
 async function funil(pj, it) {
   const base = `project = ${pj} AND ${listNums('issuetype', it)}`;
-  // Central de Projetos (MVPMO) usa apenas "Liberado para deploy"
-  const liberadasQuery = pj === 'MVPMO'
-    ? `${base} AND status in ("Liberado para deploy")`
-    : `${base} AND ${list('status', ST.liberadas)}`;
+  const liberadasQuery = `${base} AND ${list('status', ST.liberadas)}`;
 
   const [aDes, testes, lib, prod] = await Promise.all([
     count(`${base} AND ${list('status', ST.aDes)}`),
