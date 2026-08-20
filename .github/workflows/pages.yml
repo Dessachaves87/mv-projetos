@@ -1,0 +1,43 @@
+name: Deploy Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - central-fluxo.html
+      - metodologia.html
+      - data.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preparar site (só o estático, sem node_modules/scripts)
+        run: |
+          mkdir -p _site
+          cp index.html central-fluxo.html metodologia.html data.json _site/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
