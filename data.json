@@ -1,22 +1,22 @@
 {
-  "ts": "19/08/2026 · 12:18",
+  "ts": "20/08/2026 · 00:46",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        228,
-        64
+        238,
+        67
       ],
       "aDes": [
-        14,
-        9
+        17,
+        12
       ],
       "desenv": [
-        214,
+        221,
         55
       ],
       "testes": [
-        85,
+        92,
         30
       ],
       "libUAT": [
@@ -46,7 +46,7 @@
         ]
       },
       "bloq": [
-        35,
+        37,
         0
       ],
       "corr": 2,
@@ -192,6 +192,16 @@
           "type": "bloq"
         },
         {
+          "k": "MVPMO-360",
+          "t": "Construção da Tela de Calendário do Portal do Consultor",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-357",
+          "t": "Implementar tela de Calendário no Portal do Consultor",
+          "type": "bloq"
+        },
+        {
           "k": "MVPMO-330",
           "t": "Configuração de Permissões e Segurança para Visão de Cronograma (Gantt)",
           "type": "bloq"
@@ -240,19 +250,19 @@
     },
     "Revenue": {
       "total": [
-        129,
+        134,
         33
       ],
       "aDes": [
-        5,
+        3,
         4
       ],
       "desenv": [
-        124,
+        131,
         29
       ],
       "testes": [
-        62,
+        69,
         22
       ],
       "libUAT": [
@@ -431,12 +441,12 @@
     },
     "Central de Projetos": {
       "total": [
-        99,
-        31
+        104,
+        34
       ],
       "aDes": [
-        9,
-        5
+        14,
+        8
       ],
       "desenv": [
         90,
@@ -473,11 +483,21 @@
         ]
       },
       "bloq": [
-        7,
+        9,
         0
       ],
       "corr": 2,
       "alerts": [
+        {
+          "k": "MVPMO-360",
+          "t": "Construção da Tela de Calendário do Portal do Consultor",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-357",
+          "t": "Implementar tela de Calendário no Portal do Consultor",
+          "type": "bloq"
+        },
         {
           "k": "MVPMO-330",
           "t": "Configuração de Permissões e Segurança para Visão de Cronograma (Gantt)",
