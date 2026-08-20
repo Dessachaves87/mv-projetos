@@ -64,9 +64,8 @@ python -m http.server 8899
 
 E abra http://localhost:8899
 
-> Ao recarregar, use **Ctrl + F5**. O `netlify.toml` cuida do cache em produção,
-> mas localmente o navegador segura o HTML antigo e você jura que sua alteração
-> não funcionou.
+> Ao recarregar, use **Ctrl + F5**. Localmente o navegador segura o HTML antigo
+> e você jura que sua alteração não funcionou.
 
 ### 3. Editar
 
@@ -76,7 +75,7 @@ E abra http://localhost:8899
 | A página pública que explica os números | `metodologia.html` |
 | Como o Jira é consultado | `scripts/gerar.mjs` |
 | Status e etiquetas da régua | `regua.json` |
-| Login / páginas públicas | `netlify/edge-functions/gate.js` |
+| Deploy no GitHub Pages | `.github/workflows/pages.yml` |
 
 **Nunca edite `data.json` na mão.** Ele é gerado. Qualquer coisa que você
 escrever ali é apagada na próxima execução da Action — e no meio do caminho
@@ -112,8 +111,8 @@ git pull --rebase          # de novo: alguém pode ter subido enquanto você tra
 git push
 ```
 
-O Netlify publica sozinho em ~1 minuto. Confira em
-https://painelprojetonexus.netlify.app com **Ctrl + Shift + R**.
+O GitHub Pages publica sozinho em ~1-2 minutos (acompanhe em **Actions ▸ Deploy Pages**).
+Confira em https://dessachaves87.github.io/mv-projetos/ com **Ctrl + Shift + R**.
 
 ---
 
@@ -147,7 +146,7 @@ git rebase --continue
 Nesta ordem:
 
 1. **Ctrl + Shift + R** — 9 de 10 vezes é cache do navegador
-2. Netlify ▸ **Deploys** — o build passou? Falhou?
+2. **Actions ▸ Deploy Pages** — o workflow rodou? Passou?
 3. Abra o console do navegador (F12) — erro de JS deixa a página em branco
 
 ### Os números estão errados / a US sumiu do painel
@@ -196,8 +195,8 @@ Use *Run workflow*, nunca *Re-run jobs* — o segundo repete a execução antiga
 
 ## Links
 
-- **Painel** — https://painelprojetonexus.netlify.app
-- **Metodologia (pública)** — https://painelprojetonexus.netlify.app/metodologia.html
+- **Painel** — https://dessachaves87.github.io/mv-projetos/
+- **Metodologia (pública)** — https://dessachaves87.github.io/mv-projetos/metodologia.html
 - **Actions** — https://github.com/Dessachaves87/mv-projetos/actions
 - **Arquitetura e setup** — [`README.md`](README.md)
 - **Editar a régua sem código** — [`COMO-EDITAR.md`](COMO-EDITAR.md)

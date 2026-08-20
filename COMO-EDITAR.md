@@ -1,7 +1,7 @@
 # Como editar a régua do painel
 
 O painel lê o Jira todo dia às 00:00 e publica os números em
-https://painelprojetonexus.netlify.app
+https://dessachaves87.github.io/mv-projetos/
 
 **Toda a regra de negócio está num arquivo só: [`regua.json`](regua.json).**
 Dá pra editar pelo navegador, sem instalar nada e sem saber programar.
@@ -133,6 +133,6 @@ Se der 0, está tudo fechado.
 
 ## Links
 
-- **Painel** — https://painelprojetonexus.netlify.app
-- **Metodologia (pública)** — https://painelprojetonexus.netlify.app/metodologia.html
+- **Painel** — https://dessachaves87.github.io/mv-projetos/
+- **Metodologia (pública)** — https://dessachaves87.github.io/mv-projetos/metodologia.html
 - **Regra** — [`regua.json`](regua.json)

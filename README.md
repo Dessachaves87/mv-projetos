@@ -1,15 +1,19 @@
 # Painel de Acompanhamento de US — MV × Sotelli
 
 Painel de acompanhamento das User Stories (Revenue **MVREV** + Central de Projetos **MVPMO**),
-alimentado pelo **Jira** e publicado no **Netlify**, com **login único** e atualização **diária às 00:00 (SP)**.
+alimentado pelo **Jira** e publicado no **GitHub Pages**, com atualização **diária às 00:00 (SP)**.
+
+> **Site:** https://dessachaves87.github.io/mv-projetos/ — **sem senha** (acesso público).
+> Migrado do Netlify em 20/08/2026 (créditos do plano free esgotados). A pasta `netlify/`
+> e o `netlify.toml` ficaram no repo só como referência caso volte pro Netlify um dia —
+> **não são usados** no deploy atual.
 
 ```
 GitHub Action (cron 03:00 UTC = 00:00 SP)
   └─ scripts/gerar.mjs  →  Jira REST  →  data.json  →  commit
                                                  │
-                                                 ▼  (deploy automático)
-                                    Netlify  →  index.html  →  fetch('data.json')
-                                       └─ Edge Function "gate" = login único
+                                                 ▼  (dispara .github/workflows/pages.yml)
+                                    GitHub Pages  →  index.html  →  fetch('data.json')
 ```
 
 ## Por onde começar
@@ -18,7 +22,7 @@ GitHub Action (cron 03:00 UTC = 00:00 SP)
 |---|---|
 | Ajustar status, etiquetas ou projetos — **sem código** | [`COMO-EDITAR.md`](COMO-EDITAR.md) |
 | Mexer no código (layout, cálculo, textos) | [`GUIA-DEV.md`](GUIA-DEV.md) |
-| Entender de onde vem cada número | [metodologia](https://painelprojetonexus.netlify.app/metodologia.html) |
+| Entender de onde vem cada número | [metodologia](https://dessachaves87.github.io/mv-projetos/metodologia.html) |
 | Montar o ambiente do zero | este arquivo, seção *Setup* |
 
 ## Arquivos
@@ -28,9 +32,10 @@ GitHub Action (cron 03:00 UTC = 00:00 SP)
 | `regua.json` | Régua de negócio — status, etiquetas, projetos |
 | `data.json` | Números gerados pela Action |
 | `scripts/gerar.mjs` | Consulta o Jira e escreve o `data.json` |
-| `netlify/edge-functions/gate.js` | Login único (senha em env var) |
-| `netlify.toml` | Config do Netlify |
+| `.github/workflows/pages.yml` | Deploy no GitHub Pages |
 | `.github/workflows/atualizar.yml` | Agendamento diário |
+| `netlify/edge-functions/gate.js` | *(legado, não usado)* Login único do Netlify |
+| `netlify.toml` | *(legado, não usado)* Config do Netlify |
 
 ---
 
@@ -43,22 +48,17 @@ GitHub Action (cron 03:00 UTC = 00:00 SP)
 | `JIRA_EMAIL` | seu e-mail Atlassian |
 | `JIRA_TOKEN` | token de API (id.atlassian.com ▸ tokens de API) |
 
-### 2. Netlify — conectar o repo
-`Add new site ▸ Import an existing project ▸ GitHub ▸ mv-projetos`
-- Build command: *(vazio)*
-- Publish directory: `.`
+### 2. GitHub Pages — habilitar
+`Settings ▸ Pages ▸ Source: GitHub Actions` (já habilitado; o deploy roda via `.github/workflows/pages.yml`).
+Repo precisa ser **público** — GitHub Pages grátis não funciona em repo privado.
 
-### 3. Netlify — senha do login
-`Site configuration ▸ Environment variables ▸ Add`
-| Nome | Valor |
-|---|---|
-| `GATE_PASSWORD` | a senha genérica da equipe |
+> O site é **público, sem senha**. O antigo login único (Netlify Edge Function `gate.js`)
+> não tem equivalente em GitHub Pages (hospedagem 100% estática, sem código server-side).
 
-> Sem `GATE_PASSWORD` o site fica **aberto**. Com ela, aparece a tela de login (cookie dura 7 dias).
-
-### 4. Testar
+### 3. Testar
 - Action: aba **Actions ▸ Atualizar painel (Jira) ▸ Run workflow** (roda na hora).
-- Site: abra a URL do Netlify → tela de senha → painel.
+- Deploy: aba **Actions ▸ Deploy Pages** dispara sozinho quando `data.json`/os HTMLs mudam, ou rode manual (`Run workflow`).
+- Site: abra https://dessachaves87.github.io/mv-projetos/ direto — sem tela de login.
 
 ---
 
@@ -92,7 +92,7 @@ No funil, o balde de UAT aparece dividido em três barras que somam as liberadas
 total, mas não tem barra própria (01/08).
 
 > A explicação completa, com os JQLs de cada número, é a página pública
-> [metodologia](https://painelprojetonexus.netlify.app/metodologia.html) — é ela que o
+> [metodologia](https://dessachaves87.github.io/mv-projetos/metodologia.html) — é ela que o
 > cliente usa para auditar a conta. **Mexeu em número? Atualize ela junto.**
 
 ---
