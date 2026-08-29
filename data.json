@@ -1,10 +1,10 @@
 {
-  "ts": "28/08/2026 · 11:56",
+  "ts": "29/08/2026 · 06:45",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        254,
+        256,
         64
       ],
       "aDes": [
@@ -12,11 +12,11 @@
         6
       ],
       "desenv": [
-        230,
+        232,
         58
       ],
       "testes": [
-        101,
+        103,
         33
       ],
       "libUAT": [
@@ -250,7 +250,7 @@
     },
     "Revenue": {
       "total": [
-        150,
+        152,
         30
       ],
       "aDes": [
@@ -258,11 +258,11 @@
         2
       ],
       "desenv": [
-        134,
+        136,
         28
       ],
       "testes": [
-        72,
+        74,
         21
       ],
       "libUAT": [
