@@ -1,23 +1,23 @@
 {
-  "ts": "31/08/2026 · 06:23",
+  "ts": "01/09/2026 · 05:20",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        256,
-        64
+        257,
+        66
       ],
       "aDes": [
-        24,
-        6
+        25,
+        5
       ],
       "desenv": [
         232,
-        58
+        61
       ],
       "testes": [
         103,
-        33
+        36
       ],
       "libUAT": [
         129,
@@ -46,7 +46,7 @@
         ]
       },
       "bloq": [
-        37,
+        38,
         0
       ],
       "corr": 2,
@@ -212,6 +212,11 @@
           "type": "bloq"
         },
         {
+          "k": "MVPMO-323",
+          "t": "Gestão de Aditivos Contratuais e Condições Diferenciadas",
+          "type": "bloq"
+        },
+        {
           "k": "MVPMO-315",
           "t": "Gestão de Faturamento e Reconhecimento de Receita por Fase",
           "type": "bloq"
@@ -250,20 +255,20 @@
     },
     "Revenue": {
       "total": [
-        152,
-        30
+        150,
+        32
       ],
       "aDes": [
-        16,
+        15,
         2
       ],
       "desenv": [
-        136,
-        28
+        135,
+        30
       ],
       "testes": [
-        74,
-        21
+        73,
+        23
       ],
       "libUAT": [
         62,
@@ -441,20 +446,20 @@
     },
     "Central de Projetos": {
       "total": [
-        104,
+        107,
         34
       ],
       "aDes": [
-        8,
-        4
+        10,
+        3
       ],
       "desenv": [
-        96,
-        30
+        97,
+        31
       ],
       "testes": [
-        29,
-        12
+        30,
+        13
       ],
       "libUAT": [
         67,
@@ -483,7 +488,7 @@
         ]
       },
       "bloq": [
-        9,
+        10,
         0
       ],
       "corr": 2,
@@ -506,6 +511,11 @@
         {
           "k": "MVPMO-329",
           "t": "Visualização de Cronograma (Gantt) para o Cliente",
+          "type": "bloq"
+        },
+        {
+          "k": "MVPMO-323",
+          "t": "Gestão de Aditivos Contratuais e Condições Diferenciadas",
           "type": "bloq"
         },
         {
