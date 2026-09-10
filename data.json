@@ -1,11 +1,11 @@
 {
-  "ts": "09/09/2026 · 04:54",
+  "ts": "10/09/2026 · 04:54",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
         262,
-        73
+        72
       ],
       "aDes": [
         23,
@@ -13,11 +13,11 @@
       ],
       "desenv": [
         239,
-        68
+        67
       ],
       "testes": [
         109,
-        43
+        42
       ],
       "libUAT": [
         130,
@@ -46,7 +46,7 @@
         ]
       },
       "bloq": [
-        38,
+        39,
         0
       ],
       "corr": 2,
@@ -192,6 +192,11 @@
           "type": "bloq"
         },
         {
+          "k": "MVPMO-426",
+          "t": "Consolidação de Linhas Orçamentárias e Datas do Programa a partir dos Projetos",
+          "type": "bloq"
+        },
+        {
           "k": "MVPMO-360",
           "t": "Construção da Tela de Calendário do - Portal de Apontamento",
           "type": "bloq"
@@ -255,20 +260,20 @@
     },
     "Revenue": {
       "total": [
-        151,
-        37
+        150,
+        36
       ],
       "aDes": [
         13,
         2
       ],
       "desenv": [
-        138,
-        35
+        137,
+        34
       ],
       "testes": [
-        75,
-        28
+        74,
+        27
       ],
       "libUAT": [
         63,
@@ -446,7 +451,7 @@
     },
     "Central de Projetos": {
       "total": [
-        111,
+        112,
         36
       ],
       "aDes": [
@@ -454,11 +459,11 @@
         3
       ],
       "desenv": [
-        101,
+        102,
         33
       ],
       "testes": [
-        34,
+        35,
         15
       ],
       "libUAT": [
@@ -488,11 +493,16 @@
         ]
       },
       "bloq": [
-        10,
+        11,
         0
       ],
       "corr": 2,
       "alerts": [
+        {
+          "k": "MVPMO-426",
+          "t": "Consolidação de Linhas Orçamentárias e Datas do Programa a partir dos Projetos",
+          "type": "bloq"
+        },
         {
           "k": "MVPMO-360",
           "t": "Construção da Tela de Calendário do - Portal de Apontamento",
