@@ -1,27 +1,27 @@
 {
-  "ts": "15/09/2026 · 05:25",
+  "ts": "16/09/2026 · 05:18",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        268,
-        75
+        250,
+        82
       ],
       "aDes": [
-        19,
+        12,
         4
       ],
       "desenv": [
-        249,
-        71
+        238,
+        78
       ],
       "testes": [
-        119,
-        46
+        190,
+        43
       ],
       "libUAT": [
-        130,
-        25
+        48,
+        35
       ],
       "emprod": [
         0,
@@ -29,15 +29,15 @@
       ],
       "hom": {
         "aprovada": [
-          31,
-          25
+          48,
+          35
         ],
         "emprod": [
           0,
           0
         ],
         "aguardando": [
-          93,
+          31,
           0
         ],
         "reprovada": [
@@ -260,24 +260,24 @@
     },
     "Revenue": {
       "total": [
-        157,
-        39
+        139,
+        46
       ],
       "aDes": [
-        12,
+        7,
         2
       ],
       "desenv": [
-        145,
-        37
+        132,
+        44
       ],
       "testes": [
-        82,
-        30
+        106,
+        27
       ],
       "libUAT": [
-        63,
-        7
+        26,
+        17
       ],
       "emprod": [
         0,
@@ -285,15 +285,15 @@
       ],
       "hom": {
         "aprovada": [
-          9,
-          7
+          26,
+          17
         ],
         "emprod": [
           0,
           0
         ],
         "aguardando": [
-          48,
+          31,
           0
         ],
         "reprovada": [
@@ -455,19 +455,19 @@
         36
       ],
       "aDes": [
-        7,
+        5,
         2
       ],
       "desenv": [
-        104,
+        106,
         34
       ],
       "testes": [
-        37,
+        84,
         16
       ],
       "libUAT": [
-        67,
+        22,
         18
       ],
       "emprod": [
@@ -484,7 +484,7 @@
           0
         ],
         "aguardando": [
-          45,
+          0,
           0
         ],
         "reprovada": [
