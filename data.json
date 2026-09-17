@@ -1,40 +1,40 @@
 {
-  "ts": "16/09/2026 · 05:18",
+  "ts": "17/09/2026 · 05:25",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        250,
-        82
+        252,
+        83
       ],
       "aDes": [
-        12,
+        13,
         4
       ],
       "desenv": [
-        238,
-        78
+        239,
+        79
       ],
       "testes": [
-        190,
-        43
+        169,
+        34
       ],
       "libUAT": [
-        48,
-        35
+        53,
+        38
       ],
       "emprod": [
-        0,
-        0
+        17,
+        7
       ],
       "hom": {
         "aprovada": [
           48,
-          35
+          38
         ],
         "emprod": [
-          0,
-          0
+          17,
+          7
         ],
         "aguardando": [
           31,
@@ -46,11 +46,36 @@
         ]
       },
       "bloq": [
-        39,
+        47,
         0
       ],
       "corr": 2,
       "alerts": [
+        {
+          "k": "MVREV-422",
+          "t": "Chave de Contrato, Chave de Distrato e Chave Rollback sistema antigo como fica com novo sistema",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-421",
+          "t": "Sistema de Duplicidade atual pode não funcionar corretamente",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-420",
+          "t": "Conversão de Contas deve trabalhar com novo tipo de registros",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-418",
+          "t": "Geração do Anexo A e Envio no IDocument",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-414",
+          "t": "Implementação de Integração de Envio de Arquivos para Sistema de Contratos",
+          "type": "bloq"
+        },
         {
           "k": "MVREV-382",
           "t": "Encaminhamento de cotação em fase de arquitetura para análise especializada de infraestrutura",
@@ -79,6 +104,16 @@
         {
           "k": "MVREV-377",
           "t": "Record Type e editor de Planilha de Referência de Requisitos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-365",
+          "t": "Processo de Distrato de Contratos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-358",
+          "t": "Controle de Produtos Macros e Módulos dos produtos para Inteligência",
           "type": "bloq"
         },
         {
@@ -192,6 +227,11 @@
           "type": "bloq"
         },
         {
+          "k": "MVPMO-433",
+          "t": "Realizar a criação da Interface de Modelos de Projetos",
+          "type": "bloq"
+        },
+        {
           "k": "MVPMO-426",
           "t": "Consolidação de Linhas Orçamentárias e Datas do Programa a partir dos Projetos",
           "type": "bloq"
@@ -260,37 +300,37 @@
     },
     "Revenue": {
       "total": [
-        139,
-        46
+        140,
+        45
       ],
       "aDes": [
         7,
-        2
+        1
       ],
       "desenv": [
-        132,
+        133,
         44
       ],
       "testes": [
-        106,
-        27
-      ],
-      "libUAT": [
-        26,
+        85,
         17
       ],
+      "libUAT": [
+        31,
+        20
+      ],
       "emprod": [
-        0,
-        0
+        17,
+        7
       ],
       "hom": {
         "aprovada": [
           26,
-          17
+          20
         ],
         "emprod": [
-          0,
-          0
+          17,
+          7
         ],
         "aguardando": [
           31,
@@ -302,11 +342,36 @@
         ]
       },
       "bloq": [
-        28,
+        35,
         0
       ],
       "corr": 0,
       "alerts": [
+        {
+          "k": "MVREV-422",
+          "t": "Chave de Contrato, Chave de Distrato e Chave Rollback sistema antigo como fica com novo sistema",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-421",
+          "t": "Sistema de Duplicidade atual pode não funcionar corretamente",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-420",
+          "t": "Conversão de Contas deve trabalhar com novo tipo de registros",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-418",
+          "t": "Geração do Anexo A e Envio no IDocument",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-414",
+          "t": "Implementação de Integração de Envio de Arquivos para Sistema de Contratos",
+          "type": "bloq"
+        },
         {
           "k": "MVREV-382",
           "t": "Encaminhamento de cotação em fase de arquitetura para análise especializada de infraestrutura",
@@ -335,6 +400,16 @@
         {
           "k": "MVREV-377",
           "t": "Record Type e editor de Planilha de Referência de Requisitos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-365",
+          "t": "Processo de Distrato de Contratos",
+          "type": "bloq"
+        },
+        {
+          "k": "MVREV-358",
+          "t": "Controle de Produtos Macros e Módulos dos produtos para Inteligência",
           "type": "bloq"
         },
         {
@@ -451,20 +526,20 @@
     },
     "Central de Projetos": {
       "total": [
-        111,
-        36
+        112,
+        38
       ],
       "aDes": [
-        5,
-        2
+        6,
+        3
       ],
       "desenv": [
         106,
-        34
+        35
       ],
       "testes": [
         84,
-        16
+        17
       ],
       "libUAT": [
         22,
@@ -493,11 +568,16 @@
         ]
       },
       "bloq": [
-        11,
+        12,
         0
       ],
       "corr": 2,
       "alerts": [
+        {
+          "k": "MVPMO-433",
+          "t": "Realizar a criação da Interface de Modelos de Projetos",
+          "type": "bloq"
+        },
         {
           "k": "MVPMO-426",
           "t": "Consolidação de Linhas Orçamentárias e Datas do Programa a partir dos Projetos",
