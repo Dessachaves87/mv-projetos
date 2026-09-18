@@ -1,10 +1,10 @@
 {
-  "ts": "17/09/2026 · 05:25",
+  "ts": "18/09/2026 · 04:59",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        252,
+        251,
         83
       ],
       "aDes": [
@@ -12,36 +12,36 @@
         4
       ],
       "desenv": [
-        239,
+        238,
         79
       ],
       "testes": [
-        169,
+        171,
         34
       ],
       "libUAT": [
-        53,
-        38
+        67,
+        45
       ],
       "emprod": [
-        17,
-        7
+        0,
+        0
       ],
       "hom": {
         "aprovada": [
-          48,
-          38
+          50,
+          45
         ],
         "emprod": [
-          17,
-          7
+          0,
+          0
         ],
         "aguardando": [
-          31,
+          19,
           0
         ],
         "reprovada": [
-          0,
+          13,
           0
         ]
       },
@@ -300,7 +300,7 @@
     },
     "Revenue": {
       "total": [
-        140,
+        139,
         45
       ],
       "aDes": [
@@ -308,36 +308,36 @@
         1
       ],
       "desenv": [
-        133,
+        132,
         44
       ],
       "testes": [
-        85,
+        90,
         17
       ],
       "libUAT": [
-        31,
-        20
+        42,
+        27
       ],
       "emprod": [
-        17,
-        7
+        0,
+        0
       ],
       "hom": {
         "aprovada": [
-          26,
-          20
+          28,
+          27
         ],
         "emprod": [
-          17,
-          7
+          0,
+          0
         ],
         "aguardando": [
-          31,
+          16,
           0
         ],
         "reprovada": [
-          0,
+          13,
           0
         ]
       },
@@ -538,11 +538,11 @@
         35
       ],
       "testes": [
-        84,
+        81,
         17
       ],
       "libUAT": [
-        22,
+        25,
         18
       ],
       "emprod": [
@@ -559,7 +559,7 @@
           0
         ],
         "aguardando": [
-          0,
+          3,
           0
         ],
         "reprovada": [
