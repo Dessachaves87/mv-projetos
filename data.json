@@ -1,23 +1,23 @@
 {
-  "ts": "07/10/2026 · 06:54",
+  "ts": "08/10/2026 · 07:05",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        249,
-        90
+        282,
+        91
       ],
       "aDes": [
-        14,
-        5
+        16,
+        3
       ],
       "desenv": [
-        235,
-        85
+        266,
+        88
       ],
       "testes": [
-        156,
-        41
+        187,
+        44
       ],
       "libUAT": [
         79,
@@ -46,7 +46,7 @@
         ]
       },
       "bloq": [
-        47,
+        46,
         0
       ],
       "corr": 2,
@@ -227,11 +227,6 @@
           "type": "bloq"
         },
         {
-          "k": "MVPMO-433",
-          "t": "Realizar a criação da Interface de Modelos de Projetos",
-          "type": "bloq"
-        },
-        {
           "k": "MVPMO-426",
           "t": "Consolidação de Linhas Orçamentárias e Datas do Programa a partir dos Projetos",
           "type": "bloq"
@@ -300,20 +295,20 @@
     },
     "Revenue": {
       "total": [
-        143,
-        47
+        172,
+        48
       ],
       "aDes": [
         7,
         1
       ],
       "desenv": [
-        136,
-        46
+        165,
+        47
       ],
       "testes": [
-        96,
-        20
+        125,
+        21
       ],
       "libUAT": [
         40,
@@ -526,20 +521,20 @@
     },
     "Central de Projetos": {
       "total": [
-        106,
+        110,
         43
       ],
       "aDes": [
-        7,
-        4
+        9,
+        2
       ],
       "desenv": [
-        99,
-        39
+        101,
+        41
       ],
       "testes": [
-        60,
-        21
+        62,
+        23
       ],
       "libUAT": [
         39,
@@ -568,16 +563,11 @@
         ]
       },
       "bloq": [
-        12,
+        11,
         0
       ],
       "corr": 2,
       "alerts": [
-        {
-          "k": "MVPMO-433",
-          "t": "Realizar a criação da Interface de Modelos de Projetos",
-          "type": "bloq"
-        },
         {
           "k": "MVPMO-426",
           "t": "Consolidação de Linhas Orçamentárias e Datas do Programa a partir dos Projetos",
