@@ -1,22 +1,22 @@
 {
-  "ts": "08/10/2026 · 07:05",
+  "ts": "09/10/2026 · 07:07",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        282,
-        91
+        280,
+        96
       ],
       "aDes": [
-        16,
-        3
+        13,
+        8
       ],
       "desenv": [
-        266,
+        267,
         88
       ],
       "testes": [
-        187,
+        188,
         44
       ],
       "libUAT": [
@@ -46,7 +46,7 @@
         ]
       },
       "bloq": [
-        46,
+        45,
         0
       ],
       "corr": 2,
@@ -264,11 +264,6 @@
         {
           "k": "MVPMO-271",
           "t": "Habilitador - visualização em horas na DRE",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-262",
-          "t": "Melhoria - Ajuste de Nomenclatura e Layout no Centro de Custo",
           "type": "bloq"
         },
         {
@@ -521,19 +516,19 @@
     },
     "Central de Projetos": {
       "total": [
-        110,
-        43
+        108,
+        48
       ],
       "aDes": [
-        9,
-        2
+        6,
+        7
       ],
       "desenv": [
-        101,
+        102,
         41
       ],
       "testes": [
-        62,
+        63,
         23
       ],
       "libUAT": [
@@ -563,7 +558,7 @@
         ]
       },
       "bloq": [
-        11,
+        10,
         0
       ],
       "corr": 2,
@@ -606,11 +601,6 @@
         {
           "k": "MVPMO-271",
           "t": "Habilitador - visualização em horas na DRE",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-262",
-          "t": "Melhoria - Ajuste de Nomenclatura e Layout no Centro de Custo",
           "type": "bloq"
         },
         {
