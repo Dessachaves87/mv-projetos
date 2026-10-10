@@ -1,5 +1,5 @@
 {
-  "ts": "09/10/2026 · 07:07",
+  "ts": "10/10/2026 · 06:29",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
@@ -9,15 +9,15 @@
       ],
       "aDes": [
         13,
-        8
+        7
       ],
       "desenv": [
         267,
-        88
+        89
       ],
       "testes": [
         188,
-        44
+        45
       ],
       "libUAT": [
         79,
@@ -46,7 +46,7 @@
         ]
       },
       "bloq": [
-        45,
+        43,
         0
       ],
       "corr": 2,
@@ -259,16 +259,6 @@
         {
           "k": "MVPMO-315",
           "t": "Gestão de Faturamento e Reconhecimento de Receita por Fase",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-271",
-          "t": "Habilitador - visualização em horas na DRE",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-256",
-          "t": "Visualização dos Programas pelo renderizador Gantt",
           "type": "bloq"
         },
         {
@@ -521,15 +511,15 @@
       ],
       "aDes": [
         6,
-        7
+        6
       ],
       "desenv": [
         102,
-        41
+        42
       ],
       "testes": [
         63,
-        23
+        24
       ],
       "libUAT": [
         39,
@@ -558,7 +548,7 @@
         ]
       },
       "bloq": [
-        10,
+        8,
         0
       ],
       "corr": 2,
@@ -596,16 +586,6 @@
         {
           "k": "MVPMO-315",
           "t": "Gestão de Faturamento e Reconhecimento de Receita por Fase",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-271",
-          "t": "Habilitador - visualização em horas na DRE",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-256",
-          "t": "Visualização dos Programas pelo renderizador Gantt",
           "type": "bloq"
         },
         {
