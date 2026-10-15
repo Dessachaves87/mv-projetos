@@ -1,26 +1,26 @@
 {
-  "ts": "14/10/2026 · 05:25",
+  "ts": "15/10/2026 · 05:01",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
       "total": [
-        280,
-        96
+        279,
+        97
       ],
       "aDes": [
-        13,
-        7
+        12,
+        8
       ],
       "desenv": [
         267,
         89
       ],
       "testes": [
-        188,
+        177,
         45
       ],
       "libUAT": [
-        79,
+        90,
         44
       ],
       "emprod": [
@@ -37,7 +37,7 @@
           0
         ],
         "aguardando": [
-          33,
+          44,
           0
         ],
         "reprovada": [
@@ -46,7 +46,7 @@
         ]
       },
       "bloq": [
-        43,
+        35,
         0
       ],
       "corr": 2,
@@ -224,46 +224,6 @@
         {
           "k": "MVREV-209",
           "t": "Migração de Dados de Contas",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-426",
-          "t": "Consolidação de Linhas Orçamentárias e Datas do Programa a partir dos Projetos",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-360",
-          "t": "Construção da Tela de Calendário do - Portal de Apontamento",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-357",
-          "t": "Implementar tela de Calendário no - Portal de Apontamento",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-330",
-          "t": "Configuração de Permissões e Segurança para Visão de Cronograma (Gantt)",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-329",
-          "t": "Visualização de Cronograma (Gantt) para o Cliente",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-323",
-          "t": "Gestão de Aditivos Contratuais e Condições Diferenciadas",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-315",
-          "t": "Gestão de Faturamento e Reconhecimento de Receita por Fase",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-229",
-          "t": "Implementação de Regras de Cálculo e Consolidação da DRE Financeira",
           "type": "bloq"
         },
         {
@@ -506,23 +466,23 @@
     },
     "Central de Projetos": {
       "total": [
-        108,
-        48
+        107,
+        49
       ],
       "aDes": [
-        6,
-        6
+        5,
+        7
       ],
       "desenv": [
         102,
         42
       ],
       "testes": [
-        63,
+        52,
         24
       ],
       "libUAT": [
-        39,
+        50,
         18
       ],
       "emprod": [
@@ -539,7 +499,7 @@
           0
         ],
         "aguardando": [
-          17,
+          28,
           0
         ],
         "reprovada": [
@@ -548,51 +508,11 @@
         ]
       },
       "bloq": [
-        8,
+        0,
         0
       ],
       "corr": 2,
       "alerts": [
-        {
-          "k": "MVPMO-426",
-          "t": "Consolidação de Linhas Orçamentárias e Datas do Programa a partir dos Projetos",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-360",
-          "t": "Construção da Tela de Calendário do - Portal de Apontamento",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-357",
-          "t": "Implementar tela de Calendário no - Portal de Apontamento",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-330",
-          "t": "Configuração de Permissões e Segurança para Visão de Cronograma (Gantt)",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-329",
-          "t": "Visualização de Cronograma (Gantt) para o Cliente",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-323",
-          "t": "Gestão de Aditivos Contratuais e Condições Diferenciadas",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-315",
-          "t": "Gestão de Faturamento e Reconhecimento de Receita por Fase",
-          "type": "bloq"
-        },
-        {
-          "k": "MVPMO-229",
-          "t": "Implementação de Regras de Cálculo e Consolidação da DRE Financeira",
-          "type": "bloq"
-        },
         {
           "k": "MVPMO-262",
           "t": "Melhoria - Ajuste de Nomenclatura e Layout no Centro de Custo",
