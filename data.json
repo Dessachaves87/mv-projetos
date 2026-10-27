@@ -1,5 +1,5 @@
 {
-  "ts": "26/10/2026 · 05:34",
+  "ts": "27/10/2026 · 05:41",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
@@ -16,11 +16,11 @@
         72
       ],
       "testes": [
-        69,
+        70,
         28
       ],
       "libUAT": [
-        84,
+        83,
         44
       ],
       "emprod": [
@@ -37,7 +37,7 @@
           0
         ],
         "aguardando": [
-          38,
+          37,
           0
         ],
         "reprovada": [
@@ -127,11 +127,11 @@
         46
       ],
       "testes": [
-        69,
+        70,
         28
       ],
       "libUAT": [
-        44,
+        43,
         18
       ],
       "emprod": [
@@ -148,7 +148,7 @@
           0
         ],
         "aguardando": [
-          22,
+          21,
           0
         ],
         "reprovada": [
