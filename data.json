@@ -1,5 +1,5 @@
 {
-  "ts": "06/11/2026 · 07:26",
+  "ts": "07/11/2026 · 06:39",
   "regra": "esteira (upstream fora) · fonte Jira por status",
   "data": {
     "Consolidado": {
@@ -8,15 +8,15 @@
         101
       ],
       "aDes": [
-        10,
+        6,
         3
       ],
       "desenv": [
-        301,
+        305,
         98
       ],
       "testes": [
-        216,
+        220,
         54
       ],
       "libUAT": [
@@ -69,15 +69,15 @@
         50
       ],
       "aDes": [
-        7,
+        3,
         3
       ],
       "desenv": [
-        172,
+        176,
         47
       ],
       "testes": [
-        133,
+        137,
         21
       ],
       "libUAT": [
